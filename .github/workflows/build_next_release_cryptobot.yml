@@ -1,0 +1,10 @@
+name: docker build cryptobot:next_release
+on:
+  push:
+    branches:
+      - "next_release"
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to GitHub Container Registry
+    run
