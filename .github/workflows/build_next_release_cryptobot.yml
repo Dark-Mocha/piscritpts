@@ -7,4 +7,12 @@ on:
 jobs:
   push_to_registry:
     name: Push Docker image to GitHub Container Registry
-    run
+    runs-on: self-hosted
+    permissions:
+      packages: write
+      contents: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth
