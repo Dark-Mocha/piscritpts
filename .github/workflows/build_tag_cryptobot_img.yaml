@@ -1,1 +1,11 @@
-name: docker 
+name: docker build cryptobot:TAG
+on:
+  push:
+    tags:
+      - "*"
+jobs:
+  push_to_registry:
+    name: Push Docker image to GitHub Container Registry
+    runs-on: self-hosted
+    permissions:
+      packages: write
