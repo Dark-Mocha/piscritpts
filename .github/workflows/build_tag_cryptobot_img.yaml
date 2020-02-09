@@ -25,4 +25,11 @@ jobs:
 
       - name: pull latest base image
         run:
+          docker pull ubuntu:focal
+
+      - name: docker build latest
+        run: |
+          ./run build TAG=latest
+          docker tag ghcr.io/azulinho/cryptobot:latest ghcr.io/azulinho/cryptobot:${{ github.ref_name }}
+
     
