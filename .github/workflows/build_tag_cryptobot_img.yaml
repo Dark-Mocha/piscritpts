@@ -47,3 +47,12 @@ jobs:
 
       - name: docker push pyston
         run:
+          docker push ghcr.io/azulinho/cryptobot:pyston
+
+      - name: sets python version to pypy
+        run: |
+          echo pypy3.9-7.3.11 > .python-version
+
+      - name: docker build pypy
+        run:
+          ./run 
