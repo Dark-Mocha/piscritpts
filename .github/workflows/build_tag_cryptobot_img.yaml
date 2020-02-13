@@ -55,4 +55,8 @@ jobs:
 
       - name: docker build pypy
         run:
-          ./run 
+          ./run build TAG=pypy
+
+      - name: docker push pypy
+        run:
+          docker push ghcr.io/azulinho/cryptobot:pypy
