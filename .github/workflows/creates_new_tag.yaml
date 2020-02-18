@@ -4,4 +4,11 @@ on:
     branches: master
 jobs:
   tag_and_release:
-    name:
+    name: Create and push new tag and release
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
