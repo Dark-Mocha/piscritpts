@@ -1,0 +1,9 @@
+name: Run PR docker based tests
+on: pull_request
+
+jobs:
+  pr_docker_tests:
+    name: run ci_pr_docker_tests TAG=pr
+    runs-on: self-hosted
+    env:
+      ACTIONS_ALLOW
