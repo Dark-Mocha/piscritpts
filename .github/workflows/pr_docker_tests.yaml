@@ -22,4 +22,9 @@ jobs:
       - name: ./run github_actions_ci_pr_tests
         run: |
           set -ex
-          ./run github_actions_
+          ./run github_actions_ci_pr_docker_tests TAG=pr
+
+      - name: ./run tests
+        run: |
+          set -ex
+          ./run tests
