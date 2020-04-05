@@ -21,4 +21,20 @@ RUN eatmydata apt-get install -yq --no-install-recommends  \
   libxml2-dev \
   libxmlsec1-dev \
   libffi-dev \
-  liblzma-dev 
+  liblzma-dev \
+  git \
+  ca-certificates \
+  cargo \
+  gzip \
+  pigz \
+  bzip2 \
+  pbzip2 \
+  autoconf \
+  automake \
+  shtool \
+  coreutils \
+  autogen \
+  libtool \
+  shtool \
+  nasm && \
+  apt-get clean autoclean && \
