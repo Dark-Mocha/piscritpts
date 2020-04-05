@@ -38,3 +38,10 @@ RUN eatmydata apt-get install -yq --no-install-recommends  \
   shtool \
   nasm && \
   apt-get clean autoclean && \
+  apt-get autoremove --yes && \
+  rm -rf /var/lib/apt/lists/*
+
+
+RUN useradd -d /cryptobot -u 1001 -ms /bin/bash cryptobot
+RUN cd /tmp \
+  && eatmydata wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src
