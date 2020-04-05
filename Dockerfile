@@ -7,4 +7,18 @@ RUN eatmydata apt-get install -yq --no-install-recommends  \
   build-essential \
   libssl-dev \
   zlib1g-dev \
-  libbz2-dev
+  libbz2-dev \
+  libisal-dev \
+  libisal2 \
+  libreadline-dev \
+  libsqlite3-dev \
+  wget \
+  curl \
+  llvm \
+  libncursesw5-dev \
+  xz-utils \
+  tk-dev \
+  libxml2-dev \
+  libxmlsec1-dev \
+  libffi-dev \
+  liblzma-dev 
