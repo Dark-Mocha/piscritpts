@@ -44,4 +44,11 @@ RUN eatmydata apt-get install -yq --no-install-recommends  \
 
 RUN useradd -d /cryptobot -u 1001 -ms /bin/bash cryptobot
 RUN cd /tmp \
-  && eatmydata wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src
+  && eatmydata wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz \
+  && eatmydata tar xf ta-lib-0.4.0-src.tar.gz \
+  && cd ta-lib \
+  && eatmydata ./configure --prefix=/usr \
+  && eatmydata make \
+  && eatmydata make install \
+  && rm -rf /tmp/ta-lib*
+US
