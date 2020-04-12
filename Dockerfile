@@ -58,4 +58,8 @@ COPY .python-version .
 RUN curl https://pyenv.run | eatmydata bash
 ENV PYENV_ROOT="$HOME/.pyenv"
 ENV PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims/:$PATH"
-RUN CONFIGURE_OPTS="--enab
+RUN CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto --with-pgo" eatmydata pyenv install \
+  && rm -f /tmp/python-build*.log
+RUN eatmydata python -m venv /cryptobot/.venv
+COPY requirements.txt .
+RUN eatmydata /cryptobot/.venv/bin/pip i
