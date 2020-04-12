@@ -62,4 +62,7 @@ RUN CONFIGURE_OPTS="--enable-shared --enable-optimizations --with-lto --with-pgo
   && rm -f /tmp/python-build*.log
 RUN eatmydata python -m venv /cryptobot/.venv
 COPY requirements.txt .
-RUN eatmydata /cryptobot/.venv/bin/pip i
+RUN eatmydata /cryptobot/.venv/bin/pip install --upgrade pip setuptools wheel
+# pyenv is failling to compile isal without setting C_INCLUDE_PATH
+RUN eatmydata /cryptobot/.venv/bin/pip install -r requirements.txt && \
+  rm -rf 
