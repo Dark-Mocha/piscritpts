@@ -51,4 +51,11 @@ RUN cd /tmp \
   && eatmydata make \
   && eatmydata make install \
   && rm -rf /tmp/ta-lib*
-US
+USER cryptobot
+ENV HOME /cryptobot
+WORKDIR /cryptobot
+COPY .python-version .
+RUN curl https://pyenv.run | eatmydata bash
+ENV PYENV_ROOT="$HOME/.pyenv"
+ENV PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims/:$PATH"
+RUN CONFIGURE_OPTS="--enab
