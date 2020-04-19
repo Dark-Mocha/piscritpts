@@ -1,0 +1,5 @@
+FROM local:tests
+RuN mkdir log cache tmp
+ADD requirements-dev.txt /cryptobot/requirements-dev.txt
+RUN /cryptobot/.venv/bin/pip install -r requirements-dev.txt
+ADD .mypy.ini /cryptobot/
