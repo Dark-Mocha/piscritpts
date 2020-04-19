@@ -71,4 +71,7 @@ COPY lib/ lib/
 COPY utils/prove-backtesting.py utils/prove-backtesting.py
 COPY utils/prove-backtesting.sh utils/prove-backtesting.sh
 COPY utils/pull_klines.py utils/pull_klines.py
-COPY utils/config
+COPY utils/config-endpoint-service.py utils/config-endpoint-service.py
+COPY utils/config-endpoint-service.sh utils/config-endpoint-service.sh
+COPY klines_caching_service.py klines_caching_service.py
+COPY price_log_ser
