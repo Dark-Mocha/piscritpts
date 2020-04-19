@@ -65,4 +65,10 @@ COPY requirements.txt .
 RUN eatmydata /cryptobot/.venv/bin/pip install --upgrade pip setuptools wheel
 # pyenv is failling to compile isal without setting C_INCLUDE_PATH
 RUN eatmydata /cryptobot/.venv/bin/pip install -r requirements.txt && \
-  rm -rf 
+  rm -rf /tmp/*
+
+COPY lib/ lib/
+COPY utils/prove-backtesting.py utils/prove-backtesting.py
+COPY utils/prove-backtesting.sh utils/prove-backtesting.sh
+COPY utils/pull_klines.py utils/pull_klines.py
+COPY utils/config
