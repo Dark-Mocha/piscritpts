@@ -21,4 +21,13 @@ RUN ls strategies/*.py \
 | xargs /cryptobot/.venv/bin/pylint \
       app.py \
       klines_caching_service.py \
-      price_log_s
+      price_log_service.py \
+      lib/*.py \
+      utils/*.py
+
+RUN ls strategies/*.py \
+  |grep -v Local \
+  | xargs /cryptobot/.venv/bin/mypy \
+      app.py \
+      klines_caching_service.py \
+      price_log_service.py 
