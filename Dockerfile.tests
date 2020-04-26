@@ -30,4 +30,9 @@ RUN ls strategies/*.py \
   | xargs /cryptobot/.venv/bin/mypy \
       app.py \
       klines_caching_service.py \
-      price_log_service.py 
+      price_log_service.py \
+      lib/*.py \
+      utils/*.py
+
+RUN /cryptobot/.venv/bin/pytest \
+  --quiet -W ignore --disable-pytest-warnings tests/
