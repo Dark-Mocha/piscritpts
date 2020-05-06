@@ -316,3 +316,212 @@ This is done through the setting *SOFT_LIMIT_HOLDING_TIME*, with this
 setting we set the number of seconds to wait before the bot starts decreasing
 the profit target percentage. Essentially we reduce the target profit until it
 meets the current price of the coin.
+
+Below in an example of a *profile* for BTCUSDT,
+
+```yaml
+TICKERS:
+  BTCUSDT:
+      SOFT_LIMIT_HOLDING_TIME: 3600
+      HARD_LIMIT_HOLDING_TIME: 7200
+      BUY_AT_PERCENTAGE: -10.0
+      SELL_AT_PERCENTAGE: +6
+      STOP_LOSS_AT_PERCENTAGE: -10
+      TRAIL_TARGET_SELL_PERCENTAGE: -1.0
+      TRAIL_RECOVERY_PERCENTAGE: +1.0
+      NAUGHTY_TIMEOUT: 604800
+      KLINES_TREND_PERIOD: 0d # unused in this strategy
+      KLINES_SLICE_PERCENTAGE_CHANGE: +0 # unused in this strategy
+```
+
+In order to test the different 'profiles' for different coins, we would then
+run this bot in backtesting mode.
+
+There are 4 modes of execution: logmode, live, testnet, backtesting
+
+## Discord
+
+If you need help, bring snacks and pop over at:
+
+Join on: <https://discord.gg/MaMP3gVBdk>
+
+DO NOT USE GitHub issues to ask for help. I have no time for you. You'll be told off.
+
+Also: *NO TORIES, NO BREXITERS, NO WINDOWS USERS, NO TWATS*, this is not negotiable.
+
+## Getting started
+
+If you don't know Python you might be better using an
+[Online Crypto Trading Bot](https://duckduckgo.com/?q=online+crypto+trading+bot&ia=web) instead.
+
+Or get your hands dirty by,
+
+1. Learn Python <https://www.learnpython.org/>
+
+2. Learn Docker <https://learndocker.online/>
+
+3. Learn Git <https://www.w3schools.com/git/default.asp>
+
+## Usage
+
+1. Install docker as per <https://docs.docker.com/get-docker/>
+
+2. Clone this repository:
+
+```console
+git clone https://github.com/Azulinho/cryptobot.git
+```
+
+4. generate a *config.yaml*, see the example configs in the
+[examples](https://github.com/Azulinho/cryptobot/tree/master/examples) folder.
+
+Or the configs used for tests in the
+[tests](https://github.com/Azulinho/cryptobot/tree/master/tests) folder
+
+Place your new *my_newly_named_config.yaml* file into the *configs/* folder.
+
+5. Add your Binance credentials to */secrets/binance.prod.yaml*.
+   See the [example
+   secrets.yaml](https://github.com/Azulinho/cryptobot/blob/master/examples/secrets.yaml) file
+
+Note that you don't need valid credentials for backtesting, or logmode.
+
+```yaml
+ACCESS_KEY: "ACCESS_KEY"
+SECRET_KEY: "SECRET_KEY"
+```
+
+6. When running the bot for the first time, you'll need to obtain some
+   *price.log* files for backtesting.
+
+```console
+./run download-price-logs FROM=20210101 TO=20211231
+```
+
+  And wait, as this will take a while to run.
+  If it fails, you can restart it from the day that failed.
+
+  All logs will be downloaded to the logs/ directory.
+
+7. Run a local price-log server to serve the downloaded price log files
+
+```console
+./run price_log_service BIND=0.0.0.0 PORT=8998
+```
+
+8. Run a local klines-caching server
+
+```console
+./run klines-caching-service BIND=0.0.0.0 PORT=8999
+```
+
+9. Update your config.yaml file and include the dates we are using for
+our backtesting.
+
+```yaml
+PRICE_LOGS:
+ - "log/20210101.log.gz"
+ - "log/20210102.log.gz"
+ - "log/20210103.log.gz"
+ - "log/20210104.log.gz"
+ - "log/20210105.log.gz"
+```
+
+Also update the urls for the PRICE_LOG_SERVICE_URL, KLINES_CACHING_SERVICE_URL.
+
+Examples as per the *./run* commands above:
+
+```yaml
+PRICE_LOG_SERVICE_URL: "http://< insert my ip here >:8998"
+KLINES_CACHING_SERVICE_URL: "http://< insert my ip here >:8999"
+```
+
+10. run the bot in backtesting mode, which will perform simulated buys/sells on
+all collected price logs based on the provided config.yaml.
+
+```console
+./run backtesting CONFIG_FILE=config.yaml
+```
+
+11. Update your config.yaml until you are happy with the results and re-run the
+   backtesting.
+
+   Some pointers:
+
+   if your coins hit *STOP LOSS*, adjust the following:
+
+* BUY_AT_PERCENTAGE
+* STOP_LOSS_AT_PERCENTAGE
+* TRAIL_RECOVERY_PERCENTAGE
+* SELL_AT_PERCENTAGE
+
+   if your coins hit *STALE*, adjust the following:
+
+* SELL_AT_PERCENTAGE
+* HARD_LIMIT_HOLDING_TIME
+* SOFT_LIMIT_HOLDING_TIME
+
+   if the bot buys coins too early, while a coin is still going down, adjust:
+
+* BUY_AT_PERCENTAGE
+* TRAIL_RECOVERY_PERCENTAGE
+
+12. Finally, when happy run in live trading mode,
+
+```console
+./run live CONFIG_FILE=config.yaml
+```
+
+## Automated Backtesting
+
+The iterative approach used above is good enough for testing out strategies for
+a small group of coins, and for an isolated period in time (market
+conditions).
+We can automate a lot of these iterations and identify the best profiles for
+each coin by using prove-backtesting.
+
+Bundled with the bot there is a python script to automate backtesting of the
+different coins over a period of days. It works by parsing a number of price.log file
+for a number of days, and running a set of different defined strategies
+(config.yamls) against each coin individually. Then gathering the best config
+for each coin and combining them into a single tuned config for that particular
+strategy. Before running a normal backtesting session using all the coins listed
+in that new config.yaml.
+
+Use it as:
+
+1. Create a backtesting file in configs/my-prove-backtesting.yaml
+   see the [test/prove-backtesting.yaml](./test/prove-backtesting.yaml).
+
+2. Update the config in my-prove-backtesting.yaml to only consume coins that
+returned at least 10% in profit.
+
+ ```yaml
+ MIN: 10
+ ```
+
+3. Update the dates to test against, for example:
+
+For a single backtest run, tipically used to get the best config for today.
+
+backtest from the begining of 20230101 to yesterday 20230201.
+
+```yaml
+FROM_DATE: 20230201
+END_DATE: 20230201
+ROLL_BACKWARDS: 30
+ROLL_FORWARD: 1
+```
+
+Above we're stating that we want the FROM_DATE and END_DATE to be the same, and
+that we want to look back 30 days, and only run forward 1 day (which would be
+today's date)
+
+This will generate a config.yaml with the coins sorted by which strategy
+returned the highest profit for each coin.
+
+```console
+./run prove-backtesting CONFIG_FILE=my-prove-backtesting.yaml
+```
+
+## Prove automated-backtesting results
