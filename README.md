@@ -525,3 +525,226 @@ returned the highest profit for each coin.
 ```
 
 ## Prove automated-backtesting results
+
+With the automated-backtesting above we found a set of strategies that have
+returned some good profits over the course of those last 30 days.
+We now need to understand how some of those strategies would work over different
+market conditions, or over time.
+
+Create a copy of the *my-prove-backtesting* as *long-run.yaml* and update the
+dates as follow:
+
+```yaml
+FROM_DATE: 20220101
+END_DATE: 20230201
+ROLL_BACKWARDS: 30
+ROLL_FORWARD: 14
+```
+
+Then run prove-backtesting using the config above,
+
+```console
+ ./run prove-backtesting CONFIG_FILE=long-run.yaml
+```
+
+Which will run backtesting from 20220101 to 20230201, looking back at the
+previous 30 days of price.logs, generating an optimized config for those days,
+and running the following 14 days using that new config, before repeating the
+cycle all the way until 20230201.
+
+## config-endpoint-service
+
+Use this service to provide fresh ticker configs to a LIVE bot by running
+automated-backtesting periodically, and having the LIVE bot pull that optimized
+config as soon automated-backtesting completes.
+
+```console
+./run config-endpoint-service BIND=0.0.0.0 CONFIG_FILE=myconfig.yaml
+```
+
+see [PULL_CONFIG_ADDRESS]#pull_config_address
+
+Trigger the execution of the automated-backtesting run by creating a *RUN* file
+in the control/ folder.
+
+```console
+touch control/RUN
+```
+
+This service use the *ROLL_BACKWARDS* for the number of backtesting days to use
+when generating a new config.
+
+```yaml
+FROM_DATE: 19700101
+END_DATE: 19700101
+ROLL_BACKWARDS: 30
+ROLL_FORWARD: 1
+```
+
+The FROM and END DATE are irrelevant for this service as the service will always
+use yesterday's date.
+
+## Control Flags
+
+The *control/* directory is monitored by the Bot for files, directing the Bot
+to take certain actions.
+
+*control/STOP* causes the bot to quit.
+
+*control/SELL* causes the bot to sell all coins listed in the SELL file.
+
+```console
+cat control/SELL
+BTCUSDT
+ETHUSDT
+```
+
+## Config settings
+
+Full list of config settings and their use described below:
+
+If using TESTNET generate a set of keys at <https://testnet.binance.vision/>
+
+Note that TESTNET is only suitable for bot development and nothing else.
+Otherwise, use your Binance production keys.
+
+### PAIRING
+
+```yaml
+PAIRING: "USDT"
+```
+
+The pairing use to buy crypto with. Available options in Binance are,
+*USDT*, *BTC*, *ETH*, *BNB*, *TRX*, *XRP*, *DOGE*
+
+### INITIAL_INVESTMENT
+
+```yaml
+INITIAL_INVESTMENT: 100
+```
+
+This sets the initial investment to use to buy coin, this amount must be available in
+the pairing set in *PAIRING*.
+
+### RE_INVEST_PERCENTAGE
+
+```yaml
+RE_INVEST_PERCENTAGE: 100
+```
+
+This sets the percentage to invest out of the current balance. Think of this as
+we have started our Bot with $100 dolar in the INITIAL_INVESTMENT setting, and
+configured the RE_INVEST_PERCENTAGE as 50. The bot will invest a maximum of $50
+on their first trades, and any profit or loss added to the balance will also
+be re-invested at 50% of the total balance. This is a way to allow the balance
+to grow by only investing a portion of the total available balance to invest.
+
+### PAUSE_FOR
+
+```yaml
+PAUSE_FOR: 1
+```
+
+How long to pause in seconds before checking Binance prices again.
+
+### STRATEGY
+
+```yaml
+STRATEGY: "BuyDropSellRecoveryStrategy"
+```
+
+Describes which strategy to use when buying/selling coins, available options are
+*BuyMoonSellRecoveryStrategy*, *BuyDropSellRecoveryStrategy*,
+*BuyOnGrowthTrendAfterDropStrategy*
+
+#### BuyMoonSellRecoveryStrategy
+
+In the *BuyMoonSellRecoveryStrategy*, the bot monitors coin prices and will
+buy coins that raised their price over a percentage since the last check.
+
+```yaml
+PAUSE_FOR: 3600
+TICKERS:
+  BTCUSDT:
+      SOFT_LIMIT_HOLDING_TIME: 4
+      HARD_LIMIT_HOLDING_TIME: 96
+      BUY_AT_PERCENTAGE: +1
+      SELL_AT_PERCENTAGE: +6
+      STOP_LOSS_AT_PERCENTAGE: -9
+      TRAIL_TARGET_SELL_PERCENTAGE: -1.0
+      TRAIL_RECOVERY_PERCENTAGE: +1.0
+      NAUGHTY_TIMEOUT: 28800
+      KLINES_TREND_PERIOD: 0d # unused in this strategy
+      KLINES_SLICE_PERCENTAGE_CHANGE: +0 # unused in this strategy
+```
+
+#### BuyDropSellRecoveryStrategy
+
+In the *BuyDropSellRecoveryStrategy*, the bot monitors coin prices and will
+buy coins that dropped their price over a percentage against their maximum price.
+In this mode, the bot won't buy a coin as soon the price drops, but will keep
+monitoring its price allowing the price to go further down and only buy when the
+price raises again by a certain percentage amount.
+
+This works so that we are buying the coin after a downhill period as finished
+and the coin started its recovery.
+
+In both strategies, the bot when holding a coin that achieved its target price,
+won't sell the coin straight away but let it go up in price. And only when the
+price has decreased by a certain percentange, it will then sell the coin.
+
+This allows for ignoring small drops in a coin whose price is slowly going
+uphill.
+
+Example:
+
+```yaml
+TICKERS:
+  BTCUSDT:
+      SOFT_LIMIT_HOLDING_TIME: 3600
+      HARD_LIMIT_HOLDING_TIME: 7200
+      BUY_AT_PERCENTAGE: -9
+      SELL_AT_PERCENTAGE: +6
+      STOP_LOSS_AT_PERCENTAGE: -9
+      TRAIL_TARGET_SELL_PERCENTAGE: -1.0
+      TRAIL_RECOVERY_PERCENTAGE: +1.0
+      NAUGHTY_TIMEOUT: 28800
+      KLINES_TREND_PERIOD: 0d # unused in this strategy
+      KLINES_SLICE_PERCENTAGE_CHANGE: +0 # unused in this strategy
+```
+
+#### BuyOnGrowthTrendAfterDropStrategy
+
+The *BuyOnGrowthTrendAfterDropStrategy* relies on averaged prices
+from the last *KLINES_TREND_PERIOD*. It will look to buy a coin which price has
+gone down in price according to the *BUY_AT_PERCENTAGE*, and its price has
+increased at least *KLINES_SLICE_PERCENTAGE_CHANGE* % in each slice of the
+*KLINES_TREND_PERIOD*.
+
+The Bot currently records the last 60 seconds, 60 minutes, 24 hours, and
+multiple days price averages for evvery coin. The Bot requires some additional
+development in order for the stored averages to work with *PAUSE_FOR* values
+different from 1 second.
+
+Example:
+
+```yaml
+TICKERS:
+  BTCUSDT:
+      SOFT_LIMIT_HOLDING_TIME: 3600
+      HARD_LIMIT_HOLDING_TIME: 600000
+      BUY_AT_PERCENTAGE: -9.0
+      SELL_AT_PERCENTAGE: +6
+      STOP_LOSS_AT_PERCENTAGE: -9
+      TRAIL_TARGET_SELL_PERCENTAGE: -1.0
+      TRAIL_RECOVERY_PERCENTAGE: +0.0 # unused in this strategy
+      NAUGHTY_TIMEOUT: 604800
+      KLINES_TREND_PERIOD: 2d
+      KLINES_SLICE_PERCENTAGE_CHANGE: +1
+```
+
+#### RSA/EMA
+
+There are no included strategies that consume RSA or EMA calculations, however
+the python modules *pandas*, *numpy*, *ta* are baked in the docker image, so
+new strategies can be created using those.
