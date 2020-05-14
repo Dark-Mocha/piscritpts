@@ -748,3 +748,174 @@ TICKERS:
 There are no included strategies that consume RSA or EMA calculations, however
 the python modules *pandas*, *numpy*, *ta* are baked in the docker image, so
 new strategies can be created using those.
+Klines data is available in a dictionary for the last 1000 days, 24 hours, 60 minutes.
+
+### BUY_AT_PERCENTAGE
+
+```yaml
+BUY_AT_PERCENTAGE: -20
+```
+
+The percentage of the drop in price at which we would consider buying a coin.
+
+In the *buy_drop_recovery_strategy* this is the percentage drop in price over
+the maximum recorded. Note that this is not the ATH of the coin, but the highest
+recorded price since the Bot is running, or since the last sale.
+Strategies can be modified to use the ATH over a number of days if desired.
+
+In the *BuyMoonSellRecoveryStrategy* this is the price percentage difference
+between two periods (PAUSE_FOR). When a coin goes over, let's say +1 in a
+PAUSE_FOR of 3600 seconds, then the bot will buy it.
+
+### SELL_AT_PERCENTAGE
+
+```yaml
+SELL_AT_PERCENTAGE: +10
+```
+
+The profit percentage at which the bot will consider selling the coin. At this
+point the bot will monitor the price until the price drops, at which it will
+then sell.
+
+### STOP_LOSS_AT_PERCENTAGE
+
+```yaml
+STOP_LOSS_AT_PERCENTAGE: -25
+```
+
+The price at which the bot will sell a coin straight away to avoid further
+losses.
+
+### TRAIL_TARGET_SELL_PERCENTAGE
+
+```yaml
+TRAIL_TARGET_SELL_PERCENTAGE: -1.5
+```
+
+This is the percentage drop in price at which when a coin in profit is sold.
+
+This allows to deal with flutuations in price and avoid selling a coin too soon.
+When the price is likely to increase again.
+
+### TRAIL_RECOVERY_PERCENTAGE
+
+```yaml
+TRAIL_RECOVERY_PERCENTAGE: +1.5
+```
+
+This is the percentage at which in the strategy
+*BuyDropSellRecoveryStrategy* the bot will buy a coin. This reflects the
+increase in price since the lowest price recorded for this coin. This setting
+allows the bot to wait for a coin to drop over time before buying it, this
+essentially is the *recovery* phase of a coin after a large drop in price.
+
+### HARD_LIMIT_HOLDING_TIME
+
+```yaml
+HARD_LIMIT_HOLDING_TIME: 604800
+```
+
+This setting sets the maximum *age* in seconds that we will hold a coin. At the
+end of this period the bot will sell a coin regardless of its value.
+
+### SOFT_LIMIT_HOLDING_TIME
+
+```yaml
+SOFT_LIMIT_HOLDING_TIME: 7200
+```
+
+The *SELL_AT_PERCENTAGE* sets the value at a coin is suitable to be sold at a
+profit. If this profit percentage is too high the coin won't sell.
+
+This setting deals with those scenarios by reducing both the
+*TRAIL_RECOVERY_PERCENTAGE* and the *SELL_AT_PERCENTAGE* values slowly over
+time, until it reaches the *HARD_LIMIT_HOLDING_TIME*.
+
+Therefore, increasing the chances of a possible sale at profit.
+
+### KLINES_TREND_PERIOD
+
+Sets the number of seconds, minutes, hours or days when the bot looks for a
+downtrend/uptrend in prices, before buying a coin.
+
+### KLINES_SLICE_PERCENTAGE_CHANGE
+
+Sets the expected percentage change in value of a coin between two slices of
+a *KLINES_TREND_PERIOD*. For example if *KLINES_TREND_PERIOD* is 3d and this
+parameter is set to +1, it would trigger when a coin has gone up +1% for 3
+consecutive days.
+
+### CLEAR_COIN_STATS_AT_BOOT
+
+```yaml
+CLEAR_COIN_STATS_AT_BOOT: True
+```
+
+The bot saves a couple of files during execution, *.coins.pickle* and
+*.wallet.pickle*. These files contain the list of coins the bot bought and
+holds, and the different values for all those coins, things like maximum price,
+minimum price, dips, and tips. This setting specifies if that data should be
+discarded at boot time.
+
+### NAUGHTY_TIMEOUT
+
+```yaml
+NAUGHTY_TIMEOUT: 28800
+```
+
+This setting tells the bot how long to ignore a coin after that coin sold at a
+loss.
+
+### CLEAR_COIN_STATS_AT_SALE
+
+```yaml
+CLEAR_COIN_STATS_AT_SALE: True
+```
+
+The bot continuously records the minimum and maximum price of all coins.
+This option resets the maximum and minimum price of all coins after a sale.
+
+This creates a new candle window starting at the moment of the last coin sold,
+avoiding a situation where a coin that had a large increase in price in the past
+and dropped won't be continuously bought by the bot as its price is below the
+*BUY_AT_PERCENTAGE* quite often.
+
+Essentially, we start with a clean state after a sale, and monitor coin prices
+waiting for another drop.
+
+### SELL_AS_SOON_AS_IT_DROPS
+
+```yaml
+SELL_AS_SOON_IT_DROPS: True
+```
+
+When the price drops just below the *SELL_AT_PERCENTAGE* if this flag is
+enabled, the bot will sell the coin, instead of relying on the
+*TRAIL_TARGET_SELL_PERCENTAGE*
+
+### DEBUG
+
+```yaml
+DEBUG: False
+```
+
+Enables debug on the bot.
+
+### MAX_COINS
+
+```yaml
+MAX_COINS: 3
+```
+
+The maximum number of coins the bot will hold at any time.
+
+### TICKERS
+
+```yaml
+TICKERS: {}
+```
+
+Sets the list of coins the bot monitors for prices and trades.
+This list must contain pairings as set in the *PAIRING* setting.
+
+### TRADING_FEE
