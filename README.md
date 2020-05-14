@@ -919,3 +919,205 @@ Sets the list of coins the bot monitors for prices and trades.
 This list must contain pairings as set in the *PAIRING* setting.
 
 ### TRADING_FEE
+
+```yaml
+TRADING_FEE: 0.01
+```
+
+The trading fee in percentage that binance will charge on each buy or sell
+operation.
+
+### PRICE_LOGS
+
+```yaml
+PRICE_LOGS: [""]
+```
+
+The list of price logs to be used for backtesting. Note that this is relative
+to the url used in the PRICE_LOG_SERVICE_URL.
+
+### ENABLE_PUMP_AND_DUMP_CHECKS
+
+```yaml
+ENABLE_PUMP_AND_DUMP_CHECKS: True
+```
+
+defaults to True
+
+Checks the price of a coin over the last 2 hours and prevents the bot from
+buying if the price 2 hours ago was lower than 1 hour ago (pump) and the current
+price is higher than 2 hours ago (dump pending).
+Don't rely too much on this.
+
+### ENABLE_NEW_LISTING_CHECKS
+
+```yaml
+ENABLE_NEW_LISTING_CHECKS: True
+```
+
+defaults to True
+
+Enable checks for new coin listings.
+
+### ENABLE_NEW_LISTING_CHECKS_AGE_IN_DAYS
+
+```yaml
+ENABLE_NEW_LISTING_CHECKS_AGE_IN_DAYS: 31
+```
+
+defaults to 31
+
+Checks that we have at least 31 days of price data on a coin, if we don't, the
+Bot skips buying this coin.
+
+### STOP_BOT_ON_LOSS
+
+```yaml
+STOP_BOT_ON_LOSS: True
+```
+
+defaults to False
+
+Stops the bot immediately after a STOP_LOSS
+
+### ORDER_TYPE
+
+```yaml
+ORDER_TYPE: "MARKET"
+```
+
+Defaults to MARKET, available options are *MARKET* or *LIMIT*.
+
+Tells the BOT if it should use MARKET order or a LIMIT [FOK](https://academy.binance.com/en/articles/understanding-the-different-order-types) order.
+
+### PULL_CONFIG_ADDRESS
+
+When set, it tells the bot to pull a new list of tickers from the *config-endpoint-service*,
+this should be set to the ip/port running the config-endpoint-service.
+
+```yaml
+PULL_CONFIG_ADDRESS: "http://172.20.0.1:53891"
+```
+
+Defaults to False
+
+### PRICE_LOG_SERVICE_URL
+
+Tells the bot the http endpoint from where it can download price.log files from.
+
+```yaml
+PRICE_LOG_SERVICE_URL: "http://price-log-service:8998"
+```
+
+### KLINES_CACHING_SERVICE_URL
+
+Tells the bot the http endpoint from where it can download klines data
+
+```yaml
+KLINES_CACHING_SERVICE_URL: "http://klines-caching-service:8999"
+```
+
+### CONCURRENCY
+
+The number of parallel backtesting processes to run.
+
+```yaml
+CONCURRENCY: 4
+```
+
+### SORT_BY
+
+How to order results from the different test runs in automated-backtesting in
+order to choose the best config for each coin.
+
+#### max_profit_on_clean_wins
+
+Use the config that provided the best profit for this coin and did not result
+in any STOP_LOSSES or STALES or HOLDS at the end of the runs.
+
+```yaml
+SORT_BY: "max_profit_on_clean_wins"
+```
+
+#### number_of_clean_wins
+
+Use the config that returned the highest number of wins for this coin and did
+not result in any STOP_LOSSES or STALES or HOLDS at the end of the runs
+
+```yaml
+SORT_BY: "number_of_clean_wins"
+```
+
+#### greed
+
+Use the config that returned the highest profit for this coin.
+
+```yaml
+SORT_BY: "greed
+```
+
+## Bot command center
+
+The bot is running a *pdb* endpoint on container port 5555.
+
+Run the bot as listed above and find the port mapped to 5555
+
+```console
+ docker ps
+ CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS          PORTS                                                NAMES
+ e6348c68072f   ghcr.io/azulinho/cryptobot   "python -u app.py -s…"   50 seconds ago   Up 49 seconds   0.0.0.0:49153->5555/tcp, :::49153->5555/tcp cryptobot_cryptobot_run_21cc0b86d73d
+```
+
+Then,
+
+```console
+pip install epdb
+python
+>>> import epdb
+>>> epdb.connect(host='127.0.0.1', port=5555)
+>>> /cryptobot/app.py(39)control_center()
+-> try:
+(Epdb)
+```
+
+And type :
+
+```console
+dir(bot)
+```
+
+to see all available methods
+
+To exit the debugger, type
+
+```console
+close
+```
+
+Do not Control-D as it will hang the debugger, and you won't be able to
+reconnect.
+
+## Development/New features
+
+Want this bot to do something it doesn't do today?
+
+Easy, fork it, make the changes you need, add tests, raise a PR.
+
+There are a few Makefile targets that help in getting started,
+
+Run:
+
+```console
+./run setup
+```
+
+To create a Python virtualenv .venv and install all required python packages for
+normal execution and development.
+
+Run:
+
+```console
+./run tests
+```
+
+To run all local tests, formatters, and linters
