@@ -10,4 +10,12 @@ TRADING_FEE: 0.1
 SELL_AS_SOON_IT_DROPS: False
 
 # STRATEGY: BuyMoonSellRecoveryStrategy
-STRATEGY: BuyOnGrowthTrendAfterDrop
+STRATEGY: BuyOnGrowthTrendAfterDropStrategy
+# STRATEGY: BuyOnRecoveryAfterDowntrendPeriodStrategy
+# STRATEGY: BuyDropSellRecoveryStrategy
+
+ANCHORS: &defaults
+  SOFT_LIMIT_HOLDING_TIME: 3600
+  HARD_LIMIT_HOLDING_TIME: 28000
+  BUY_AT_PERCENTAGE: -9.0
+  
