@@ -28,4 +28,20 @@ ANCHORS: &defaults
 
 
 TICKERS:
-  
+  BTCUSDT:
+    <<: *defaults
+
+  ETHUSDT:
+    <<: *defaults
+
+  BNBUSDT:
+    <<: *defaults
+
+  DOTUSDT:
+    <<: *defaults
+
+  ADAUSDT:
+    <<: *defaults
+    SELL_AT_PERCENTAGE: +5
+    STOP_LOSS_AT_PERCENTAGE: -9
+    TRAIL_TARGET_
