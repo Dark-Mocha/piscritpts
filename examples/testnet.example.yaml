@@ -24,4 +24,17 @@ ANCHORS: &defaults
   TRAIL_RECOVERY_PERCENTAGE: +0.00001
   NAUGHTY_TIMEOUT: 28800
   KLINES_TREND_PERIOD: 0d # unused
-  KLINES_SLICE_PERCENT
+  KLINES_SLICE_PERCENTAGE_CHANGE: +0 # unused
+
+
+TICKERS:
+  BTCUSDT:
+    <<: *defaults
+
+  ETHUSDT:
+    <<: *defaults
+
+  BNBUSDT:
+    <<: *defaults
+
+PRICE_LOGS: []
