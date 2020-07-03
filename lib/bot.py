@@ -29,4 +29,16 @@ from lib.helpers import (
     percent,
 )
 
-rate = Reques
+rate = RequestRate(600, Duration.MINUTE)  # 600 requests per minute
+limiter = Limiter(rate)
+
+
+class Bot:
+    """Bot Class"""
+
+    def __init__(
+        self,
+        conn: Client,
+        config_file: str,
+        config: Dict[str, Any],
+       
