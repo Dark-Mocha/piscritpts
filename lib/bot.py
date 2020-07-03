@@ -41,4 +41,11 @@ class Bot:
         conn: Client,
         config_file: str,
         config: Dict[str, Any],
-       
+        logs_dir: str = "log",
+    ) -> None:
+        """Bot object"""
+
+        # Binance API handler
+        self.client = conn
+        # amount available to the bot to invest as set in the config file
+        self.initial_investment: float = float
