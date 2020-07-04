@@ -48,4 +48,8 @@ class Bot:
         # Binance API handler
         self.client = conn
         # amount available to the bot to invest as set in the config file
-        self.initial_investment: float = float
+        self.initial_investment: float = float(config["INITIAL_INVESTMENT"])
+        # current investment amount
+        self.investment: float = float(config["INITIAL_INVESTMENT"])
+        # re-investment percentage
+        self.re_invest_percentage: float = float
