@@ -52,4 +52,9 @@ class Bot:
         # current investment amount
         self.investment: float = float(config["INITIAL_INVESTMENT"])
         # re-investment percentage
-        self.re_invest_percentage: float = float
+        self.re_invest_percentage: float = float(
+            config.get("RE_INVEST_PERCENTAGE", 100.0)
+        )
+        # number of seconds to pause between price checks
+        self.pause: float = float(config["PAUSE_FOR"])
+        # list of price.logs to 
