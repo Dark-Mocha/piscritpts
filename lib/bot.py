@@ -61,4 +61,9 @@ class Bot:
         self.price_logs: List[str] = config["PRICE_LOGS"]
         # dictionary for all coin data
         self.coins: Dict[str, Coin] = {}
-        # number of wins record by this bot
+        # number of wins record by this bot run
+        self.wins: int = 0
+        # number of losses record by this bot run
+        self.losses: int = 0
+        # number of stale coins (which didn't sell before their
+        # HARD_LIMI
