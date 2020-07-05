@@ -57,4 +57,8 @@ class Bot:
         )
         # number of seconds to pause between price checks
         self.pause: float = float(config["PAUSE_FOR"])
-        # list of price.logs to 
+        # list of price.logs to use during backtesting
+        self.price_logs: List[str] = config["PRICE_LOGS"]
+        # dictionary for all coin data
+        self.coins: Dict[str, Coin] = {}
+        # number of wins record by this bot
