@@ -66,4 +66,9 @@ class Bot:
         # number of losses record by this bot run
         self.losses: int = 0
         # number of stale coins (which didn't sell before their
-        # HARD_LIMI
+        # HARD_LIMIT_HOLDING_TIME) record by this bot run
+        self.stales: int = 0
+        # total profit for this bot run
+        self.profit: float = float(0)
+        # a wallet is for the coins we hold
+        self.wallet: List[str
