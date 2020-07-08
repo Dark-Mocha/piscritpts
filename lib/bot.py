@@ -71,4 +71,8 @@ class Bot:
         # total profit for this bot run
         self.profit: float = float(0)
         # a wallet is for the coins we hold
-        self.wallet: List[str
+        self.wallet: List[str] = []
+        # the list of tickers and the config for each one, in terms of
+        # BUY_AT_PERCENTAGE, SELL_AT_PERCENTAGE, etc...
+        self.tickers: dict[str, Any] = dict(config["TICKERS"])
+        # running mode for th
