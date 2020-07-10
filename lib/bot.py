@@ -75,4 +75,7 @@ class Bot:
         # the list of tickers and the config for each one, in terms of
         # BUY_AT_PERCENTAGE, SELL_AT_PERCENTAGE, etc...
         self.tickers: dict[str, Any] = dict(config["TICKERS"])
-        # running mode for th
+        # running mode for the bot [BACKTESTING, LIVE, TESTNET]
+        self.mode: str = config["MODE"]
+        # Binance trading fee for each buy/sell trade, in percentage points
+        self.trading_fee: float = float(config["TRADING_FE
