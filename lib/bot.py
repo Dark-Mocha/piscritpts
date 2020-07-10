@@ -78,4 +78,8 @@ class Bot:
         # running mode for the bot [BACKTESTING, LIVE, TESTNET]
         self.mode: str = config["MODE"]
         # Binance trading fee for each buy/sell trade, in percentage points
-        self.trading_fee: float = float(config["TRADING_FE
+        self.trading_fee: float = float(config["TRADING_FEE"])
+        # Enable/Disable debug, debug information gets logged in debug.log
+        self.debug: bool = bool(config["DEBUG"])
+        # maximum number of coins that the bot will hold in its wallet.
+        s
