@@ -82,4 +82,8 @@ class Bot:
         # Enable/Disable debug, debug information gets logged in debug.log
         self.debug: bool = bool(config["DEBUG"])
         # maximum number of coins that the bot will hold in its wallet.
+        self.max_coins: int = int(config["MAX_COINS"])
+        # which pair to use [USDT|BUSD|BNB|BTC|ETH...]
+        self.pairing: str = config["PAIRING"]
+        # total amount of fees paid during this bot run
         s
