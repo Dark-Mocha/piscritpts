@@ -86,4 +86,7 @@ class Bot:
         # which pair to use [USDT|BUSD|BNB|BTC|ETH...]
         self.pairing: str = config["PAIRING"]
         # total amount of fees paid during this bot run
-        s
+        self.fees: float = float(0)
+        # wether to clean coin stats at boot, if our tickers config doesn't
+        # chane for example a reload, we might want to keep the history we have
+        # related to the max, min prices recorded for our
