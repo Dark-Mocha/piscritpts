@@ -89,4 +89,10 @@ class Bot:
         self.fees: float = float(0)
         # wether to clean coin stats at boot, if our tickers config doesn't
         # chane for example a reload, we might want to keep the history we have
-        # related to the max, min prices recorded for our
+        # related to the max, min prices recorded for our coins as those will
+        # influence our next buy.
+        self.clear_coin_stats_at_boot: bool = bool(
+            config["CLEAR_COIN_STATS_AT_BOOT"]
+        )
+        # as above but after each buy
+        self.cl
