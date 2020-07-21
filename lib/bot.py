@@ -95,4 +95,8 @@ class Bot:
             config["CLEAR_COIN_STATS_AT_BOOT"]
         )
         # as above but after each buy
-        self.cl
+        self.clean_coin_stats_at_sale: bool = bool(
+            config["CLEAR_COIN_STATS_AT_SALE"]
+        )
+        # which bot strategy to use as set in the config file
+        self.strategy: str = config["STRATEGY"
