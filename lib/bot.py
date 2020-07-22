@@ -103,4 +103,9 @@ class Bot:
         # if a coin drops in price shortly after reaching its target sale
         # percentage, we force a quick sale and ignore the
         # TRAIL_TARGET_SELL_PERCENTAGE values
-        self.sell_as_s
+        self.sell_as_soon_it_drops: bool = bool(
+            config["SELL_AS_SOON_IT_DROPS"]
+        )
+        # the config filename
+        self.config_file: str = config_file
+        # a dictionary to old the previous pri
