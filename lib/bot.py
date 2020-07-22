@@ -99,4 +99,8 @@ class Bot:
             config["CLEAR_COIN_STATS_AT_SALE"]
         )
         # which bot strategy to use as set in the config file
-        self.strategy: str = config["STRATEGY"
+        self.strategy: str = config["STRATEGY"]
+        # if a coin drops in price shortly after reaching its target sale
+        # percentage, we force a quick sale and ignore the
+        # TRAIL_TARGET_SELL_PERCENTAGE values
+        self.sell_as_s
