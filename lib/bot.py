@@ -115,4 +115,9 @@ class Bot:
         self.oldprice: Dict[str, float] = {}
         # the full config as a dict
         self.cfg = config
-        # whether to enable pump and dump 
+        # whether to enable pump and dump checks while the bot is evaluating
+        # buy conditions for a coin
+        self.enable_pump_and_dump_checks: bool = config.get(
+            "ENABLE_PUMP_AND_DUMP_CHECKS", True
+        )
+        # check if we ar
