@@ -108,4 +108,7 @@ class Bot:
         )
         # the config filename
         self.config_file: str = config_file
-        # a dictionary to old the previous pri
+        # a dictionary to old the previous prices available from binance for
+        # our coins. Used in logmode to prevent the bot from writing a new
+        # price.log line if the price hasn't changed. Common with low volume
+        # coins. T
