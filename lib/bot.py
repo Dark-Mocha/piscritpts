@@ -111,4 +111,8 @@ class Bot:
         # a dictionary to old the previous prices available from binance for
         # our coins. Used in logmode to prevent the bot from writing a new
         # price.log line if the price hasn't changed. Common with low volume
-        # coins. T
+        # coins. This reduces our logfiles size and our backtesting times.
+        self.oldprice: Dict[str, float] = {}
+        # the full config as a dict
+        self.cfg = config
+        # whether to enable pump and dump 
