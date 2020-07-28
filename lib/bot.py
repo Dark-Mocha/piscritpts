@@ -120,4 +120,9 @@ class Bot:
         self.enable_pump_and_dump_checks: bool = config.get(
             "ENABLE_PUMP_AND_DUMP_CHECKS", True
         )
-        # check if we ar
+        # check if we are looking at a new coin
+        self.enable_new_listing_checks: bool = config.get(
+            "ENABLE_NEW_LISTING_CHECKS", True
+        )
+        # disable buying a new coin if this coin is newer than 31 days
+        self.en
