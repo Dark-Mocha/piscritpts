@@ -125,4 +125,9 @@ class Bot:
             "ENABLE_NEW_LISTING_CHECKS", True
         )
         # disable buying a new coin if this coin is newer than 31 days
-        self.en
+        self.enable_new_listing_checks_age_in_days: int = config.get(
+            "ENABLE_NEW_LISTING_CHECKS_AGE_IN_DAYS", 31
+        )
+        # stops the bot as soon we hit a STOP_LOSS. If we are still holding
+        # coins, those remain in our wallet.
+       
