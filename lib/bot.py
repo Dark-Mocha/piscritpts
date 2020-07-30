@@ -130,4 +130,7 @@ class Bot:
         )
         # stops the bot as soon we hit a STOP_LOSS. If we are still holding
         # coins, those remain in our wallet.
-       
+        # Typically used when MAX_COINS = 1
+        self.stop_bot_on_loss: bool = config.get("STOP_BOT_ON_LOSS", False)
+        # stops the bot as soon we hit a STALE. If we are still holding
+        # coins, those remain in our wa
