@@ -133,4 +133,8 @@ class Bot:
         # Typically used when MAX_COINS = 1
         self.stop_bot_on_loss: bool = config.get("STOP_BOT_ON_LOSS", False)
         # stops the bot as soon we hit a STALE. If we are still holding
-        # coins, those remain in our wa
+        # coins, those remain in our wallet.
+        # Mostly used for quitting a backtesting session early
+        self.stop_bot_on_stale: bool = config.get("STOP_BOT_ON_STALE", False)
+        # indicates where we found a control/STOP flag file
+      
