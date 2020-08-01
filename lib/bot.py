@@ -137,4 +137,8 @@ class Bot:
         # Mostly used for quitting a backtesting session early
         self.stop_bot_on_stale: bool = config.get("STOP_BOT_ON_STALE", False)
         # indicates where we found a control/STOP flag file
-      
+        self.stop_flag: bool = False
+        # set by the bot so to quit safely as soon as possible.
+        # used by STOP_BOT_ON_LOSS checks
+        self.quit: bool = False
+        # define if we want to use MARKET
