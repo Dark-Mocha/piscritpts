@@ -144,4 +144,7 @@ class Bot:
         # define if we want to use MARKET or LIMIT orders
         self.order_type: str = config.get("ORDER_TYPE", "MARKET")
         # generate a md5 hash of the tickers config based on the same method
-        # used in the con
+        # used in the config-endpoint-service. We want a hash to be available
+        # at boot so that when we first get the config from config-endpoint-service
+        # and if the tickers haven't changed match the bot won't assume the
+        # 
