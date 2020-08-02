@@ -141,4 +141,7 @@ class Bot:
         # set by the bot so to quit safely as soon as possible.
         # used by STOP_BOT_ON_LOSS checks
         self.quit: bool = False
-        # define if we want to use MARKET
+        # define if we want to use MARKET or LIMIT orders
+        self.order_type: str = config.get("ORDER_TYPE", "MARKET")
+        # generate a md5 hash of the tickers config based on the same method
+        # used in the con
