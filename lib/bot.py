@@ -147,4 +147,8 @@ class Bot:
         # used in the config-endpoint-service. We want a hash to be available
         # at boot so that when we first get the config from config-endpoint-service
         # and if the tickers haven't changed match the bot won't assume the
-        # 
+        # tickers or the config have changed.
+        self.pull_config_md5: str = hashlib.md5(
+            (json.dumps(dict(config["TICKERS"]), sort_keys=True)).encode(
+                "utf-8"
+           
