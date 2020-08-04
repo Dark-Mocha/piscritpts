@@ -151,4 +151,9 @@ class Bot:
         self.pull_config_md5: str = hashlib.md5(
             (json.dumps(dict(config["TICKERS"]), sort_keys=True)).encode(
                 "utf-8"
-           
+            )
+        ).hexdigest()
+        self.pull_config_address: str = config.get("PULL_CONFIG_ADDRESS", "")
+        self.logs_dir = logs_dir
+        self.klines_caching_service_url: str = config.get(
+            "KLINES_CACH
