@@ -162,4 +162,9 @@ class Bot:
         self.price_log_service: str = config["PRICE_LOG_SERVICE_URL"]
 
     def extract_order_data(
-        self, order_details: dict[str, A
+        self, order_details: dict[str, Any], coin: Coin
+    ) -> Tuple[bool, Dict[str, Any]]:
+        """calculate average price and volume for a buy order"""
+
+        # Each order will be fullfilled by different traders, and made of
+        #
