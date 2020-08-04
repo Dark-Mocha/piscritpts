@@ -156,4 +156,10 @@ class Bot:
         self.pull_config_address: str = config.get("PULL_CONFIG_ADDRESS", "")
         self.logs_dir = logs_dir
         self.klines_caching_service_url: str = config.get(
-            "KLINES_CACH
+            "KLINES_CACHING_SERVICE_URL", "http://klines:8999"
+        )
+        # price.log service
+        self.price_log_service: str = config["PRICE_LOG_SERVICE_URL"]
+
+    def extract_order_data(
+        self, order_details: dict[str, A
