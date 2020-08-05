@@ -188,4 +188,11 @@ class Bot:
         if ok:
             volume: float = float(_volume)
 
-            logging.debug(f"{coin
+            logging.debug(f"{coin.symbol} -> volume:{volume} avgPrice:{avg}")
+
+            return (
+                True,
+                {
+                    "avgPrice": float(avg),
+                    "volume": float(volume),
+                },
