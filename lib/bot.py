@@ -180,3 +180,12 @@ class Bot:
             item_qty: float = float(k["qty"])
 
             total += item_price * item_qty
+            qty += item_qty
+
+        avg: float = total / qty
+
+        ok, _volume = self.calculate_volume_size(coin)
+        if ok:
+            volume: float = float(_volume)
+
+            logging.debug(f"{coin
