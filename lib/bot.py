@@ -167,4 +167,10 @@ class Bot:
         """calculate average price and volume for a buy order"""
 
         # Each order will be fullfilled by different traders, and made of
-        #
+        # different amounts and prices. Here we calculate the average over all
+        # those different lines in our order.
+
+        total: float = float(0)
+        qty: float = float(0)
+
+        logging.debug(f"{co
