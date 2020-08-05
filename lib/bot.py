@@ -173,4 +173,10 @@ class Bot:
         total: float = float(0)
         qty: float = float(0)
 
-        logging.debug(f"{co
+        logging.debug(f"{coin.symbol} -> order_details:{order_details}")
+
+        for k in order_details["fills"]:
+            item_price: float = float(k["price"])
+            item_qty: float = float(k["qty"])
+
+            total += item_price * item_qty
