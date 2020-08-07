@@ -206,4 +206,10 @@ class Bot:
         # reducing processing time. So we stop validating conditions as soon
         # they are not possible to occur in the chain that follows.
 
-        # the bot won't act on coi
+        # the bot won't act on coins not listed on its config.
+        if coin.symbol not in self.tickers:
+            return False
+
+        # skip any coins that were involved in a recent STOP_LOSS.
+        if self.coins[coin.symbol].naughty:
+            ret
