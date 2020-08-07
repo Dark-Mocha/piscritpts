@@ -202,4 +202,8 @@ class Bot:
     def run_strategy(self, coin: Coin) -> bool:
         """runs a specific strategy against a coin"""
 
-        # runs our choosen strategy, here we aim to q
+        # runs our choosen strategy, here we aim to quit as soon as possible
+        # reducing processing time. So we stop validating conditions as soon
+        # they are not possible to occur in the chain that follows.
+
+        # the bot won't act on coi
