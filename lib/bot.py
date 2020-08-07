@@ -196,3 +196,10 @@ class Bot:
                     "avgPrice": float(avg),
                     "volume": float(volume),
                 },
+            )
+        return (False, {})
+
+    def run_strategy(self, coin: Coin) -> bool:
+        """runs a specific strategy against a coin"""
+
+        # runs our choosen strategy, here we aim to q
