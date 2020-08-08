@@ -212,4 +212,9 @@ class Bot:
 
         # skip any coins that were involved in a recent STOP_LOSS.
         if self.coins[coin.symbol].naughty:
-            ret
+            return False
+
+        # first attempt to sell the coin, in order to free the wallet for the
+        # next coin run_strategy run.
+        if self.wallet:
+            self.target_sell(coi
