@@ -232,3 +232,8 @@ class Bot:
             return False
 
         # has the current price been influenced by a pump and dump?
+        if self.enable_pump_and_dump_checks:
+            if self.check_for_pump_and_dump(self.coins[coin.symbol]):
+                return False
+
+        # all our pre-conditions played out, now r
