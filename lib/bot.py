@@ -225,4 +225,10 @@ class Bot:
             if self.new_listing(
                 coin, self.enable_new_listing_checks_age_in_days
             ):
-      
+                return False
+
+        # our wallet is already full
+        if len(self.wallet) == self.max_coins:
+            return False
+
+        # has the current price been influenced by a pump and dump?
