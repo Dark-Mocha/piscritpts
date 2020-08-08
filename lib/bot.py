@@ -217,4 +217,12 @@ class Bot:
         # first attempt to sell the coin, in order to free the wallet for the
         # next coin run_strategy run.
         if self.wallet:
-            self.target_sell(coi
+            self.target_sell(coin)
+            self.check_for_sale_conditions(coin)
+
+        # is this a new coin?
+        if self.enable_new_listing_checks:
+            if self.new_listing(
+                coin, self.enable_new_listing_checks_age_in_days
+            ):
+      
