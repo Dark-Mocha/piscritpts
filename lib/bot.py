@@ -236,4 +236,10 @@ class Bot:
             if self.check_for_pump_and_dump(self.coins[coin.symbol]):
                 return False
 
-        # all our pre-conditions played out, now r
+        # all our pre-conditions played out, now run the buy_strategy
+        self.buy_strategy(coin)
+        return True
+
+    def update_investment(self) -> None:
+        """updates our investment or balance with our profits"""
+        # and finally 
