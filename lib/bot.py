@@ -242,4 +242,8 @@ class Bot:
 
     def update_investment(self) -> None:
         """updates our investment or balance with our profits"""
-        # and finally 
+        # and finally re-invest our profit, we're aiming to compound
+        # so on every sale we invest our profit as well.
+        self.investment = self.initial_investment + self.profit
+
+    def update_bot_profit(self, coin: Coin)
