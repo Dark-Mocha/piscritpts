@@ -250,4 +250,10 @@ class Bot:
         """updates the total bot profits"""
         bought_fees = percent(self.trading_fee, coin.cost)
         sell_fees = percent(self.trading_fee, coin.value)
-        fees = float(bought_fe
+        fees = float(bought_fees + sell_fees)
+
+        self.profit = float(self.profit) + float(coin.profit) - float(fees)
+        self.fees = self.fees + fees
+
+    def place_sell_order(self, coin: Coin) -> bool:
+        """places a l
