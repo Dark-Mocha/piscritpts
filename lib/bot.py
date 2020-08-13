@@ -246,4 +246,8 @@ class Bot:
         # so on every sale we invest our profit as well.
         self.investment = self.initial_investment + self.profit
 
-    def update_bot_profit(self, coin: Coin)
+    def update_bot_profit(self, coin: Coin) -> None:
+        """updates the total bot profits"""
+        bought_fees = percent(self.trading_fee, coin.cost)
+        sell_fees = percent(self.trading_fee, coin.value)
+        fees = float(bought_fe
