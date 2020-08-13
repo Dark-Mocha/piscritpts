@@ -256,4 +256,10 @@ class Bot:
         self.fees = self.fees + fees
 
     def place_sell_order(self, coin: Coin) -> bool:
-        """places a l
+        """places a limit/market sell order"""
+        bid: str = ""
+        order_details: Dict[str, Any] = {}
+        try:
+            now: str = udatetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+            if self.order_type == "LIMIT":
+         
