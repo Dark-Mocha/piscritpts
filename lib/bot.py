@@ -262,4 +262,9 @@ class Bot:
         try:
             now: str = udatetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
             if self.order_type == "LIMIT":
+                order_book: Dict[str, Any] = self.client.get_order_book(
+                    symbol=coin.symbol
+                )
+                logging.debug(f"order_book: {order_book}")
+                try:
          
