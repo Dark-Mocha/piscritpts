@@ -279,4 +279,11 @@ class Bot:
                 )
                 order_details = self.client.create_order(
                     symbol=coin.symbol,
-                    side
+                    side="SELL",
+                    type="LIMIT",
+                    quantity=coin.volume,
+                    timeInForce="FOK",
+                    price=bid,
+                )
+            else:
+               
