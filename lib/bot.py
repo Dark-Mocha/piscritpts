@@ -286,4 +286,8 @@ class Bot:
                     price=bid,
                 )
             else:
-               
+                logging.info(
+                    f"{now}: {coin.symbol} [SELLING] {coin.volume} of "
+                    + f"{coin.symbol} at MARKET {coin.price}"
+                )
+                order_details = se
