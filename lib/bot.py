@@ -297,4 +297,7 @@ class Bot:
                     quantity=coin.volume,
                 )
 
-        # error handling here in cas
+        # error handling here in case position cannot be placed
+        except BinanceAPIException as error_msg:
+            logging.error(f"sell() exception: {error_msg}")
+            logging.error(f"tried to sell: {coin.volume} of
