@@ -300,4 +300,8 @@ class Bot:
         # error handling here in case position cannot be placed
         except BinanceAPIException as error_msg:
             logging.error(f"sell() exception: {error_msg}")
-            logging.error(f"tried to sell: {coin.volume} of
+            logging.error(f"tried to sell: {coin.volume} of {coin.symbol}")
+            with open("log/binance.place_sell_order.log", "at") as f:
+                f.write(f"{coin.symbol} {coin.date} {self.order_type} ")
+                f.write(f"{bid} {coin.volume} {order_details}\n")
+          
