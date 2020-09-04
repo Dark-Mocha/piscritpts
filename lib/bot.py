@@ -304,4 +304,10 @@ class Bot:
             with open("log/binance.place_sell_order.log", "at") as f:
                 f.write(f"{coin.symbol} {coin.date} {self.order_type} ")
                 f.write(f"{bid} {coin.volume} {order_details}\n")
-          
+            return False
+
+        while True:
+            try:
+                order_status: Dict[str, str] = self.client.get_order(
+                    symbol=coin.symbol, orderId=order_details["orderId"]
+               
