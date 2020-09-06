@@ -316,4 +316,8 @@ class Bot:
                     break
 
                 if order_status["status"] == "EXPIRED":
-                    now = ud
+                    now = udatetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+                    logging.info(
+                        f"{now}: {coin.symbol} [EXPIRED_LIMIT_SELL] "
+                        + f"order for {coin.volume} of {coin.symbol} "
+       
