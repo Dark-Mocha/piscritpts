@@ -320,4 +320,9 @@ class Bot:
                     logging.info(
                         f"{now}: {coin.symbol} [EXPIRED_LIMIT_SELL] "
                         + f"order for {coin.volume} of {coin.symbol} "
-       
+                        + f"at {bid}"
+                    )
+                    return False
+                sleep(0.1)
+            except BinanceAPIException as error_msg:
+                with open("log/binance.place_sell_orde
