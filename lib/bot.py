@@ -310,4 +310,10 @@ class Bot:
             try:
                 order_status: Dict[str, str] = self.client.get_order(
                     symbol=coin.symbol, orderId=order_details["orderId"]
-               
+                )
+                logging.debug(order_status)
+                if order_status["status"] == "FILLED":
+                    break
+
+                if order_status["status"] == "EXPIRED":
+                    now = ud
