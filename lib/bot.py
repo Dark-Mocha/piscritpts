@@ -325,4 +325,7 @@ class Bot:
                     return False
                 sleep(0.1)
             except BinanceAPIException as error_msg:
-                with open("log/binance.place_sell_orde
+                with open("log/binance.place_sell_order.log", "at") as f:
+                    f.write(f"{coin.symbol} {coin.date} {self.order_type} ")
+                    f.write(f"{bid} {coin.volume} {order_details}\n")
+                logging.warn
