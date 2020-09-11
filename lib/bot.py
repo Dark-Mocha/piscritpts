@@ -328,4 +328,11 @@ class Bot:
                 with open("log/binance.place_sell_order.log", "at") as f:
                     f.write(f"{coin.symbol} {coin.date} {self.order_type} ")
                     f.write(f"{bid} {coin.volume} {order_details}\n")
-                logging.warn
+                logging.warning(error_msg)
+
+        logging.debug(order_status)
+
+        if self.order_type == "LIMIT":
+            # calculate how much we got based on the total lines in our order
+            coin.price = float(order_status["price"])
+           
