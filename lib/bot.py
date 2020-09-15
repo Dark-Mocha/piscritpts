@@ -335,4 +335,8 @@ class Bot:
         if self.order_type == "LIMIT":
             # calculate how much we got based on the total lines in our order
             coin.price = float(order_status["price"])
-           
+            coin.volume = float(order_status["executedQty"])
+        else:
+            orders = self.client.get_all_orders(symbol=coin.symbol, limit=1)
+            logging.debug(orders)
+            # calculate 
