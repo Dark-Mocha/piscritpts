@@ -344,4 +344,10 @@ class Bot:
             if not ok:
                 return False
 
-            coin.price = _value["avgPr
+            coin.price = _value["avgPrice"]
+            # retrieve the total number of units for this coin
+            ok, _value = self.extract_order_data(order_details, coin)
+            if not ok:
+                return False
+
+            coin.volume = _value["volume
