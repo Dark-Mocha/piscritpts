@@ -339,4 +339,9 @@ class Bot:
         else:
             orders = self.client.get_all_orders(symbol=coin.symbol, limit=1)
             logging.debug(orders)
-            # calculate 
+            # calculate how much we got based on the total lines in our order
+            ok, _value = self.extract_order_data(order_details, coin)
+            if not ok:
+                return False
+
+            coin.price = _value["avgPr
