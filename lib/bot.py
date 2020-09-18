@@ -355,4 +355,10 @@ class Bot:
         # and give this coin a new fresh date based on our recent actions
         coin.date = float(udatetime.now().timestamp())
         with open("log/binance.place_sell_order.log", "at") as f:
-            f.write(f"{co
+            f.write(f"{coin.symbol} {coin.date} {self.order_type} ")
+            f.write(f"{bid} {coin.volume} {order_details}\n")
+        return True
+
+    def place_buy_order(self, coin: Coin, volume: float) -> bool:
+        """places a limit/market buy order"""
+    
