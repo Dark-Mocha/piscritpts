@@ -350,4 +350,9 @@ class Bot:
             if not ok:
                 return False
 
-            coin.volume = _value["volume
+            coin.volume = _value["volume"]
+
+        # and give this coin a new fresh date based on our recent actions
+        coin.date = float(udatetime.now().timestamp())
+        with open("log/binance.place_sell_order.log", "at") as f:
+            f.write(f"{co
