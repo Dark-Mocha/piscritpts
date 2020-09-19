@@ -369,4 +369,9 @@ class Bot:
             # within the order book.
             if self.order_type == "LIMIT":
                 order_book = self.client.get_order_book(symbol=coin.symbol)
-                logging.debug(f"order_book: {order_book
+                logging.debug(f"order_book: {order_book}")
+                try:
+                    ask, _ = order_book["asks"][0]
+                except IndexError as error:
+                    # if the order_book is empty we'll get an exception here
+        
