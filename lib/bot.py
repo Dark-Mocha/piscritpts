@@ -361,4 +361,8 @@ class Bot:
 
     def place_buy_order(self, coin: Coin, volume: float) -> bool:
         """places a limit/market buy order"""
-    
+        bid: str = ""
+        order_details: Dict[str, Any] = {}
+        try:
+            now: str = udatetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+            # TODO: add the ability to place a order from a spe
