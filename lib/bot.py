@@ -365,4 +365,8 @@ class Bot:
         order_details: Dict[str, Any] = {}
         try:
             now: str = udatetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-            # TODO: add the ability to place a order from a spe
+            # TODO: add the ability to place a order from a specific position
+            # within the order book.
+            if self.order_type == "LIMIT":
+                order_book = self.client.get_order_book(symbol=coin.symbol)
+                logging.debug(f"order_book: {order_book
