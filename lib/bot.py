@@ -374,4 +374,8 @@ class Bot:
                     ask, _ = order_book["asks"][0]
                 except IndexError as error:
                     # if the order_book is empty we'll get an exception here
-        
+                    logging.debug(f"{coin.symbol} {error}")
+                    return False
+                logging.debug(f"ask: {ask}")
+                logging.info(
+                    f"{now}: {coin.symbol} [BUYING] {v
