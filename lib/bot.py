@@ -378,4 +378,9 @@ class Bot:
                     return False
                 logging.debug(f"ask: {ask}")
                 logging.info(
-                    f"{now}: {coin.symbol} [BUYING] {v
+                    f"{now}: {coin.symbol} [BUYING] {volume} of "
+                    + f"{coin.symbol} at LIMIT {ask}"
+                )
+                order_details = self.client.create_order(
+                    symbol=coin.symbol,
+        
