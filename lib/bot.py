@@ -390,4 +390,8 @@ class Bot:
                     price=ask,
                 )
             else:
-            
+                logging.info(
+                    f"{now}: {coin.symbol} [BUYING] {volume} of "
+                    + f"{coin.symbol} at MARKET {coin.price}"
+                )
+                order_details = self.client.creat
