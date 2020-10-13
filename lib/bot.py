@@ -394,4 +394,11 @@ class Bot:
                     f"{now}: {coin.symbol} [BUYING] {volume} of "
                     + f"{coin.symbol} at MARKET {coin.price}"
                 )
-                order_details = self.client.creat
+                order_details = self.client.create_order(
+                    symbol=coin.symbol,
+                    side="BUY",
+                    type="MARKET",
+                    quantity=volume,
+                )
+
+        # error handling here i
