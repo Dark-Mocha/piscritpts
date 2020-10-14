@@ -401,4 +401,7 @@ class Bot:
                     quantity=volume,
                 )
 
-        # error handling here i
+        # error handling here in case position cannot be placed
+        except BinanceAPIException as error_msg:
+            logging.error(f"buy() exception: {error_msg}")
+            logging.error(f"tried to buy: {volume} 
