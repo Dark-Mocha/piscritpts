@@ -414,4 +414,10 @@ class Bot:
         while True:
             try:
                 order_status = self.client.get_order(
-                    sym
+                    symbol=coin.symbol, orderId=order_details["orderId"]
+                )
+                logging.debug(order_status)
+                if order_status["status"] == "FILLED":
+                    break
+
+                now = udate
