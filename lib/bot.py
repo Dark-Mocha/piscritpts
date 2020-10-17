@@ -407,4 +407,11 @@ class Bot:
             logging.error(f"tried to buy: {volume} of {coin.symbol}")
             with open("log/binance.place_buy_order.log", "at") as f:
                 f.write(f"{coin.symbol} {coin.date} {self.order_type} ")
-                f.write(f"{bid} {coi
+                f.write(f"{bid} {coin.volume} {order_details}\n")
+            return False
+        logging.debug(order_details)
+
+        while True:
+            try:
+                order_status = self.client.get_order(
+                    sym
