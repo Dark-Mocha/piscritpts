@@ -420,4 +420,9 @@ class Bot:
                 if order_status["status"] == "FILLED":
                     break
 
-                now = udate
+                now = udatetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+
+                if order_status["status"] == "EXPIRED":
+                    if self.order_type == "LIMIT":
+                        price = ask
+                    el
