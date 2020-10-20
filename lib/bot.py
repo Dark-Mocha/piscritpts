@@ -431,4 +431,8 @@ class Bot:
                         " ".join(
                             [
                                 f"{now}: {coin.symbol}",
-                              
+                                f"[EXPIRED_{self.order_type}_BUY] order",
+                                f" for {volume} of {coin.symbol} ",
+                                f"at {price}",
+                            ]
+             
