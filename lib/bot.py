@@ -425,4 +425,10 @@ class Bot:
                 if order_status["status"] == "EXPIRED":
                     if self.order_type == "LIMIT":
                         price = ask
-                    el
+                    else:
+                        price = coin.price
+                    logging.info(
+                        " ".join(
+                            [
+                                f"{now}: {coin.symbol}",
+                              
