@@ -439,4 +439,11 @@ class Bot:
                     )
                     with open("log/binance.place_buy_order.log", "at") as f:
                         f.write(
-                            f"{coin.symbol} {coin.date} {self.ord
+                            f"{coin.symbol} {coin.date} {self.order_type} "
+                        )
+                        f.write(f"{bid} {coin.volume} {order_details}\n")
+                    return False
+                sleep(0.1)
+
+            except BinanceAPIException as error_msg:
+                with o
