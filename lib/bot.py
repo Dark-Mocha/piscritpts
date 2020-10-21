@@ -435,4 +435,8 @@ class Bot:
                                 f" for {volume} of {coin.symbol} ",
                                 f"at {price}",
                             ]
-             
+                        )
+                    )
+                    with open("log/binance.place_buy_order.log", "at") as f:
+                        f.write(
+                            f"{coin.symbol} {coin.date} {self.ord
