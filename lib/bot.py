@@ -449,4 +449,9 @@ class Bot:
                 with open("log/binance.place_buy_order.log", "at") as f:
                     f.write(f"{coin.symbol} {coin.date} {self.order_type} ")
                     f.write(f"{bid} {coin.volume} {order_details}\n")
-                logging
+                logging.warning(error_msg)
+        logging.debug(order_status)
+
+        if self.order_type == "LIMIT":
+            # our order will have been fullfilled by different traders,
+            # find out the average price we paid ac
