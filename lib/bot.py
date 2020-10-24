@@ -454,4 +454,8 @@ class Bot:
 
         if self.order_type == "LIMIT":
             # our order will have been fullfilled by different traders,
-            # find out the average price we paid ac
+            # find out the average price we paid accross all these sales.
+            coin.bought_at = float(order_status["price"])
+            # retrieve the total number of units for this coin
+            coin.volume = float(order_status["executedQty"])
+        e
