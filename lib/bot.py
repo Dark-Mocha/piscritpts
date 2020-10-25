@@ -458,4 +458,8 @@ class Bot:
             coin.bought_at = float(order_status["price"])
             # retrieve the total number of units for this coin
             coin.volume = float(order_status["executedQty"])
-        e
+        else:
+            orders = self.client.get_all_orders(symbol=coin.symbol, limit=1)
+            logging.debug(orders)
+            # our order will have been fullfilled by different traders,
+            # find out the 
