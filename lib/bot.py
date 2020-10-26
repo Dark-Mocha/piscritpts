@@ -462,4 +462,8 @@ class Bot:
             orders = self.client.get_all_orders(symbol=coin.symbol, limit=1)
             logging.debug(orders)
             # our order will have been fullfilled by different traders,
-            # find out the 
+            # find out the average price we paid accross all these sales.
+            ok, _value = self.extract_order_data(order_details, coin)
+            if not ok:
+                return False
+            coin.bought_at = float(_value["avgPrice"]
