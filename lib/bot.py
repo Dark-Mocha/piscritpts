@@ -471,4 +471,7 @@ class Bot:
             ok, _volume = self.extract_order_data(order_details, coin)
             if not ok:
                 return False
-            coin.volume = float(_volum
+            coin.volume = float(_volume["volume"])
+        with open("log/binance.place_buy_order.log", "at") as f:
+            f.write(f"{coin.symbol} {coin.date} {self.order_type} ")
+            f.write(f"{bid} {coin.volume} {order_d
