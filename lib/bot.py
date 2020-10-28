@@ -474,4 +474,11 @@ class Bot:
             coin.volume = float(_volume["volume"])
         with open("log/binance.place_buy_order.log", "at") as f:
             f.write(f"{coin.symbol} {coin.date} {self.order_type} ")
-            f.write(f"{bid} {coin.volume} {order_d
+            f.write(f"{bid} {coin.volume} {order_details}\n")
+        return True
+
+    def buy_coin(self, coin: Coin) -> bool:
+        """calls Binance to buy a coin"""
+
+        # quit early if we already hold this coin in our wallet
+        if coin.symbo
