@@ -481,4 +481,11 @@ class Bot:
         """calls Binance to buy a coin"""
 
         # quit early if we already hold this coin in our wallet
-        if coin.symbo
+        if coin.symbol in self.wallet:
+            return False
+
+        # quit early if our wallet is full
+        if len(self.wallet) == self.max_coins:
+            return False
+
+        # quit early if this coin was involved in a recent STOP_LO
