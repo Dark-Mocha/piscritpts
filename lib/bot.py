@@ -488,4 +488,11 @@ class Bot:
         if len(self.wallet) == self.max_coins:
             return False
 
-        # quit early if this coin was involved in a recent STOP_LO
+        # quit early if this coin was involved in a recent STOP_LOSS
+        if coin.naughty:
+            return False
+
+        # calculate how many units of this coin we can afford based on our
+        # investment share.
+        ok, _volume = self.calculate_volume_size(coin)
+        if 
