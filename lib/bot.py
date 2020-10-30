@@ -495,4 +495,10 @@ class Bot:
         # calculate how many units of this coin we can afford based on our
         # investment share.
         ok, _volume = self.calculate_volume_size(coin)
-        if 
+        if not ok:
+            return False
+        volume: float = float(_volume)
+
+        # we never place binance orders in backtesting mode.
+        if self.mode in ["testnet", "live"]:
+            if not self.place_buy_order(coin, vo
