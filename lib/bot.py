@@ -506,4 +506,10 @@ class Bot:
 
             # calculate the current value
             coin.value = float(coin.bought_at) * float(coin.volume)
-            # and the total cost which will match the value at this m
+            # and the total cost which will match the value at this moment
+            coin.cost = coin.value
+
+        # in backtesting we tipically assume the price paid is the price listed
+        # in our price.log file.
+        if self.mode in ["backtesting"]:
+            coi
