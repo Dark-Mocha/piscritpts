@@ -501,4 +501,9 @@ class Bot:
 
         # we never place binance orders in backtesting mode.
         if self.mode in ["testnet", "live"]:
-            if not self.place_buy_order(coin, vo
+            if not self.place_buy_order(coin, volume):
+                return False
+
+            # calculate the current value
+            coin.value = float(coin.bought_at) * float(coin.volume)
+            # and the total cost which will match the value at this m
