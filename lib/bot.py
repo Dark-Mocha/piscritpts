@@ -512,4 +512,9 @@ class Bot:
         # in backtesting we tipically assume the price paid is the price listed
         # in our price.log file.
         if self.mode in ["backtesting"]:
-            coi
+            coin.bought_at = float(coin.price)
+            coin.volume = float(volume)
+            coin.value = float(coin.bought_at) * float(coin.volume)
+            coin.cost = float(coin.bought_at) * float(coin.volume)
+
+    
