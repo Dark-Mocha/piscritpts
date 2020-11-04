@@ -517,4 +517,8 @@ class Bot:
             coin.value = float(coin.bought_at) * float(coin.volume)
             coin.cost = float(coin.bought_at) * float(coin.volume)
 
-    
+        # initialize the 'age' counter for the coin
+        coin.holding_time = 1
+        # and append this coin to our wallet
+        self.wallet.append(coin.symbol)
+        # mark it as HOLD, so that the bot know we own it
