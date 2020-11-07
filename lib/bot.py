@@ -522,3 +522,8 @@ class Bot:
         # and append this coin to our wallet
         self.wallet.append(coin.symbol)
         # mark it as HOLD, so that the bot know we own it
+        coin.status = "HOLD"
+        # and record the highest price recorded since buying this coin
+        coin.tip = coin.price
+        # as well as when we bought it
+        coin.bought_date = c
