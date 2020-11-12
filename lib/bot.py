@@ -526,4 +526,12 @@ class Bot:
         # and record the highest price recorded since buying this coin
         coin.tip = coin.price
         # as well as when we bought it
-        coin.bought_date = c
+        coin.bought_date = coin.date
+
+        # TODO: our logging message could use some love below
+        s_value = (
+            percent(coin.trail_target_sell_percentage, coin.sell_at_percentage)
+            - 100
+        )
+        logging.info(
+  
