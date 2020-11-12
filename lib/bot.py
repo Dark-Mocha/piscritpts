@@ -534,4 +534,7 @@ class Bot:
             - 100
         )
         logging.info(
-  
+            f"{c_from_timestamp(coin.date)}: {coin.symbol} [{coin.status}] "
+            + f"A:{coin.holding_time}s "
+            + f"U:{coin.volume} P:{coin.price} T:{coin.value} "
+            + f"SP:{coin.bought_
