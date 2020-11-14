@@ -537,4 +537,7 @@ class Bot:
             f"{c_from_timestamp(coin.date)}: {coin.symbol} [{coin.status}] "
             + f"A:{coin.holding_time}s "
             + f"U:{coin.volume} P:{coin.price} T:{coin.value} "
-            + f"SP:{coin.bought_
+            + f"SP:{coin.bought_at * coin.sell_at_percentage /100} "
+            + f"SL:{coin.bought_at * coin.stop_loss_at_percentage / 100} "
+            + f"BP:-{(100 - coin.buy_at_percentage):.2f}% "
+            + f"TRP:{(coin.trail_rec
