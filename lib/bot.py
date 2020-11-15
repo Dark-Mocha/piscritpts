@@ -544,4 +544,12 @@ class Bot:
             + f"S:+{s_value:.3f}% "
             + f"TTS:-{(100 - coin.trail_target_sell_percentage):.2f}% "
             + f"LP:{coin.min:.3f} "
-            + f"({len(self.walle
+            + f"({len(self.wallet)}/{self.max_coins}) "
+        )
+
+        # this gets noisy quickly
+        self.log_debug_coin(coin)
+        return True
+
+    def sell_coin(self, coin: Coin) -> bool:
+        """calls Binance to s
