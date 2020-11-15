@@ -540,4 +540,8 @@ class Bot:
             + f"SP:{coin.bought_at * coin.sell_at_percentage /100} "
             + f"SL:{coin.bought_at * coin.stop_loss_at_percentage / 100} "
             + f"BP:-{(100 - coin.buy_at_percentage):.2f}% "
-            + f"TRP:{(coin.trail_rec
+            + f"TRP:{(coin.trail_recovery_percentage - 100):.2f}% "
+            + f"S:+{s_value:.3f}% "
+            + f"TTS:-{(100 - coin.trail_target_sell_percentage):.2f}% "
+            + f"LP:{coin.min:.3f} "
+            + f"({len(self.walle
