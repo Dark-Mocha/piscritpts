@@ -559,4 +559,9 @@ class Bot:
             return False
 
         coins_before_sale = len(self.wallet)
-        # in
+        # in backtesting mode, we never place sell orders on binance
+        if self.mode in ["testnet", "live"]:
+            if not self.place_sell_order(coin):
+                return False
+
+        # finally calculate the v
