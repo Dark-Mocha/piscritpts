@@ -552,4 +552,11 @@ class Bot:
         return True
 
     def sell_coin(self, coin: Coin) -> bool:
-        """calls Binance to s
+        """calls Binance to sell a coin"""
+
+        # if we don't own this coin, then there's nothing more to do here
+        if coin.symbol not in self.wallet:
+            return False
+
+        coins_before_sale = len(self.wallet)
+        # in
