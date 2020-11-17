@@ -564,4 +564,9 @@ class Bot:
             if not self.place_sell_order(coin):
                 return False
 
-        # finally calculate the v
+        # finally calculate the value at sale and the total profit
+        coin.value = float(float(coin.volume) * float(coin.price))
+        coin.profit = float(float(coin.value) - float(coin.cost))
+
+        word: str = ""
+        if coi
