@@ -581,4 +581,8 @@ class Bot:
                 f"A:{coin.holding_time}s",
                 f"U:{coin.volume} P:{coin.price} T:{coin.value}",
                 f"{word}:{coin.profit:.3f}",
-                f"BP:{coin.bought_a
+                f"BP:{coin.bought_at}",
+                f"BP:-{(100 - coin.buy_at_percentage):.2f}%",
+                f"TRP:{(coin.trail_recovery_percentage - 100):.2f}%",
+                f"SP:{coin.bought_at * coin.sell_at_percentage /100}",
+     
