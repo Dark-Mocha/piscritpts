@@ -585,4 +585,6 @@ class Bot:
                 f"BP:-{(100 - coin.buy_at_percentage):.2f}%",
                 f"TRP:{(coin.trail_recovery_percentage - 100):.2f}%",
                 f"SP:{coin.bought_at * coin.sell_at_percentage /100}",
-     
+                f"TP:{100 - (coin.bought_at / coin.price * 100):.2f}%",
+                f"SL:{coin.bought_at * coin.stop_loss_at_percentage/100}",
+                f"S:+{percent(coin.trail_target_sell_perce
