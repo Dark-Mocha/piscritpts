@@ -569,4 +569,12 @@ class Bot:
         coin.profit = float(float(coin.value) - float(coin.cost))
 
         word: str = ""
-        if coi
+        if coin.profit < 0:
+            word = "LS"
+        else:
+            word = "PRF"
+
+        message: str = " ".join(
+            [
+                f"{c_from_timestamp(coin.date)}: {coin.symbol} "
+                f"[SOLD_B
