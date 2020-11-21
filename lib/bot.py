@@ -589,4 +589,10 @@ class Bot:
                 f"SL:{coin.bought_at * coin.stop_loss_at_percentage/100}",
                 f"S:+{percent(coin.trail_target_sell_percentage,coin.sell_at_percentage) - 100:.3f}%",  # pylint: disable=line-too-long
                 f"TTS:-{(100 - coin.trail_target_sell_percentage):.3f}%",
-                f"LP:{coin.min}(-{100 - ((coin.min/coin.max) * 10
+                f"LP:{coin.min}(-{100 - ((coin.min/coin.max) * 100):.2f}%)",
+                f"({len(self.wallet)}/{self.max_coins}) ",
+            ]
+        )
+
+        # raise an warning if we happen to have made a LOSS on our trade
+        if coin.profit 
