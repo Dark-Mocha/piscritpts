@@ -587,4 +587,6 @@ class Bot:
                 f"SP:{coin.bought_at * coin.sell_at_percentage /100}",
                 f"TP:{100 - (coin.bought_at / coin.price * 100):.2f}%",
                 f"SL:{coin.bought_at * coin.stop_loss_at_percentage/100}",
-                f"S:+{percent(coin.trail_target_sell_perce
+                f"S:+{percent(coin.trail_target_sell_percentage,coin.sell_at_percentage) - 100:.3f}%",  # pylint: disable=line-too-long
+                f"TTS:-{(100 - coin.trail_target_sell_percentage):.3f}%",
+                f"LP:{coin.min}(-{100 - ((coin.min/coin.max) * 10
