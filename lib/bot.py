@@ -595,4 +595,10 @@ class Bot:
         )
 
         # raise an warning if we happen to have made a LOSS on our trade
-        if coin.profit 
+        if coin.profit < 0 or coin.holding_time > coin.hard_limit_holding_time:
+            logging.warning(message)
+        else:
+            logging.info(message)
+
+        # drop the coin from our wallet, we've sold it
+        self.wal
