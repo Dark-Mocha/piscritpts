@@ -610,4 +610,7 @@ class Bot:
         self.update_investment()
         # and clear the status for this coin
         coin.status = ""
-        # as well the data for this and all coins, if appl
+        # as well the data for this and all coins, if applicable.
+        # this forces the bot to reset when checking for buy conditions from now
+        # on, preventing it from acting on coins that have been marked as
+        # TARGET_DIP while we holding this coin, and cou
