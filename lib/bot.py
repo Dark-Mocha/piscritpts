@@ -605,4 +605,9 @@ class Bot:
         # update the total profit for this bot run
         self.update_bot_profit(coin)
         # and the total amount we now have available to invest.
-        # this could have gone up, or down,
+        # this could have gone up, or down, depending on wether we made a
+        # profit or a loss.
+        self.update_investment()
+        # and clear the status for this coin
+        coin.status = ""
+        # as well the data for this and all coins, if appl
