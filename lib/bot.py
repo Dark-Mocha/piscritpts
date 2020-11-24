@@ -613,4 +613,8 @@ class Bot:
         # as well the data for this and all coins, if applicable.
         # this forces the bot to reset when checking for buy conditions from now
         # on, preventing it from acting on coins that have been marked as
-        # TARGET_DIP while we holding this coin, and cou
+        # TARGET_DIP while we holding this coin, and could now be automatically
+        # triggered to buy in the next buy check run.
+        # we may not want to do this, as the price might have moved further than
+        # we wanted and no longer be a suitable buy.
+        self.
