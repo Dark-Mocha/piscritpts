@@ -601,4 +601,8 @@ class Bot:
             logging.info(message)
 
         # drop the coin from our wallet, we've sold it
-        self.wal
+        self.wallet.remove(coin.symbol)
+        # update the total profit for this bot run
+        self.update_bot_profit(coin)
+        # and the total amount we now have available to invest.
+        # this could have gone up, or down,
