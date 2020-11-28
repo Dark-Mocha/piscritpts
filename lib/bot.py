@@ -617,4 +617,7 @@ class Bot:
         # triggered to buy in the next buy check run.
         # we may not want to do this, as the price might have moved further than
         # we wanted and no longer be a suitable buy.
-        self.
+        self.clear_coin_stats(coin)
+        # to make our bot behave as closely as a backtesting run for a single coin
+        # we only clean stats when we have used all the slots. This will allow
+        # the bot to 'follow'
