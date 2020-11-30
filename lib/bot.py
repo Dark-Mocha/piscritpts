@@ -626,4 +626,7 @@ class Bot:
 
         exposure: float = self.calculates_exposure()
         logging.info(
-            f"{c
+            f"{c_from_timestamp(coin.date)}: INVESTMENT: {self.investment} "
+            + f"PROFIT: {self.profit} EXPOSURE: {exposure} WALLET: "
+            + f"({len(self.wallet)}/{self.max_coins}) {self.wallet}"
+       
