@@ -641,4 +641,8 @@ class Bot:
         # on a coin. However this requires us to query binance to retrieve this
         # information. This is fine while in LIVE or TESTNET mode as the bot
         # doesn't perform that many buys. But in backtesting mode we can issue
-        # a very large number of API calls and be quickly black
+        # a very large number of API calls and be quickly blacklisted.
+        # We avoid having to poke the binance api twice for the same information
+        # by saving it locally on disk. This way it will became available for
+        # future backtestin runs.
+ 
