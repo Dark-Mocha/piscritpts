@@ -639,3 +639,6 @@ class Bot:
         # each coin in binance uses a number of decimal points, these can vary
         # greatly between them. We need this information when placing and order
         # on a coin. However this requires us to query binance to retrieve this
+        # information. This is fine while in LIVE or TESTNET mode as the bot
+        # doesn't perform that many buys. But in backtesting mode we can issue
+        # a very large number of API calls and be quickly black
