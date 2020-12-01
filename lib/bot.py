@@ -636,4 +636,6 @@ class Bot:
     def get_step_size(self, symbol: str) -> Tuple[bool, str]:
         """retrieves and caches the decimal step size for a coin in binance"""
 
-        # each coin in binanc
+        # each coin in binance uses a number of decimal points, these can vary
+        # greatly between them. We need this information when placing and order
+        # on a coin. However this requires us to query binance to retrieve this
