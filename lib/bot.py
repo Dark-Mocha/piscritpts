@@ -629,4 +629,11 @@ class Bot:
             f"{c_from_timestamp(coin.date)}: INVESTMENT: {self.investment} "
             + f"PROFIT: {self.profit} EXPOSURE: {exposure} WALLET: "
             + f"({len(self.wallet)}/{self.max_coins}) {self.wallet}"
-       
+        )
+        return True
+
+    @lru_cache(1024)
+    def get_step_size(self, symbol: str) -> Tuple[bool, str]:
+        """retrieves and caches the decimal step size for a coin in binance"""
+
+        # each coin in binanc
