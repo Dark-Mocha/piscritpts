@@ -645,4 +645,9 @@ class Bot:
         # We avoid having to poke the binance api twice for the same information
         # by saving it locally on disk. This way it will became available for
         # future backtestin runs.
- 
+        f_path: str = f"cache/{symbol}.precision"
+        if self.mode == "backtesting" and exists(f_path):
+            with open(f_path, "r") as f:
+                info = json.load(f)
+        else:
+   
