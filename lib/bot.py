@@ -657,4 +657,9 @@ class Bot:
                     return (False, "")
 
                 if "filters" not in info:
-                    return (False
+                    return (False, "")
+            except BinanceAPIException as error_msg:
+                logging.error(error_msg)
+                if "Too much request weight used;" in str(error_msg):
+                    sleep(60)
+             
