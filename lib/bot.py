@@ -650,4 +650,11 @@ class Bot:
             with open(f_path, "r") as f:
                 info = json.load(f)
         else:
-   
+            try:
+                info = self.client.get_symbol_info(symbol)
+
+                if not info:
+                    return (False, "")
+
+                if "filters" not in info:
+                    return (False
