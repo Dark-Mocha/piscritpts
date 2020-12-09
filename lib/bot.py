@@ -662,4 +662,11 @@ class Bot:
                 logging.error(error_msg)
                 if "Too much request weight used;" in str(error_msg):
                     sleep(60)
-             
+                return (False, "")
+
+        for d in info["filters"]:
+            if "filterType" in d.keys():
+                if d["filterType"] == "LOT_SIZE":
+                    step_size = d["stepSize"]
+
+                    if self.
