@@ -679,4 +679,8 @@ class Bot:
         return (False, "")
 
     def calculate_volume_size(self, coin: Coin) -> Tuple[bool, float]:
-        """calculates th
+        """calculates the amount of coin we are to buy"""
+
+        # calculates the number of units we are about to buy based on the number
+        # of decimal points used, the share of the investment and the price
+    
