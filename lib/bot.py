@@ -674,4 +674,9 @@ class Bot:
                             f.write(json.dumps(info))
 
                     with open("log/binance.step_size.log", "at") as f:
-      
+                        f.write(f"{symbol} {step_size}\n")
+                    return (True, step_size)
+        return (False, "")
+
+    def calculate_volume_size(self, coin: Coin) -> Tuple[bool, float]:
+        """calculates th
