@@ -669,4 +669,9 @@ class Bot:
                 if d["filterType"] == "LOT_SIZE":
                     step_size = d["stepSize"]
 
-                    if self.
+                    if self.mode == "backtesting" and not exists(f_path):
+                        with open(f_path, "w") as f:
+                            f.write(json.dumps(info))
+
+                    with open("log/binance.step_size.log", "at") as f:
+      
