@@ -683,4 +683,10 @@ class Bot:
 
         # calculates the number of units we are about to buy based on the number
         # of decimal points used, the share of the investment and the price
-    
+        ok, _step_size = self.get_step_size(coin.symbol)
+        if ok:
+            step_size: str = _step_size
+        else:
+            return (False, 0)
+
+        investment: float = percent(self.investment, 
