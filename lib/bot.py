@@ -689,4 +689,11 @@ class Bot:
         else:
             return (False, 0)
 
-        investment: float = percent(self.investment, 
+        investment: float = percent(self.investment, self.re_invest_percentage)
+
+        volume: float = float(
+            floor_value((investment / self.max_coins) / coin.price, step_size)
+        )
+        if self.debug:
+            logging.debug(
+                f"[{coin.symbol}] investment:{self.inve
