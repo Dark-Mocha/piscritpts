@@ -696,4 +696,8 @@ class Bot:
         )
         if self.debug:
             logging.debug(
-                f"[{coin.symbol}] investment:{self.inve
+                f"[{coin.symbol}] investment:{self.investment}{self.pairing} "
+                + f"vol:{volume} price:{coin.price} step_size:{step_size}"
+            )
+        with open("log/binance.volume.log", "at") as f:
+            f.write(
