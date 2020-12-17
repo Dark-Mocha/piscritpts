@@ -700,4 +700,8 @@ class Bot:
                 + f"vol:{volume} price:{coin.price} step_size:{step_size}"
             )
         with open("log/binance.volume.log", "at") as f:
-            f.write(
+            f.write(f"{coin.symbol} {step_size} {investment} {volume}\n")
+        return (True, volume)
+
+    @retry(wait=wait_exponential(multiplier=1, max=3))
+    def get_binance_prices(self) -> Any:
