@@ -709,4 +709,8 @@ class Bot:
         return self.client.get_all_tickers()
 
     def write_log(self, symbol: str, price: str) -> None:
-        """updates the price.log file with la
+        """updates the price.log file with latest prices"""
+
+        # only write logs if price changed, for coins which price doesn't
+        # change often such as low volume coins, we keep track of the old price
+        # and check it against the latest value. If 
