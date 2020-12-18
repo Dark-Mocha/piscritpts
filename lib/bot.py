@@ -705,3 +705,8 @@ class Bot:
 
     @retry(wait=wait_exponential(multiplier=1, max=3))
     def get_binance_prices(self) -> Any:
+        """gets the list of all binance coin prices"""
+        return self.client.get_all_tickers()
+
+    def write_log(self, symbol: str, price: str) -> None:
+        """updates the price.log file with la
