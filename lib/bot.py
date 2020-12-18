@@ -713,4 +713,7 @@ class Bot:
 
         # only write logs if price changed, for coins which price doesn't
         # change often such as low volume coins, we keep track of the old price
-        # and check it against the latest value. If 
+        # and check it against the latest value. If the price hasn't changed,
+        # we don't record it in the price.log file. This greatly reduces the
+        # size of the log, and the backtesting time to process these.
+        if symbol not
