@@ -716,4 +716,13 @@ class Bot:
         # and check it against the latest value. If the price hasn't changed,
         # we don't record it in the price.log file. This greatly reduces the
         # size of the log, and the backtesting time to process these.
-        if symbol not
+        if symbol not in self.oldprice:
+            self.oldprice[symbol] = float(0)
+
+        if self.oldprice[symbol] == float(price):
+            return
+
+        self.oldprice[symbol] = float(price)
+
+        if self.mode == "testnet":
+            
