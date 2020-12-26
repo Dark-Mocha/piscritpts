@@ -725,4 +725,9 @@ class Bot:
         self.oldprice[symbol] = float(price)
 
         if self.mode == "testnet":
-            
+            price_log = f"{self.logs_dir}/testnet.log"
+        else:
+            price_log = (
+                f"{self.logs_dir}/{datetime.now().strftime('%Y%m%d')}.log"
+            )
+        with open(price_log, "a", enc
