@@ -736,4 +736,10 @@ class Bot:
     def init_or_update_coin(
         self, binance_data: Dict[str, Any], load_klines=True
     ) -> None:
-        """creates a new coin or
+        """creates a new coin or updates its price with latest binance data"""
+        symbol = binance_data["symbol"]
+
+        if symbol not in self.coins:
+            market_price = float(binance_data["price"])
+        else:
+            if self.coins[symbo
