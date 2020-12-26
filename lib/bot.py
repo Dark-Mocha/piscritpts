@@ -730,4 +730,10 @@ class Bot:
             price_log = (
                 f"{self.logs_dir}/{datetime.now().strftime('%Y%m%d')}.log"
             )
-        with open(price_log, "a", enc
+        with open(price_log, "a", encoding="utf-8") as f:
+            f.write(f"{datetime.now()} {symbol} {price}\n")
+
+    def init_or_update_coin(
+        self, binance_data: Dict[str, Any], load_klines=True
+    ) -> None:
+        """creates a new coin or
