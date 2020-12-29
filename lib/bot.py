@@ -742,4 +742,7 @@ class Bot:
         if symbol not in self.coins:
             market_price = float(binance_data["price"])
         else:
-            if self.coins[symbo
+            if self.coins[symbol].status == "TARGET_DIP":
+                # when looking for a buy/sell position, we can look  at a
+                # position within the order book and not retrive the first one
+                
