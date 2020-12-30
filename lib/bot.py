@@ -745,4 +745,8 @@ class Bot:
             if self.coins[symbol].status == "TARGET_DIP":
                 # when looking for a buy/sell position, we can look  at a
                 # position within the order book and not retrive the first one
-                
+                order_book = self.client.get_order_book(symbol=symbol)
+                try:
+                    market_price = float(order_book["asks"][0][0])
+                except IndexError as error:
+                    # if the order_book is empty we'll g
