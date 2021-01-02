@@ -749,4 +749,10 @@ class Bot:
                 try:
                     market_price = float(order_book["asks"][0][0])
                 except IndexError as error:
-                    # if the order_book is empty we'll g
+                    # if the order_book is empty we'll get an exception here
+                    logging.debug(f"{symbol} {error}")
+                    return
+
+                logging.debug(
+                    f"{symbol} in TARGET_DIP using order_book price:"
+             
