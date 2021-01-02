@@ -755,4 +755,9 @@ class Bot:
 
                 logging.debug(
                     f"{symbol} in TARGET_DIP using order_book price:"
-             
+                    + f" {market_price}"
+                )
+            else:
+                market_price = float(binance_data["price"])
+
+        # add every single coin to our coins dict, even if they're coins
