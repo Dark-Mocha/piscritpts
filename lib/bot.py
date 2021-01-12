@@ -760,4 +760,8 @@ class Bot:
             else:
                 market_price = float(binance_data["price"])
 
-        # add every single coin to our coins dict, even if they're coins
+        # add every single coin to our coins dict, even if they're coins not
+        # listed in our tickers file as the bot will use this info to record
+        # the price.logs as well as cache/ data.
+        #
+        # init this coin if we are coming across it for the fi
