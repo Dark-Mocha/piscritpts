@@ -764,4 +764,10 @@ class Bot:
         # listed in our tickers file as the bot will use this info to record
         # the price.logs as well as cache/ data.
         #
-        # init this coin if we are coming across it for the fi
+        # init this coin if we are coming across it for the first time
+        if symbol not in self.coins:
+            self.coins[symbol] = Coin(
+                symbol,
+                udatetime.now().timestamp(),
+                market_price,
+                buy_at=self.tickers[sym
