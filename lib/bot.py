@@ -770,4 +770,7 @@ class Bot:
                 symbol,
                 udatetime.now().timestamp(),
                 market_price,
-                buy_at=self.tickers[sym
+                buy_at=self.tickers[symbol]["BUY_AT_PERCENTAGE"],
+                sell_at=self.tickers[symbol]["SELL_AT_PERCENTAGE"],
+                stop_loss=self.tickers[symbol]["STOP_LOSS_AT_PERCENTAGE"],
+                trail_target_sell_percentage=self.tickers[symbol]
