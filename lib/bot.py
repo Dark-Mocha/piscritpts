@@ -773,4 +773,10 @@ class Bot:
                 buy_at=self.tickers[symbol]["BUY_AT_PERCENTAGE"],
                 sell_at=self.tickers[symbol]["SELL_AT_PERCENTAGE"],
                 stop_loss=self.tickers[symbol]["STOP_LOSS_AT_PERCENTAGE"],
-                trail_target_sell_percentage=self.tickers[symbol]
+                trail_target_sell_percentage=self.tickers[symbol][
+                    "TRAIL_TARGET_SELL_PERCENTAGE"
+                ],
+                trail_recovery_percentage=self.tickers[symbol][
+                    "TRAIL_RECOVERY_PERCENTAGE"
+                ],
+             
