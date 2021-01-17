@@ -779,4 +779,8 @@ class Bot:
                 trail_recovery_percentage=self.tickers[symbol][
                     "TRAIL_RECOVERY_PERCENTAGE"
                 ],
-             
+                soft_limit_holding_time=self.tickers[symbol][
+                    "SOFT_LIMIT_HOLDING_TIME"
+                ],
+                hard_limit_holding_time=self.tickers[symbol][
+                    "HARD_LIMI
