@@ -783,4 +783,8 @@ class Bot:
                     "SOFT_LIMIT_HOLDING_TIME"
                 ],
                 hard_limit_holding_time=self.tickers[symbol][
-                    "HARD_LIMI
+                    "HARD_LIMIT_HOLDING_TIME"
+                ],
+                naughty_timeout=self.tickers[symbol]["NAUGHTY_TIMEOUT"],
+                klines_trend_period=self.tickers[symbol][
+                    "KLINES_TREND_PERIOD"
