@@ -788,3 +788,9 @@ class Bot:
                 naughty_timeout=self.tickers[symbol]["NAUGHTY_TIMEOUT"],
                 klines_trend_period=self.tickers[symbol][
                     "KLINES_TREND_PERIOD"
+                ],
+                klines_slice_percentage_change=float(
+                    self.tickers[symbol]["KLINES_SLICE_PERCENTAGE_CHANGE"]
+                ),
+            )
+            # fetch all the a
