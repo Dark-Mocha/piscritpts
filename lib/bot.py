@@ -793,4 +793,9 @@ class Bot:
                     self.tickers[symbol]["KLINES_SLICE_PERCENTAGE_CHANGE"]
                 ),
             )
-            # fetch all the a
+            # fetch all the available klines for this coin, for the last
+            # 60min, 24h, and 1000 days
+            if load_klines:
+                self.load_klines_for_coin(self.coins[symbol])
+        else:
+            # or simply update the coin with the lat
