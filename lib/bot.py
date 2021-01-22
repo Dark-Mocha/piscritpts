@@ -798,4 +798,11 @@ class Bot:
             if load_klines:
                 self.load_klines_for_coin(self.coins[symbol])
         else:
-            # or simply update the coin with the lat
+            # or simply update the coin with the latest price data
+            self.update(
+                self.coins[symbol], udatetime.now().timestamp(), market_price
+            )
+
+    def process_coins(self) -> None:
+        """processes all the prices returned by binance"""
+        # look for coi
