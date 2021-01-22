@@ -805,4 +805,9 @@ class Bot:
 
     def process_coins(self) -> None:
         """processes all the prices returned by binance"""
-        # look for coi
+        # look for coins that are ready for buying, or selling
+        for binance_data in self.get_binance_prices():
+            coin_symbol = binance_data["symbol"]
+            price = binance_data["price"]
+
+            # we write 
