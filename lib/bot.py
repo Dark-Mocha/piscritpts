@@ -810,4 +810,9 @@ class Bot:
             coin_symbol = binance_data["symbol"]
             price = binance_data["price"]
 
-            # we write 
+            # we write the price.logs in TESTNET mode as we want to be able
+            # to debug for issues while developing the bot.
+            if self.mode in ["logmode", "testnet"]:
+                self.write_log(coin_symbol, price)
+
+            if self.mode not in ["live", "ba
