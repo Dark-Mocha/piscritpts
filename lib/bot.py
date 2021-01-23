@@ -825,4 +825,9 @@ class Bot:
             if coin_symbol not in self.tickers:
                 continue
 
-            # TODO: revisit this as the fu
+            # TODO: revisit this as the function below expects to process all
+            # the coins
+            self.init_or_update_coin(binance_data)
+
+            # if a coin has been blocked due to a stop_loss, we want to make
+            # sure we reset the
