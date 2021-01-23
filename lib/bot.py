@@ -820,4 +820,9 @@ class Bot:
 
             # TODO: revisit this, as this function is only called in
             # live, testnet and logmode. And the within this function, we
-  
+            # expect to process all the coins.
+            # don't process any coins which we don't have in our config
+            if coin_symbol not in self.tickers:
+                continue
+
+            # TODO: revisit this as the fu
