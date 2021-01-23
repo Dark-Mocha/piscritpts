@@ -815,4 +815,9 @@ class Bot:
             if self.mode in ["logmode", "testnet"]:
                 self.write_log(coin_symbol, price)
 
-            if self.mode not in ["live", "ba
+            if self.mode not in ["live", "backtesting", "testnet"]:
+                continue
+
+            # TODO: revisit this, as this function is only called in
+            # live, testnet and logmode. And the within this function, we
+  
