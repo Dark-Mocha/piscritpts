@@ -833,4 +833,8 @@ class Bot:
             # sure we reset the coin stats for the duration of the ban and
             # not just when the stop-loss event happened.
             # TODO: we are reseting the stats on every iteration while this
-   
+            # coin is in naughty state, look on how to avoid doing this.
+            if self.coins[coin_symbol].naughty:
+                self.clear_coin_stats(self.coins[coin_symbol])
+
+            # and run th
