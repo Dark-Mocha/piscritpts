@@ -830,4 +830,7 @@ class Bot:
             self.init_or_update_coin(binance_data)
 
             # if a coin has been blocked due to a stop_loss, we want to make
-            # sure we reset the
+            # sure we reset the coin stats for the duration of the ban and
+            # not just when the stop-loss event happened.
+            # TODO: we are reseting the stats on every iteration while this
+   
