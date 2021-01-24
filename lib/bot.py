@@ -843,4 +843,12 @@ class Bot:
             if coin_symbol in self.wallet:
                 self.log_debug_coin(self.coins[coin_symbol])
 
-    def target_sell(self, coin: Coi
+    def target_sell(self, coin: Coin) -> bool:
+        """
+        Check for a coin we HOLD if we reached the SELL_AT_PERCENTAGE
+        and mark that coin as TARGET_SELL if we have.
+        """
+        if coin.status == "TARGET_SELL":
+            return True
+
+        if coin.statu
