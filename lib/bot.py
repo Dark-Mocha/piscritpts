@@ -837,4 +837,10 @@ class Bot:
             if self.coins[coin_symbol].naughty:
                 self.clear_coin_stats(self.coins[coin_symbol])
 
-            # and run th
+            # and run the strategy
+            _ = self.run_strategy(self.coins[coin_symbol])
+
+            if coin_symbol in self.wallet:
+                self.log_debug_coin(self.coins[coin_symbol])
+
+    def target_sell(self, coin: Coi
