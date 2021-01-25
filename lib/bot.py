@@ -851,4 +851,9 @@ class Bot:
         if coin.status == "TARGET_SELL":
             return True
 
-        if coin.statu
+        if coin.status == "HOLD":
+            if coin.price > percent(coin.sell_at_percentage, coin.bought_at):
+                coin.status = "TARGET_SELL"
+                s_value: float = (
+                    percent(
+      
