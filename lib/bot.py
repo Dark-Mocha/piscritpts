@@ -856,4 +856,10 @@ class Bot:
                 coin.status = "TARGET_SELL"
                 s_value: float = (
                     percent(
-      
+                        coin.trail_target_sell_percentage,
+                        coin.sell_at_percentage,
+                    )
+                    - 100
+                )
+                logging.info(
+                    f"{c_fr
