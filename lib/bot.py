@@ -862,4 +862,8 @@ class Bot:
                     - 100
                 )
                 logging.info(
-                    f"{c_fr
+                    f"{c_from_timestamp(coin.date)}: {coin.symbol} [HOLD] "
+                    + f"-> [TARGET_SELL] ({coin.price}) "
+                    + f"A:{coin.holding_time}s "
+                    + f"U:{coin.volume} P:{coin.price} T:{coin.value} "
+         
