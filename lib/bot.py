@@ -866,4 +866,7 @@ class Bot:
                     + f"-> [TARGET_SELL] ({coin.price}) "
                     + f"A:{coin.holding_time}s "
                     + f"U:{coin.volume} P:{coin.price} T:{coin.value} "
-         
+                    + f"BP:{coin.bought_at} "
+                    + f"SP:{coin.bought_at * coin.sell_at_percentage /100} "
+                    + f"S:+{s_value:.3f}% "
+                    + f"TTS:-{(100 - coin.trail_target_s
