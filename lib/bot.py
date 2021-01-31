@@ -869,4 +869,10 @@ class Bot:
                     + f"BP:{coin.bought_at} "
                     + f"SP:{coin.bought_at * coin.sell_at_percentage /100} "
                     + f"S:+{s_value:.3f}% "
-                    + f"TTS:-{(100 - coin.trail_target_s
+                    + f"TTS:-{(100 - coin.trail_target_sell_percentage):.2f}% "
+                    + f"LP:{coin.min}(-{100 - ((coin.min/coin.max) * 100):.3f}%) "
+                )
+                return True
+        return False
+
+    def stop_loss(self, coin: Coin) 
