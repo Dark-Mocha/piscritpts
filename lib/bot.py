@@ -879,4 +879,9 @@ class Bot:
         """checks for possible loss on a coin"""
         # oh we already own this one, lets check prices
         # deal with STOP_LOSS
-        if coin.price < percent(coin.stop_loss_at_percenta
+        if coin.price < percent(coin.stop_loss_at_percentage, coin.bought_at):
+            if coin.status != "STOP_LOSS":
+                logging.info(
+                    f"{c_from_timestamp(coin.date)}: {coin.symbol} "
+                    + f"[{coin.status}] -> [STOP_LOSS]"
+                )
