@@ -875,4 +875,8 @@ class Bot:
                 return True
         return False
 
-    def stop_loss(self, coin: Coin) 
+    def stop_loss(self, coin: Coin) -> bool:
+        """checks for possible loss on a coin"""
+        # oh we already own this one, lets check prices
+        # deal with STOP_LOSS
+        if coin.price < percent(coin.stop_loss_at_percenta
