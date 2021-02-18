@@ -890,4 +890,9 @@ class Bot:
                 return False
 
             self.losses = self.losses + 1
-            # places the coin in the naughty corner b
+            # places the coin in the naughty corner by setting the naughty_date
+            # NAUGHTY_TIMEOUT will kick in from now on
+            coin.naughty_date = (
+                coin.date
+            )  # pylint: disable=attribute-defined-outside-init
+     
