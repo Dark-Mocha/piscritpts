@@ -895,4 +895,9 @@ class Bot:
             coin.naughty_date = (
                 coin.date
             )  # pylint: disable=attribute-defined-outside-init
-     
+            self.clear_coin_stats(coin)
+
+            # and marks it as NAUGHTY
+            coin.naughty = (
+                True  # pylint: disable=attribute-defined-outside-init
+         
