@@ -885,3 +885,9 @@ class Bot:
                     f"{c_from_timestamp(coin.date)}: {coin.symbol} "
                     + f"[{coin.status}] -> [STOP_LOSS]"
                 )
+            coin.status = "STOP_LOSS"
+            if not self.sell_coin(coin):
+                return False
+
+            self.losses = self.losses + 1
+            # places the coin in the naughty corner b
