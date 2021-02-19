@@ -900,4 +900,11 @@ class Bot:
             # and marks it as NAUGHTY
             coin.naughty = (
                 True  # pylint: disable=attribute-defined-outside-init
-         
+            )
+            if self.stop_bot_on_loss:
+                # STOP_BOT_ON_LOSS is set, set a STOP flag to stop the bot
+                self.quit = True
+            return True
+        return False
+
+    def coin_gone_up_an
