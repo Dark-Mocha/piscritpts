@@ -907,4 +907,6 @@ class Bot:
             return True
         return False
 
-    def coin_gone_up_an
+    def coin_gone_up_and_dropped(self, coin: Coin) -> bool:
+        """checks for a possible drop in price in a coin we hold"""
+        # when we have reached the TARGET_SELL and a coin drops in pri
