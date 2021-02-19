@@ -909,4 +909,9 @@ class Bot:
 
     def coin_gone_up_and_dropped(self, coin: Coin) -> bool:
         """checks for a possible drop in price in a coin we hold"""
-        # when we have reached the TARGET_SELL and a coin drops in pri
+        # when we have reached the TARGET_SELL and a coin drops in price
+        # below the SELL_AT_PERCENTAGE price we sell the coin immediately
+        # if SELL_AS_SOON_IT_DROPS is set
+        if coin.status in [
+            "TARGET_SELL",
+            "GONE_UP_AND_
