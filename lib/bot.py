@@ -914,4 +914,8 @@ class Bot:
         # if SELL_AS_SOON_IT_DROPS is set
         if coin.status in [
             "TARGET_SELL",
-            "GONE_UP_AND_
+            "GONE_UP_AND_DROPPED",
+        ] and coin.price < percent(coin.sell_at_percentage, coin.bought_at):
+            coin.status = "GONE_UP_AND_DROPPED"
+            logging.info(
+                f"{c_
