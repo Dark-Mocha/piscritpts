@@ -930,4 +930,9 @@ class Bot:
     def possible_sale(self, coin: Coin) -> bool:
         """checks for a possible sale of a coin we hold"""
 
-        # we let a coin enter the TARGET_SELL status, 
+        # we let a coin enter the TARGET_SELL status, and then we monitor
+        # its price recording the maximum value as the 'tip'.
+        # when we go below that 'tip' value by our TRAIL_TARGET_SELL_PERCENTAGE
+        # we sell our coin.
+
+     
