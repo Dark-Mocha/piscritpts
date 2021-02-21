@@ -923,4 +923,11 @@ class Bot:
             )
             if not self.sell_coin(coin):
                 return False
-            se
+            self.wins = self.wins + 1
+            return True
+        return False
+
+    def possible_sale(self, coin: Coin) -> bool:
+        """checks for a possible sale of a coin we hold"""
+
+        # we let a coin enter the TARGET_SELL status, 
