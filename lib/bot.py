@@ -918,4 +918,9 @@ class Bot:
         ] and coin.price < percent(coin.sell_at_percentage, coin.bought_at):
             coin.status = "GONE_UP_AND_DROPPED"
             logging.info(
-                f"{c_
+                f"{c_from_timestamp(coin.date)}: {coin.symbol} "
+                + "[TARGET_SELL] -> [GONE_UP_AND_DROPPED]"
+            )
+            if not self.sell_coin(coin):
+                return False
+            se
