@@ -940,4 +940,10 @@ class Bot:
             return False
 
         # while in debug mode, it is useful to read the latest price on a coin
-        # that we're 
+        # that we're looking to sell
+        if coin.price != coin.last:
+            self.log_debug_coin(coin)
+
+        # has price has gone down since last time we checked?
+        if coin.price < coin.last:
+            # and has it gone the bel
