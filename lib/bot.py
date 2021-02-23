@@ -935,4 +935,9 @@ class Bot:
         # when we go below that 'tip' value by our TRAIL_TARGET_SELL_PERCENTAGE
         # we sell our coin.
 
-     
+        # bail out early if we shouldn't be here
+        if coin.status != "TARGET_SELL":
+            return False
+
+        # while in debug mode, it is useful to read the latest price on a coin
+        # that we're 
