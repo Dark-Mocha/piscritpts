@@ -946,4 +946,9 @@ class Bot:
 
         # has price has gone down since last time we checked?
         if coin.price < coin.last:
-            # and has it gone the bel
+            # and has it gone the below the 'tip' more than our
+            # TRAIL_TARGET_SELL_PERCENTAGE ?
+            if coin.price < percent(
+                coin.trail_target_sell_percentage, coin.tip
+            ):
+         
