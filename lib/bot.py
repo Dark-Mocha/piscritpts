@@ -951,4 +951,11 @@ class Bot:
             if coin.price < percent(
                 coin.trail_target_sell_percentage, coin.tip
             ):
-         
+                # let's sell it then
+                if not self.sell_coin(coin):
+                    return False
+                self.wins = self.wins + 1
+                return True
+        return False
+
+    def past_hard_limit(
