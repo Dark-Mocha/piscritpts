@@ -958,4 +958,7 @@ class Bot:
                 return True
         return False
 
-    def past_hard_limit(
+    def past_hard_limit(self, coin: Coin) -> bool:
+        """checks for a possible stale coin we hold"""
+        # for every coin we hold, we give it a lifespan, this is set as the
+        # HARD_LIMIT_HOLDING_TIME in seconds. if we have been holding a coi
