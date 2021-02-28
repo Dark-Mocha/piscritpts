@@ -961,4 +961,10 @@ class Bot:
     def past_hard_limit(self, coin: Coin) -> bool:
         """checks for a possible stale coin we hold"""
         # for every coin we hold, we give it a lifespan, this is set as the
-        # HARD_LIMIT_HOLDING_TIME in seconds. if we have been holding a coi
+        # HARD_LIMIT_HOLDING_TIME in seconds. if we have been holding a coin
+        # for longer than that amount of time, we force a sale, regardless of
+        # its current value.
+
+        # allow a TARGET_SELL to run
+        if coin.status == "TARGET_SELL":
+            return 
