@@ -967,4 +967,12 @@ class Bot:
 
         # allow a TARGET_SELL to run
         if coin.status == "TARGET_SELL":
-            return 
+            return False
+
+        if coin.holding_time > coin.hard_limit_holding_time:
+            coin.status = "STALE"
+            if not self.sell_coin(coin):
+                return False
+            self.stales = self.stales + 1
+
+            # any co
