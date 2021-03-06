@@ -975,4 +975,7 @@ class Bot:
                 return False
             self.stales = self.stales + 1
 
-            # any co
+            # any coins that enter a STOP_LOSS or a STALE get added to the
+            # naughty list, so that we prevent the bot from buying this coin
+            # again for a specified period of time. AKA NAUGHTY_TIMEOUT
+ 
