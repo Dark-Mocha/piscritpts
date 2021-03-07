@@ -988,4 +988,9 @@ class Bot:
                 # STOP_BOT_ON_STALE is set, set a STOP flag to stop the bot
                 self.quit = True
             return True
-     
+        return False
+
+    def past_soft_limit(self, coin: Coin) -> bool:
+        """checks for if we should lower our sale percentages based on age"""
+
+        # For any coins the bot holds, we start by looking to sell them p
