@@ -978,4 +978,8 @@ class Bot:
             # any coins that enter a STOP_LOSS or a STALE get added to the
             # naughty list, so that we prevent the bot from buying this coin
             # again for a specified period of time. AKA NAUGHTY_TIMEOUT
- 
+            coin.naughty = True
+            coin.naughty_date = coin.date
+            # and set the chill-out period as we've defined in our config.
+            coin.naughty_timeout = int(
+                self.tickers[coin.symbol]["NAUGHTY_
