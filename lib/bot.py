@@ -982,4 +982,10 @@ class Bot:
             coin.naughty_date = coin.date
             # and set the chill-out period as we've defined in our config.
             coin.naughty_timeout = int(
-                self.tickers[coin.symbol]["NAUGHTY_
+                self.tickers[coin.symbol]["NAUGHTY_TIMEOUT"]
+            )
+            if self.stop_bot_on_stale:
+                # STOP_BOT_ON_STALE is set, set a STOP flag to stop the bot
+                self.quit = True
+            return True
+     
