@@ -993,4 +993,7 @@ class Bot:
     def past_soft_limit(self, coin: Coin) -> bool:
         """checks for if we should lower our sale percentages based on age"""
 
-        # For any coins the bot holds, we start by looking to sell them p
+        # For any coins the bot holds, we start by looking to sell them past
+        # the SELL_AT_PERCENTAGE profit, but to avoid being stuck forever with
+        # a coin that doesn't move in price, we have a hard limit in time
+        # defined in HARD_LIM
