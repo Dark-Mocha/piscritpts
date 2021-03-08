@@ -1002,4 +1002,9 @@ class Bot:
         # This sets the number in seconds since we bought our coin, for when
         # the bot start reducing the value in SELL_AT_PERCENTAGE every second
         # until it reaches the HARD_LIMIT_HOLDING_TIME.
-        # This improves ours
+        # This improves ours chances of selling a coin for which our
+        # SELL_AT_PERCENTAGE was just a bit too high, and the bot downgrades
+        # its expectactions by meeting half-way.
+
+        # allow a TARGET_SELL to run
+ 
