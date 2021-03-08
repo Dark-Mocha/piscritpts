@@ -999,4 +999,7 @@ class Bot:
         # defined in HARD_LIMIT_HOLDING_TIME where we force the sale of the coin
         # Between the the time we buy and our hard limit, we have another
         # parameter that we can use called SOFT_LIMIT_HOLDING_TIME.
-        # This sets the number i
+        # This sets the number in seconds since we bought our coin, for when
+        # the bot start reducing the value in SELL_AT_PERCENTAGE every second
+        # until it reaches the HARD_LIMIT_HOLDING_TIME.
+        # This improves ours
