@@ -996,4 +996,7 @@ class Bot:
         # For any coins the bot holds, we start by looking to sell them past
         # the SELL_AT_PERCENTAGE profit, but to avoid being stuck forever with
         # a coin that doesn't move in price, we have a hard limit in time
-        # defined in HARD_LIM
+        # defined in HARD_LIMIT_HOLDING_TIME where we force the sale of the coin
+        # Between the the time we buy and our hard limit, we have another
+        # parameter that we can use called SOFT_LIMIT_HOLDING_TIME.
+        # This sets the number i
