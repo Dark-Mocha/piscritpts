@@ -1007,4 +1007,9 @@ class Bot:
         # its expectactions by meeting half-way.
 
         # allow a TARGET_SELL to run
- 
+        if coin.status == "TARGET_SELL":
+            return False
+
+        # This coin is past our soft limit
+        # we apply a sliding window to the buy profit
+        # we essentially calculate the the time left until we
