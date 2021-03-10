@@ -1016,4 +1016,10 @@ class Bot:
         # HARD_LIMIT_HOLDING_TIME as a percentage and use it that value as
         # a percentage of the total SELL_AT_PERCENTAGE value.
         if coin.holding_time > coin.soft_limit_holding_time:
-           
+            ttl: float = 100 * (
+                1
+                - (
+                    (coin.holding_time - coin.soft_limit_holding_time)
+                    / (
+                        coin.hard_limit_holding_time
+              
