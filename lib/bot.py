@@ -1012,4 +1012,8 @@ class Bot:
 
         # This coin is past our soft limit
         # we apply a sliding window to the buy profit
-        # we essentially calculate the the time left until we
+        # we essentially calculate the the time left until we get to the
+        # HARD_LIMIT_HOLDING_TIME as a percentage and use it that value as
+        # a percentage of the total SELL_AT_PERCENTAGE value.
+        if coin.holding_time > coin.soft_limit_holding_time:
+           
