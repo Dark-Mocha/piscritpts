@@ -1029,4 +1029,10 @@ class Bot:
 
             coin.sell_at_percentage = add_100(
                 percent(
-                    ttl, float(se
+                    ttl, float(self.tickers[coin.symbol]["SELL_AT_PERCENTAGE"])
+                )
+            )
+
+            # make sure we never set the SELL_AT_PERCENTAGE below what we've
+            # had to pay in fees.
+            # However, It's quite likely
