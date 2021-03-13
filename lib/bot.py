@@ -1022,4 +1022,11 @@ class Bot:
                     (coin.holding_time - coin.soft_limit_holding_time)
                     / (
                         coin.hard_limit_holding_time
-              
+                        - coin.soft_limit_holding_time
+                    )
+                )
+            )
+
+            coin.sell_at_percentage = add_100(
+                percent(
+                    ttl, float(se
