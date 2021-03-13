@@ -1035,4 +1035,9 @@ class Bot:
 
             # make sure we never set the SELL_AT_PERCENTAGE below what we've
             # had to pay in fees.
-            # However, It's quite likely
+            # However, It's quite likely that if we didn't sell our coin by
+            # now, we are likely to hit HARD_LIMIT_HOLDING_TIME
+            if coin.sell_at_percentage < add_100(2 * self.trading_fee):
+                coin.sell_at_percentage = add_100(2 * self.trading_fee)
+
+  
