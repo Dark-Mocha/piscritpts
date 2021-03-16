@@ -1043,4 +1043,10 @@ class Bot:
             # and also reduce the TRAIL_TARGET_SELL_PERCENTAGE in the same
             # way we reduced our SELL_AT_PERCENTAGE.
             # We're fine with this one going close to 0.
-            coin.trail_target_sell_percen
+            coin.trail_target_sell_percentage = (
+                add_100(
+                    percent(
+                        ttl,
+                        float(
+                            self.tickers[coin.symbol][
+                         
