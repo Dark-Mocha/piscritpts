@@ -1049,4 +1049,13 @@ class Bot:
                         ttl,
                         float(
                             self.tickers[coin.symbol][
-                         
+                                "TRAIL_TARGET_SELL_PERCENTAGE"
+                            ]
+                        ),
+                    )
+                )
+                - 0.001
+            )
+
+            self.log_debug_coin(coin)
+ 
