@@ -1058,4 +1058,11 @@ class Bot:
             )
 
             self.log_debug_coin(coin)
- 
+            return True
+        return False
+
+    def log_debug_coin(self, coin: Coin) -> None:
+        """logs debug coin prices"""
+        if self.debug:
+            logging.debug(
+                f"{c_from_timestamp(coin.date)} {coin.s
