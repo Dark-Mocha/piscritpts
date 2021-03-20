@@ -1065,4 +1065,9 @@ class Bot:
         """logs debug coin prices"""
         if self.debug:
             logging.debug(
-                f"{c_from_timestamp(coin.date)} {coin.s
+                f"{c_from_timestamp(coin.date)} {coin.symbol} "
+                + f"{coin.status} "
+                + f"age:{coin.holding_time} "
+                + f"now:{coin.price} "
+                + f"bought:{coin.bought_at} "
+                + f"sell:{
