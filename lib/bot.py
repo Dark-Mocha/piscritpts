@@ -1075,4 +1075,7 @@ class Bot:
                 + f"{(coin.trail_target_sell_percentage - 100):.4f}% "
                 + f"LP:{coin.min:.3f} "
             )
-      
+            logging.debug(f"{coin.symbol} : price:{coin.price}")
+            logging.debug(f"{coin.symbol} : min:{coin.min}")
+            logging.debug(f"{coin.symbol} : max:{coin.max}")
+            logging.debug(f"{coin.symbol} : 
