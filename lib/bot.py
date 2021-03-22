@@ -1070,4 +1070,9 @@ class Bot:
                 + f"age:{coin.holding_time} "
                 + f"now:{coin.price} "
                 + f"bought:{coin.bought_at} "
-                + f"sell:{
+                + f"sell:{(coin.sell_at_percentage - 100):.4f}% "
+                + "trail_target_sell:"
+                + f"{(coin.trail_target_sell_percentage - 100):.4f}% "
+                + f"LP:{coin.min:.3f} "
+            )
+      
