@@ -1078,4 +1078,8 @@ class Bot:
             logging.debug(f"{coin.symbol} : price:{coin.price}")
             logging.debug(f"{coin.symbol} : min:{coin.min}")
             logging.debug(f"{coin.symbol} : max:{coin.max}")
-            logging.debug(f"{coin.symbol} : 
+            logging.debug(f"{coin.symbol} : lowest['m']:{coin.lowest['m']}")
+            logging.debug(f"{coin.symbol} : lowest['h']:{coin.lowest['h']}")
+            logging.debug(f"{coin.symbol} : lowest['d']:{coin.lowest['d']}")
+            logging.debug(
+  
