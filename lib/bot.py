@@ -1082,4 +1082,7 @@ class Bot:
             logging.debug(f"{coin.symbol} : lowest['h']:{coin.lowest['h']}")
             logging.debug(f"{coin.symbol} : lowest['d']:{coin.lowest['d']}")
             logging.debug(
-  
+                f"{coin.symbol} : averages['m']:{coin.averages['m']}"
+            )
+            logging.debug(
+                f"{coin.symbol} : averages['h']:{coin.averages['h']}"
