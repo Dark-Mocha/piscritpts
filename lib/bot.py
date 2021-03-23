@@ -1086,3 +1086,8 @@ class Bot:
             )
             logging.debug(
                 f"{coin.symbol} : averages['h']:{coin.averages['h']}"
+            )
+            logging.debug(
+                f"{coin.symbol} : averages['d']:{coin.averages['d']}"
+            )
+            logging.debug(f"{coin.symbol} : highest['m']:{coin.highest['m']}")
