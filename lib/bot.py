@@ -1091,3 +1091,7 @@ class Bot:
                 f"{coin.symbol} : averages['d']:{coin.averages['d']}"
             )
             logging.debug(f"{coin.symbol} : highest['m']:{coin.highest['m']}")
+            logging.debug(f"{coin.symbol} : highest['h']:{coin.highest['h']}")
+            logging.debug(f"{coin.symbol} : highest['d']:{coin.highest['d']}")
+
+    def clear_all_coins_stats(self) 
