@@ -1094,4 +1094,8 @@ class Bot:
             logging.debug(f"{coin.symbol} : highest['h']:{coin.highest['h']}")
             logging.debug(f"{coin.symbol} : highest['d']:{coin.highest['d']}")
 
-    def clear_all_coins_stats(self) 
+    def clear_all_coins_stats(self) -> None:
+        """clear important coin stats such as max, min price on all coins"""
+
+        # after each SALE we reset all the stats we have on the data the
+        # bot holds for prices, such as the ma
