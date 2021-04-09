@@ -1098,4 +1098,7 @@ class Bot:
         """clear important coin stats such as max, min price on all coins"""
 
         # after each SALE we reset all the stats we have on the data the
-        # bot holds for prices, such as the ma
+        # bot holds for prices, such as the max, min values for each coin.
+        # This essentially forces the bot to monitor for changes in price since
+        # the last sale, instead of for example an all time high value.
+       
