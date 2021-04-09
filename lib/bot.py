@@ -1108,4 +1108,9 @@ class Bot:
         # if this flag is not set, and the all time high while the bot was running
         # was considerably higher like 40K, the bot would keep on buying BTC
         # for as long BTC was below 36K.
-      
+        if self.clean_coin_stats_at_sale:
+            for coin in self.coins:  # pylint: disable=C0206
+                if coin not in self.wallet:
+                    self.clear_coin_stats(self.coins[coin])
+
+    def clear_
