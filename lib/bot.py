@@ -1104,4 +1104,8 @@ class Bot:
         # if for example, we were to say buy BTC at -10% and sell at +2%
         # and we last sold BTC at 20K.
         # when CLEAR_COIN_STATS_AT_SALE is set, the bot will look to only buy
-        # BTC when the price is below 1
+        # BTC when the price is below 18K.
+        # if this flag is not set, and the all time high while the bot was running
+        # was considerably higher like 40K, the bot would keep on buying BTC
+        # for as long BTC was below 36K.
+      
