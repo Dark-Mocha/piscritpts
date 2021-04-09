@@ -1101,4 +1101,7 @@ class Bot:
         # bot holds for prices, such as the max, min values for each coin.
         # This essentially forces the bot to monitor for changes in price since
         # the last sale, instead of for example an all time high value.
-       
+        # if for example, we were to say buy BTC at -10% and sell at +2%
+        # and we last sold BTC at 20K.
+        # when CLEAR_COIN_STATS_AT_SALE is set, the bot will look to only buy
+        # BTC when the price is below 1
