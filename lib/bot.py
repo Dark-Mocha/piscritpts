@@ -1113,4 +1113,7 @@ class Bot:
                 if coin not in self.wallet:
                     self.clear_coin_stats(self.coins[coin])
 
-    def clear_
+    def clear_coin_stats(self, coin: Coin) -> None:
+        """clear important coin stats such as max, min price for a coin"""
+
+        # This where we reset all coin prices when CLEAR_COIN_STATS_AT_SA
