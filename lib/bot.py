@@ -1121,4 +1121,9 @@ class Bot:
         # We reset the values for :
         # BUY, SELL, STOP_LOSS, TRAIL_TARGET_SELL_PERCENTAGE, TRAIL_RECOVERY_PERCENTAGE
         # as well as the dip, tip and min, max prices.
-        # The bot m
+        # The bot manipulates some of these values when the coin has gone
+        # past the SOFT_LIMIT_HOLDING_TIME. So we reset them back to the config
+        # values here.
+
+        coin.holding_time = 1
+        coin.buy_at_percentage = add_
