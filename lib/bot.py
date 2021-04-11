@@ -1116,4 +1116,9 @@ class Bot:
     def clear_coin_stats(self, coin: Coin) -> None:
         """clear important coin stats such as max, min price for a coin"""
 
-        # This where we reset all coin prices when CLEAR_COIN_STATS_AT_SA
+        # This where we reset all coin prices when CLEAR_COIN_STATS_AT_SALE
+        # is set.
+        # We reset the values for :
+        # BUY, SELL, STOP_LOSS, TRAIL_TARGET_SELL_PERCENTAGE, TRAIL_RECOVERY_PERCENTAGE
+        # as well as the dip, tip and min, max prices.
+        # The bot m
