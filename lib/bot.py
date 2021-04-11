@@ -1126,4 +1126,10 @@ class Bot:
         # values here.
 
         coin.holding_time = 1
-        coin.buy_at_percentage = add_
+        coin.buy_at_percentage = add_100(
+            float(self.tickers[coin.symbol]["BUY_AT_PERCENTAGE"])
+        )
+        coin.sell_at_percentage = add_100(
+            float(self.tickers[coin.symbol]["SELL_AT_PERCENTAGE"])
+        )
+       
