@@ -1141,4 +1141,11 @@ class Bot:
         coin.trail_recovery_percentage = add_100(
             float(self.tickers[coin.symbol]["TRAIL_RECOVERY_PERCENTAGE"])
         )
-        coin.bought_at = float
+        coin.bought_at = float(0)
+        coin.dip = float(0)
+        coin.tip = float(0)
+        coin.status = ""
+        coin.volume = float(0)
+        coin.value = float(0)
+
+        # reset the min, max prices so that t
