@@ -1132,4 +1132,8 @@ class Bot:
         coin.sell_at_percentage = add_100(
             float(self.tickers[coin.symbol]["SELL_AT_PERCENTAGE"])
         )
-       
+        coin.stop_loss_at_percentage = add_100(
+            float(self.tickers[coin.symbol]["STOP_LOSS_AT_PERCENTAGE"])
+        )
+        coin.trail_target_sell_percentage = add_100(
+            float(self.ticker
