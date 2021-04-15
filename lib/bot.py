@@ -1152,4 +1152,11 @@ class Bot:
         # and instead use the values since the last sale.
         if self.clean_coin_stats_at_sale:
             coin.min = coin.price
-    
+            coin.max = coin.price
+
+    def save_coins(
+        self,
+        state_coins: str = "state/coins.json",
+        state_wallet: str = "state/wallet.json",
+    ) -> None:
+        """saves coins an
