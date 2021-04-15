@@ -1159,4 +1159,8 @@ class Bot:
         state_coins: str = "state/coins.json",
         state_wallet: str = "state/wallet.json",
     ) -> None:
-        """saves coins an
+        """saves coins and wallet to a local pickle file"""
+
+        # in LIVE and TESTNET mode we save our local self.coins and self.wallet
+        # objects to a local file on disk, so that we can pick from where we
+        # left next time we start the b
