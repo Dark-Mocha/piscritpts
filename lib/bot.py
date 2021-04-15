@@ -1148,4 +1148,8 @@ class Bot:
         coin.volume = float(0)
         coin.value = float(0)
 
-        # reset the min, max prices so that t
+        # reset the min, max prices so that the bot won't look at all time high
+        # and instead use the values since the last sale.
+        if self.clean_coin_stats_at_sale:
+            coin.min = coin.price
+    
