@@ -1163,4 +1163,10 @@ class Bot:
 
         # in LIVE and TESTNET mode we save our local self.coins and self.wallet
         # objects to a local file on disk, so that we can pick from where we
-        # left next time we start the b
+        # left next time we start the bot.
+
+        for statefile in [state_coins, state_wallet]:
+            if exists(statefile):
+                with open(statefile, "rb") as f:
+                    # as these files are important to the bot, we keep a
+ 
