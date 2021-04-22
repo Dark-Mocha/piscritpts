@@ -1169,4 +1169,7 @@ class Bot:
             if exists(statefile):
                 with open(statefile, "rb") as f:
                     # as these files are important to the bot, we keep a
- 
+                    # backup file in case there is a failure that could
+                    # corrupt the live .pickle files.
+                    # in case or corruption, simply copy the .backup files over
+                
