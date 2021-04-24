@@ -1172,4 +1172,10 @@ class Bot:
                     # backup file in case there is a failure that could
                     # corrupt the live .pickle files.
                     # in case or corruption, simply copy the .backup files over
-                
+                    # the .pickle files.
+                    with open(f"{statefile}.backup", "wb") as b:
+                        b.write(f.read())
+                        b.flush()
+                        fsync(b.fileno())
+
+        # convert .pyobject 
