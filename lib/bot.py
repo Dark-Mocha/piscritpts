@@ -1178,4 +1178,7 @@ class Bot:
                         b.flush()
                         fsync(b.fileno())
 
-        # convert .pyobject 
+        # convert .pyobject to a .json compatible format
+        with open(state_coins, "wt") as f:
+            objects: dict[str, Dict[str, Any]] = {}
+            for symbol in self.coins.keys():  # pylint: disable=C0206,C020
