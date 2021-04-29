@@ -1185,4 +1185,6 @@ class Bot:
                 # TODO: move this into a Coin.__to_dict method
                 objects[symbol] = {}
                 objects[symbol]["averages"] = self.coins[symbol].averages
-                obje
+                objects[symbol]["bought_at"] = self.coins[symbol].bought_at
+                objects[symbol]["bought_date"] = self.coins[symbol].bought_date
+                objects[symbol]["buy_at_percentage"] = self.coins
