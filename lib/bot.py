@@ -1181,4 +1181,8 @@ class Bot:
         # convert .pyobject to a .json compatible format
         with open(state_coins, "wt") as f:
             objects: dict[str, Dict[str, Any]] = {}
-            for symbol in self.coins.keys():  # pylint: disable=C0206,C020
+            for symbol in self.coins.keys():  # pylint: disable=C0206,C0201
+                # TODO: move this into a Coin.__to_dict method
+                objects[symbol] = {}
+                objects[symbol]["averages"] = self.coins[symbol].averages
+                obje
