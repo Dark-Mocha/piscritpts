@@ -1187,4 +1187,8 @@ class Bot:
                 objects[symbol]["averages"] = self.coins[symbol].averages
                 objects[symbol]["bought_at"] = self.coins[symbol].bought_at
                 objects[symbol]["bought_date"] = self.coins[symbol].bought_date
-                objects[symbol]["buy_at_percentage"] = self.coins
+                objects[symbol]["buy_at_percentage"] = self.coins[
+                    symbol
+                ].buy_at_percentage
+                objects[symbol]["cost"] = self.coins[symbol].cost
+                objects[symbol]["date"] = self.coins[symb
