@@ -1191,4 +1191,8 @@ class Bot:
                     symbol
                 ].buy_at_percentage
                 objects[symbol]["cost"] = self.coins[symbol].cost
-                objects[symbol]["date"] = self.coins[symb
+                objects[symbol]["date"] = self.coins[symbol].date
+                objects[symbol]["dip"] = self.coins[symbol].dip
+                objects[symbol]["hard_limit_holding_time"] = self.coins[
+                    symbol
+               
