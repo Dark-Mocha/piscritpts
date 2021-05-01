@@ -1203,4 +1203,9 @@ class Bot:
                 objects[symbol]["klines_slice_percentage_change"] = self.coins[
                     symbol
                 ].klines_slice_percentage_change
-                objects[symbol]["klines_trend_period"] 
+                objects[symbol]["klines_trend_period"] = self.coins[
+                    symbol
+                ].klines_trend_period
+                objects[symbol]["last"] = self.coins[symbol].last
+                objects[symbol]["last_read_date"] = self.coins[
+      
