@@ -1195,4 +1195,9 @@ class Bot:
                 objects[symbol]["dip"] = self.coins[symbol].dip
                 objects[symbol]["hard_limit_holding_time"] = self.coins[
                     symbol
-               
+                ].hard_limit_holding_time
+                objects[symbol]["highest"] = self.coins[symbol].highest
+                objects[symbol]["holding_time"] = self.coins[
+                    symbol
+                ].holding_time
+    
