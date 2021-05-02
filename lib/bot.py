@@ -1212,4 +1212,8 @@ class Bot:
                 ].last_read_date
                 objects[symbol]["lowest"] = self.coins[symbol].lowest
                 objects[symbol]["max"] = self.coins[symbol].max
-                objects[
+                objects[symbol]["min"] = self.coins[symbol].min
+                objects[symbol]["naughty"] = self.coins[symbol].naughty
+                objects[symbol]["naughty_date"] = self.coins[
+                    symbol
+           
