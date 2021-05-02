@@ -1208,4 +1208,8 @@ class Bot:
                 ].klines_trend_period
                 objects[symbol]["last"] = self.coins[symbol].last
                 objects[symbol]["last_read_date"] = self.coins[
-      
+                    symbol
+                ].last_read_date
+                objects[symbol]["lowest"] = self.coins[symbol].lowest
+                objects[symbol]["max"] = self.coins[symbol].max
+                objects[
