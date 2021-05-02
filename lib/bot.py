@@ -1216,4 +1216,8 @@ class Bot:
                 objects[symbol]["naughty"] = self.coins[symbol].naughty
                 objects[symbol]["naughty_date"] = self.coins[
                     symbol
-           
+                ].naughty_date
+                objects[symbol]["naughty_timeout"] = self.coins[
+                    symbol
+                ].naughty_timeout
+                objects[symbol]["offset"] = 
