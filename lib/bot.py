@@ -1231,4 +1231,8 @@ class Bot:
                 ].soft_limit_holding_time
                 objects[symbol]["status"] = self.coins[symbol].status
                 objects[symbol]["stop_loss_at_percentage"] = self.coins[
-          
+                    symbol
+                ].stop_loss_at_percentage
+                objects[symbol]["symbol"] = self.coins[symbol].symbol
+                objects[symbol]["tip"] = self.coins[symbol].tip
+  
