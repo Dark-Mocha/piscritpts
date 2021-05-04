@@ -1227,4 +1227,8 @@ class Bot:
                     symbol
                 ].sell_at_percentage
                 objects[symbol]["soft_limit_holding_time"] = self.coins[
-                    sym
+                    symbol
+                ].soft_limit_holding_time
+                objects[symbol]["status"] = self.coins[symbol].status
+                objects[symbol]["stop_loss_at_percentage"] = self.coins[
+          
