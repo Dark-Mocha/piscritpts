@@ -1223,4 +1223,8 @@ class Bot:
                 objects[symbol]["offset"] = self.coins[symbol].offset
                 objects[symbol]["price"] = self.coins[symbol].price
                 objects[symbol]["profit"] = self.coins[symbol].profit
-                objects[symbol]["s
+                objects[symbol]["sell_at_percentage"] = self.coins[
+                    symbol
+                ].sell_at_percentage
+                objects[symbol]["soft_limit_holding_time"] = self.coins[
+                    sym
