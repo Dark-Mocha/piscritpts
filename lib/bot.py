@@ -1235,4 +1235,7 @@ class Bot:
                 ].stop_loss_at_percentage
                 objects[symbol]["symbol"] = self.coins[symbol].symbol
                 objects[symbol]["tip"] = self.coins[symbol].tip
-  
+                objects[symbol]["trail_recovery_percentage"] = self.coins[
+                    symbol
+                ].trail_target_sell_percentage
+                objects[symbol]["value"] = se
