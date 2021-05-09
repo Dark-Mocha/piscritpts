@@ -1238,4 +1238,19 @@ class Bot:
                 objects[symbol]["trail_recovery_percentage"] = self.coins[
                     symbol
                 ].trail_target_sell_percentage
-                objects[symbol]["value"] = se
+                objects[symbol]["value"] = self.coins[symbol].value
+                objects[symbol]["volume"] = self.coins[symbol].volume
+
+                # objects[symbol] = self.coins[symbol].__dict__
+
+            f.write(json.dumps(objects))
+            f.flush()
+            fsync(f.fileno())
+
+        with open(state_wallet, "wt") as f:
+            f.write(json.dumps(self.wallet))
+            f.flush()
+            fsync(f.fileno())
+
+    def load_coins(self) -> None:
+    
