@@ -1253,4 +1253,8 @@ class Bot:
             fsync(f.fileno())
 
     def load_coins(self) -> None:
-    
+        """loads coins and wallet from a local state file"""
+
+        # in save_coins() we save the current state of our wallet and coins
+        # to json on disk. Here we soak up those files after a boot
+        # and 
