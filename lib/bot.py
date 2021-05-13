@@ -1257,4 +1257,9 @@ class Bot:
 
         # in save_coins() we save the current state of our wallet and coins
         # to json on disk. Here we soak up those files after a boot
-        # and 
+        # and update our bot dictionaries with the data on them.
+        # Overriding and deleting any data we might not want to keep.
+
+        load_klines = True
+        if self.mode in ["live", "testnet"]:
+            coins_state_file = 
