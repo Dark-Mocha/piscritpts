@@ -1273,4 +1273,9 @@ class Bot:
 
         # load existing wallet
         if exists(wallet_state_file):
-            logging.warning("found wallet.js
+            logging.warning("found wallet.json, loading wallet")
+            with open(wallet_state_file, "rt") as f:
+                self.wallet = json.loads(f.read())
+            logging.warning(f"wallet contains {self.wallet}")
+
+      
