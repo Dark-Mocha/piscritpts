@@ -1267,4 +1267,10 @@ class Bot:
         else:
             # during backtesting
             config_file = basename(self.config_file)
-            coins_state_file = f"tmp/{config_file}
+            coins_state_file = f"tmp/{config_file}.coins.json"
+            wallet_state_file = f"tmp/{config_file}.wallet.json"
+            load_klines = False
+
+        # load existing wallet
+        if exists(wallet_state_file):
+            logging.warning("found wallet.js
