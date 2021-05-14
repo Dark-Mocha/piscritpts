@@ -1262,4 +1262,9 @@ class Bot:
 
         load_klines = True
         if self.mode in ["live", "testnet"]:
-            coins_state_file = 
+            coins_state_file = "state/coins.json"
+            wallet_state_file = "state/wallet.json"
+        else:
+            # during backtesting
+            config_file = basename(self.config_file)
+            coins_state_file = f"tmp/{config_file}
