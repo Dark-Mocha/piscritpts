@@ -1278,4 +1278,8 @@ class Bot:
                 self.wallet = json.loads(f.read())
             logging.warning(f"wallet contains {self.wallet}")
 
-      
+        # load existing coins stats
+        if exists(coins_state_file):
+            logging.warning("found coins.json, loading coins")
+            with open(coins_state_file, "rt") as f:
+                objects: dict[str, Any] = di
