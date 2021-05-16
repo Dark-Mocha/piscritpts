@@ -1282,4 +1282,7 @@ class Bot:
         if exists(coins_state_file):
             logging.warning("found coins.json, loading coins")
             with open(coins_state_file, "rt") as f:
-                objects: dict[str, Any] = di
+                objects: dict[str, Any] = dict(json.loads(f.read()))
+                for symbol in objects.keys():  # pylint: disable=C0206
+                    # discard any coins for which we don't have tickers info
+                    # if we don't, init_or_update_
