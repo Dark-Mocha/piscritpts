@@ -1285,4 +1285,8 @@ class Bot:
                 objects: dict[str, Any] = dict(json.loads(f.read()))
                 for symbol in objects.keys():  # pylint: disable=C0206
                     # discard any coins for which we don't have tickers info
-                    # if we don't, init_or_update_
+                    # if we don't, init_or_update_coin() would raise and error
+                    # as we would be missing the BUY/SELL percentages
+                    if symbol in self.tickers:
+                        self.init_or_update_coin(
+                
