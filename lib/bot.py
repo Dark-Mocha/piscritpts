@@ -1289,4 +1289,9 @@ class Bot:
                     # as we would be missing the BUY/SELL percentages
                     if symbol in self.tickers:
                         self.init_or_update_coin(
-                
+                            objects[symbol], load_klines=load_klines
+                        )
+
+                        # pylint: disable=consider-using-dict-items
+                        for k, v in objects[symbol].items():
+       
