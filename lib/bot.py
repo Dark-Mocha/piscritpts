@@ -1294,4 +1294,9 @@ class Bot:
 
                         # pylint: disable=consider-using-dict-items
                         for k, v in objects[symbol].items():
-       
+                            setattr(self.coins[symbol], k, v)
+
+            logging.warning(f"coins contains {str(self.coins.keys())}")
+
+        # sync our coins state with the list of coins we want to use.
+        # but 
