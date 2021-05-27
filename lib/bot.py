@@ -1299,4 +1299,8 @@ class Bot:
             logging.warning(f"coins contains {str(self.coins.keys())}")
 
         # sync our coins state with the list of coins we want to use.
-        # but 
+        # but keep using coins we currently have on our wallet
+        coins_to_remove: List[str] = []
+        for coin in self.coins:
+            if coin not in self.tickers and coin not in self.wallet:
+                coins_to_remove.app
