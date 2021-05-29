@@ -1303,4 +1303,11 @@ class Bot:
         coins_to_remove: List[str] = []
         for coin in self.coins:
             if coin not in self.tickers and coin not in self.wallet:
-                coins_to_remove.app
+                coins_to_remove.append(coin)
+
+        for coin in coins_to_remove:
+            del self.coins[coin]
+
+        # finally apply the current settings in the config file
+        symbols: str = " ".join(self.coins.keys())
+        logging.wa
