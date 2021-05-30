@@ -1313,4 +1313,9 @@ class Bot:
         logging.warning(f"overriding values from config for: {symbols}")
         for symbol in self.coins:  # pylint: disable=C0206
             self.coins[symbol].buy_at_percentage = add_100(
-                self.tickers[symbol
+                self.tickers[symbol]["BUY_AT_PERCENTAGE"]
+            )
+            self.coins[symbol].sell_at_percentage = add_100(
+                self.tickers[symbol]["SELL_AT_PERCENTAGE"]
+            )
+            self.coins[symbol].stop_loss_a
