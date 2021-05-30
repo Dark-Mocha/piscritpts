@@ -1310,4 +1310,7 @@ class Bot:
 
         # finally apply the current settings in the config file
         symbols: str = " ".join(self.coins.keys())
-        logging.wa
+        logging.warning(f"overriding values from config for: {symbols}")
+        for symbol in self.coins:  # pylint: disable=C0206
+            self.coins[symbol].buy_at_percentage = add_100(
+                self.tickers[symbol
