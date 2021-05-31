@@ -1322,4 +1322,9 @@ class Bot:
                 self.tickers[symbol]["STOP_LOSS_AT_PERCENTAGE"]
             )
             self.coins[symbol].soft_limit_holding_time = int(
-                self.tickers[sym
+                self.tickers[symbol]["SOFT_LIMIT_HOLDING_TIME"]
+            )
+            self.coins[symbol].hard_limit_holding_time = int(
+                self.tickers[symbol]["HARD_LIMIT_HOLDING_TIME"]
+            )
+            self.coins[symbol].trail_target_s
