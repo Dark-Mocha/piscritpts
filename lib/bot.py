@@ -1318,4 +1318,8 @@ class Bot:
             self.coins[symbol].sell_at_percentage = add_100(
                 self.tickers[symbol]["SELL_AT_PERCENTAGE"]
             )
-            self.coins[symbol].stop_loss_a
+            self.coins[symbol].stop_loss_at_percentage = add_100(
+                self.tickers[symbol]["STOP_LOSS_AT_PERCENTAGE"]
+            )
+            self.coins[symbol].soft_limit_holding_time = int(
+                self.tickers[sym
