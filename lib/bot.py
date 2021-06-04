@@ -1327,4 +1327,8 @@ class Bot:
             self.coins[symbol].hard_limit_holding_time = int(
                 self.tickers[symbol]["HARD_LIMIT_HOLDING_TIME"]
             )
-            self.coins[symbol].trail_target_s
+            self.coins[symbol].trail_target_sell_percentage = add_100(
+                self.tickers[symbol]["TRAIL_TARGET_SELL_PERCENTAGE"]
+            )
+            self.coins[symbol].trail_recovery_percentage = add_100(
+                self.tickers[symbo
