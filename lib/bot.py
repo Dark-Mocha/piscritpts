@@ -1341,4 +1341,11 @@ class Bot:
             )
 
             self.coins[symbol].naughty_timeout = int(
-                self.tickers[symbol][
+                self.tickers[symbol]["NAUGHTY_TIMEOUT"]
+            )
+
+        # log some info on the coins in our wallet at boot
+        if self.wallet:
+            logging.info("Wallet contains:")
+            for symbol in self.wallet:
+                sell
