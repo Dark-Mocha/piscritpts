@@ -1336,4 +1336,9 @@ class Bot:
             self.coins[symbol].klines_trend_period = str(
                 self.tickers[symbol]["KLINES_TREND_PERIOD"]
             )
-            self.coins[symbol].klin
+            self.coins[symbol].klines_slice_percentage_change = float(
+                self.tickers[symbol]["KLINES_SLICE_PERCENTAGE_CHANGE"]
+            )
+
+            self.coins[symbol].naughty_timeout = int(
+                self.tickers[symbol][
