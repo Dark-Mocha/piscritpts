@@ -1331,4 +1331,9 @@ class Bot:
                 self.tickers[symbol]["TRAIL_TARGET_SELL_PERCENTAGE"]
             )
             self.coins[symbol].trail_recovery_percentage = add_100(
-                self.tickers[symbo
+                self.tickers[symbol]["TRAIL_RECOVERY_PERCENTAGE"]
+            )
+            self.coins[symbol].klines_trend_period = str(
+                self.tickers[symbol]["KLINES_TREND_PERIOD"]
+            )
+            self.coins[symbol].klin
