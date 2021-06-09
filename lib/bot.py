@@ -1348,4 +1348,9 @@ class Bot:
         if self.wallet:
             logging.info("Wallet contains:")
             for symbol in self.wallet:
-                sell
+                sell_price = (
+                    float(
+                        self.coins[symbol].bought_at
+                        * self.coins[symbol].sell_at_percentage
+                    )
+                    / 100
