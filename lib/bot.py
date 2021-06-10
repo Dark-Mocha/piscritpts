@@ -1354,3 +1354,9 @@ class Bot:
                         * self.coins[symbol].sell_at_percentage
                     )
                     / 100
+                )
+                s_value = (
+                    percent(
+                        self.coins[symbol].trail_target_sell_percentage,
+                        self.coins[symbol].sell_at_percentage,
+         
