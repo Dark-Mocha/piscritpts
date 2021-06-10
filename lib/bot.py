@@ -1364,4 +1364,8 @@ class Bot:
                 )
                 logging.info(
                     f"{self.coins[symbol].date}: {symbol} "
-                    + f"{self.coins[symbol].status} 
+                    + f"{self.coins[symbol].status} "
+                    + f"A:{self.coins[symbol].holding_time}s "
+                    + f"U:{self.coins[symbol].volume} "
+                    + f"P:{self.coins[symbol].price} "
+                    + 
