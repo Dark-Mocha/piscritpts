@@ -1359,4 +1359,9 @@ class Bot:
                     percent(
                         self.coins[symbol].trail_target_sell_percentage,
                         self.coins[symbol].sell_at_percentage,
-         
+                    )
+                    - 100
+                )
+                logging.info(
+                    f"{self.coins[symbol].date}: {symbol} "
+                    + f"{self.coins[symbol].status} 
