@@ -1368,4 +1368,7 @@ class Bot:
                     + f"A:{self.coins[symbol].holding_time}s "
                     + f"U:{self.coins[symbol].volume} "
                     + f"P:{self.coins[symbol].price} "
-                    + 
+                    + f"T:{self.coins[symbol].value} "
+                    + f"SP:{sell_price} "
+                    + f"S:+{s_value:.3f}% "
+                    + f"TTS:-{(100 - self.coins[symbol].trail_target_sell_percentage):.3f}% 
