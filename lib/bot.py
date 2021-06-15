@@ -1382,4 +1382,12 @@ class Bot:
 
         # return early if no work left to do
         if coin.symbol not in self.wallet:
-            return (False, "NOT_IN_WA
+            return (False, "NOT_IN_WALLET")
+
+        # oh we already own this one, lets check prices
+        # deal with STOP_LOSS first
+        if self.stop_loss(coin):
+            return (True, "STOP_LOSS")
+
+        # This coin is too old, sell it
+        if self
