@@ -1377,4 +1377,9 @@ class Bot:
             # make sure we unset .quit if its set from a previous run
             self.quit = False
 
-    def check_for_sale_conditions(self, coin: Coin) -> Tuple[bool
+    def check_for_sale_conditions(self, coin: Coin) -> Tuple[bool, str]:
+        """checks for multiple sale conditions for a coin"""
+
+        # return early if no work left to do
+        if coin.symbol not in self.wallet:
+            return (False, "NOT_IN_WA
