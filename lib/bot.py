@@ -1371,4 +1371,10 @@ class Bot:
                     + f"T:{self.coins[symbol].value} "
                     + f"SP:{sell_price} "
                     + f"S:+{s_value:.3f}% "
-                    + f"TTS:-{(100 - self.coins[symbol].trail_target_sell_percentage):.3f}% 
+                    + f"TTS:-{(100 - self.coins[symbol].trail_target_sell_percentage):.3f}% "
+                    + f"LP:{self.coins[symbol].min:.3f} "
+                )
+            # make sure we unset .quit if its set from a previous run
+            self.quit = False
+
+    def check_for_sale_conditions(self, coin: Coin) -> Tuple[bool
