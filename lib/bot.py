@@ -1396,4 +1396,11 @@ class Bot:
         # coin was above sell_at_percentage and dropped below
         # lets' sell it ASAP
         if self.sell_as_soon_it_drops:
-            if self.coin_go
+            if self.coin_gone_up_and_dropped(coin):
+                return (True, "GONE_UP_AND_DROPPED")
+
+        # possible sale
+        if self.possible_sale(coin):
+            return (True, "TARGET_SELL")
+
+        # This coin is past our soft limi
