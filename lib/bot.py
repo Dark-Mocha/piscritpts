@@ -1403,4 +1403,10 @@ class Bot:
         if self.possible_sale(coin):
             return (True, "TARGET_SELL")
 
-        # This coin is past our soft limi
+        # This coin is past our soft limit
+        # we apply a sliding window to the buy profit
+        # TODO: make PAST_SOFT_LIMIT a full grown-up coin status
+        if self.past_soft_limit(coin):
+            return (False, "PAST_SOFT_LIMIT")
+
+       
