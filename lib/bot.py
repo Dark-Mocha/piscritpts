@@ -1390,4 +1390,10 @@ class Bot:
             return (True, "STOP_LOSS")
 
         # This coin is too old, sell it
-        if self
+        if self.past_hard_limit(coin):
+            return (True, "STALE")
+
+        # coin was above sell_at_percentage and dropped below
+        # lets' sell it ASAP
+        if self.sell_as_soon_it_drops:
+            if self.coin_go
