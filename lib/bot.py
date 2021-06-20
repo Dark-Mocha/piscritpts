@@ -1409,4 +1409,13 @@ class Bot:
         if self.past_soft_limit(coin):
             return (False, "PAST_SOFT_LIMIT")
 
-       
+        return (False, "HOLD")
+
+    def buy_strategy(
+        self, coin: Coin  # pylint: disable=unused-argument
+    ) -> bool:
+        """buy strategy"""
+        return False
+
+    def wait(self) -> None:
+        """implemen
