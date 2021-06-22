@@ -1418,4 +1418,12 @@ class Bot:
         return False
 
     def wait(self) -> None:
-        """implemen
+        """implements a pause"""
+        sleep(self.pause)
+
+    def run(self) -> None:
+        """the bot LIVE main loop"""
+
+        # when running in LIVE or TESTNET mode we end up here.
+        #
+        # first load all our 
