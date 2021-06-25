@@ -1426,4 +1426,8 @@ class Bot:
 
         # when running in LIVE or TESTNET mode we end up here.
         #
-        # first load all our 
+        # first load all our state from disk
+        self.load_coins()
+        # reset all coin price stats if CLEAR_COIN_STATS_AT_BOOT is set.
+        # this forces the bot to treat boot as a new time window to monitor
+        # fo
