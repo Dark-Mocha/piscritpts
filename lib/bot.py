@@ -1430,4 +1430,8 @@ class Bot:
         self.load_coins()
         # reset all coin price stats if CLEAR_COIN_STATS_AT_BOOT is set.
         # this forces the bot to treat boot as a new time window to monitor
-        # fo
+        # for prices.
+        if self.clear_coin_stats_at_boot:
+            logging.warning("About the clear all coin stats...")
+            logging.warning("CTRL-C to cancel in the next 30 seconds")
+       
