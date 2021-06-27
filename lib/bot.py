@@ -1434,4 +1434,10 @@ class Bot:
         if self.clear_coin_stats_at_boot:
             logging.warning("About the clear all coin stats...")
             logging.warning("CTRL-C to cancel in the next 30 seconds")
-       
+            sleep(30)
+            self.clear_all_coins_stats()
+
+        while True:
+            if self.pull_config_address:
+                _ = self.refresh_config_from_config_endpoint_service()
+            self
