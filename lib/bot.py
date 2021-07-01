@@ -1440,4 +1440,11 @@ class Bot:
         while True:
             if self.pull_config_address:
                 _ = self.refresh_config_from_config_endpoint_service()
-            self
+            self.process_coins()
+            # saves all coin and wallet data to disk
+            self.save_coins()
+            self.process_control_flags()
+            if self.quit:
+                return
+
+            self.
