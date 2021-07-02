@@ -1447,4 +1447,11 @@ class Bot:
             if self.quit:
                 return
 
-            self.
+            self.wait()
+
+    def logmode(self) -> None:
+        """the bot LogMode main loop"""
+        while True:
+            # TODO: should we extract write_log from process_coins()?
+            self.process_coins()
+    
