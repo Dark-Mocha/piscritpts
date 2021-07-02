@@ -1461,4 +1461,9 @@ class Bot:
         """splits a log line into symbol, date, price"""
 
         try:
-         
+            symbol, price = line[27:].split(" ", maxsplit=1)
+            # ocasionally binance returns rubbish
+            # we just skip it
+            market_price = float(price)
+        except ValueError:
+            return (False,
