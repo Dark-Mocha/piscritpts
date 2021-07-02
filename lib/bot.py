@@ -1454,4 +1454,11 @@ class Bot:
         while True:
             # TODO: should we extract write_log from process_coins()?
             self.process_coins()
-    
+            self.wait()
+
+    # TODO: re-work output values to OK, values
+    def split_logline(self, line: str) -> Tuple[Any, Any, Any]:
+        """splits a log line into symbol, date, price"""
+
+        try:
+         
