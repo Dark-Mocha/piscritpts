@@ -1466,4 +1466,10 @@ class Bot:
             # we just skip it
             market_price = float(price)
         except ValueError:
-            return (False,
+            return (False, False, False)
+
+        # datetime is very slow, discard the .microseconds and fetch a
+        # cached pre-calculated unix epoch timestamp
+        date = c_date_from(line[0:19])
+
+        ret
