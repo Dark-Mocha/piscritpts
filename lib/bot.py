@@ -1472,4 +1472,9 @@ class Bot:
         # cached pre-calculated unix epoch timestamp
         date = c_date_from(line[0:19])
 
-        ret
+        return (symbol, date, market_price)
+
+    def check_for_delisted_coin(self, symbol: str) -> bool:
+        """checks if a coin has been delisted"""
+
+        # when we process old logfiles, we might encounter 
