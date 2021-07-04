@@ -1477,4 +1477,7 @@ class Bot:
     def check_for_delisted_coin(self, symbol: str) -> bool:
         """checks if a coin has been delisted"""
 
-        # when we process old logfiles, we might encounter 
+        # when we process old logfiles, we might encounter symbols that are
+        # no longer available on binance, these will not return any klines
+        # data from the API. For those we are better to remove them from our
+        # tickers list as we don't want to 
