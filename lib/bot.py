@@ -1480,4 +1480,9 @@ class Bot:
         # when we process old logfiles, we might encounter symbols that are
         # no longer available on binance, these will not return any klines
         # data from the API. For those we are better to remove them from our
-        # tickers list as we don't want to 
+        # tickers list as we don't want to process them.
+
+        # TODO: re-work this by checking values in 'm' if they're []
+        # as this will return a True
+        if not self.load_klines_for_coin(self.coins[symbol]):
+            # got no kline
