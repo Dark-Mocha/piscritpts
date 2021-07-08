@@ -1485,4 +1485,8 @@ class Bot:
         # TODO: re-work this by checking values in 'm' if they're []
         # as this will return a True
         if not self.load_klines_for_coin(self.coins[symbol]):
-            # got no kline
+            # got no klines data on this coin, probably delisted
+            # will remove this coin from our ticker list
+            if symbol not in self.wallet:
+                logging.warning(f"removing {symbol} from tickers")
+       
