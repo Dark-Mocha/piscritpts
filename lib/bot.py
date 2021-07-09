@@ -1497,4 +1497,11 @@ class Bot:
     def process_line(
         self, symbol: str, date: float, market_price: float
     ) -> None:
-        """proce
+        """processes a backlog line"""
+
+        if self.quit:  # when told to quit, just go nicely
+            return
+
+        # TODO: rework this, generate a binance_data blob to pass to
+        # init_or_update_coin()
+      
