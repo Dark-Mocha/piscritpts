@@ -1511,4 +1511,9 @@ class Bot:
                 return
 
             # discard any BULL/BEAR tokens
-    
+            if any(
+                f"{w}{self.cfg['PAIRING']}" in symbol
+                for w in ["UP", "DOWN", "BULL", "BEAR"]
+            ) or any(
+                f"{self.cfg['PAIRING']}{w}" in symbol
+                for 
