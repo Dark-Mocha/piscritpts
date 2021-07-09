@@ -1489,4 +1489,12 @@ class Bot:
             # will remove this coin from our ticker list
             if symbol not in self.wallet:
                 logging.warning(f"removing {symbol} from tickers")
-       
+                del self.coins[symbol]
+                del self.tickers[symbol]
+                return True
+        return False
+
+    def process_line(
+        self, symbol: str, date: float, market_price: float
+    ) -> None:
+        """proce
