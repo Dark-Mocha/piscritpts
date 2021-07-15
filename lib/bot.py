@@ -1523,4 +1523,7 @@ class Bot:
                 symbol,
                 float(date),
                 float(market_price),
-                flo
+                float(self.tickers[symbol]["BUY_AT_PERCENTAGE"]),
+                float(self.tickers[symbol]["SELL_AT_PERCENTAGE"]),
+                float(self.tickers[symbol]["STOP_LOSS_AT_PERCENTAGE"]),
+                fl
