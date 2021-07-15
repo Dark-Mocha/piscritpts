@@ -1516,4 +1516,11 @@ class Bot:
                 for w in ["UP", "DOWN", "BULL", "BEAR"]
             ) or any(
                 f"{self.cfg['PAIRING']}{w}" in symbol
-                for 
+                for w in ["UP", "DOWN", "BULL", "BEAR"]
+            ):
+                return
+            self.coins[symbol] = Coin(
+                symbol,
+                float(date),
+                float(market_price),
+                flo
