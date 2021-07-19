@@ -1529,4 +1529,7 @@ class Bot:
                 float(self.tickers[symbol]["TRAIL_TARGET_SELL_PERCENTAGE"]),
                 float(self.tickers[symbol]["TRAIL_RECOVERY_PERCENTAGE"]),
                 int(self.tickers[symbol]["SOFT_LIMIT_HOLDING_TIME"]),
-                int(se
+                int(self.tickers[symbol]["HARD_LIMIT_HOLDING_TIME"]),
+                int(self.tickers[symbol]["NAUGHTY_TIMEOUT"]),
+                str(self.tickers[symbol]["KLINES_TREND_PERIOD"]),
+                float(self.tickers[symbol][
