@@ -1542,4 +1542,7 @@ class Bot:
             # we essentially skip a number of iterations between
             # reads, causing a similar effect if we were only
             # probing prices every PAUSE_FOR seconds
- 
+            # last_read_date contains the timestamp of the last time we read
+            # a price record for this particular coin.
+            if self.coins[symbol].last_read_date + self.pause > date:
+   
