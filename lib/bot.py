@@ -1537,4 +1537,9 @@ class Bot:
             if self.check_for_delisted_coin(symbol):
                 return
         else:
-            # implements a PAUSE_FOR pause while 
+            # implements a PAUSE_FOR pause while reading from
+            # our price logs.
+            # we essentially skip a number of iterations between
+            # reads, causing a similar effect if we were only
+            # probing prices every PAUSE_FOR seconds
+ 
