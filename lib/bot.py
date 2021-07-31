@@ -1545,4 +1545,9 @@ class Bot:
             # last_read_date contains the timestamp of the last time we read
             # a price record for this particular coin.
             if self.coins[symbol].last_read_date + self.pause > date:
-   
+                return
+            self.coins[symbol].last_read_date = date
+            self.update(self.coins[symbol], date, market_price)
+
+        # and finally run through the strategy for our coin.
+        self.run_strategy
