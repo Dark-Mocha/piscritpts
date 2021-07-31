@@ -1532,4 +1532,9 @@ class Bot:
                 int(self.tickers[symbol]["HARD_LIMIT_HOLDING_TIME"]),
                 int(self.tickers[symbol]["NAUGHTY_TIMEOUT"]),
                 str(self.tickers[symbol]["KLINES_TREND_PERIOD"]),
-                float(self.tickers[symbol][
+                float(self.tickers[symbol]["KLINES_SLICE_PERCENTAGE_CHANGE"]),
+            )
+            if self.check_for_delisted_coin(symbol):
+                return
+        else:
+            # implements a PAUSE_FOR pause while 
