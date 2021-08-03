@@ -1550,4 +1550,11 @@ class Bot:
             self.update(self.coins[symbol], date, market_price)
 
         # and finally run through the strategy for our coin.
-        self.run_strategy
+        self.run_strategy(self.coins[symbol])
+
+    def backtesting(self) -> None:
+        """the bot Backtesting main loop"""
+        logging.info(json.dumps(self.cfg, indent=4))
+
+        # first load all our state from disk
+       
