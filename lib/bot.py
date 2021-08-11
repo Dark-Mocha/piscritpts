@@ -1557,4 +1557,13 @@ class Bot:
         logging.info(json.dumps(self.cfg, indent=4))
 
         # first load all our state from disk
-       
+        self.load_coins()
+
+        backtesting_results = {}
+
+        # main backtesting block
+        if not self.cfg["TICKERS"]:
+            logging.warning("no tickers to backtest")
+
+        else:
+            with re
