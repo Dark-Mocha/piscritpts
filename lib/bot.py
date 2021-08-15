@@ -1577,3 +1577,8 @@ class Bot:
                     ]:
                         logging.info(f"{w} {v}")
 
+                    response: Tuple[bool, List[bytes]] = self.get_price_log(
+                        session,
+                        f"{self.cfg['PRICE_LOG_SERVICE_URL']}/{logfile}",
+                    )
+                    ok
