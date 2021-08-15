@@ -1566,4 +1566,9 @@ class Bot:
             logging.warning("no tickers to backtest")
 
         else:
-            with re
+            with requests.Session() as session:
+                for logfile in self.cfg["PRICE_LOGS"]:
+                    if self.quit:
+                        break
+                    for w, v in [
+                       
