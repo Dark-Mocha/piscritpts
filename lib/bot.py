@@ -1571,4 +1571,9 @@ class Bot:
                     if self.quit:
                         break
                     for w, v in [
-                       
+                        ("backtesting:", logfile),
+                        ("wallet:", self.wallet),
+                        ("exposure:", self.calculates_exposure()),
+                    ]:
+                        logging.info(f"{w} {v}")
+
