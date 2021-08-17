@@ -1591,3 +1591,8 @@ class Bot:
                             symbol, date, market_price = self.split_logline(
                                 str(line)
                             )
+                            # symbol will be False if we fail to process the line fields
+                            if not symbol:
+                                continue
+
+                            self.p
