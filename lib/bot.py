@@ -1586,4 +1586,8 @@ class Bot:
                     if ok:
                         for item in lines:
                             line: str = item.decode()
-                            if self.cfg["PAIRING"] n
+                            if self.cfg["PAIRING"] not in line:
+                                continue
+                            symbol, date, market_price = self.split_logline(
+                                str(line)
+                            )
