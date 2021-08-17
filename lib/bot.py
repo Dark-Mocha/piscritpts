@@ -1581,4 +1581,9 @@ class Bot:
                         session,
                         f"{self.cfg['PRICE_LOG_SERVICE_URL']}/{logfile}",
                     )
-                    ok
+                    ok, lines = response
+
+                    if ok:
+                        for item in lines:
+                            line: str = item.decode()
+                            if self.cfg["PAIRING"] n
