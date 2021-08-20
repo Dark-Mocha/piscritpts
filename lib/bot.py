@@ -1595,4 +1595,9 @@ class Bot:
                             if not symbol:
                                 continue
 
-                            self.p
+                            self.process_line(symbol, date, market_price)
+
+                    current_exposure = float(0)
+                    for symbol in self.wallet:
+                        current_exposure = (
+                            c
