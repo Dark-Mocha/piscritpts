@@ -1600,4 +1600,9 @@ class Bot:
                     current_exposure = float(0)
                     for symbol in self.wallet:
                         current_exposure = (
-                            c
+                            current_exposure + self.coins[symbol].profit
+                        )
+
+                    backtesting_results = {
+                        "exposure": current_exposure,
+                        "profit": self.pro
