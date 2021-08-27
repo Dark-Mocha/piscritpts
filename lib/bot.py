@@ -1605,4 +1605,8 @@ class Bot:
 
                     backtesting_results = {
                         "exposure": current_exposure,
-                        "profit": self.pro
+                        "profit": self.profit,
+                        "initial_investment": self.initial_investment,
+                        "days": len(self.price_logs),
+                        "wins": self.wins,
+                    
