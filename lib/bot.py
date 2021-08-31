@@ -1609,4 +1609,8 @@ class Bot:
                         "initial_investment": self.initial_investment,
                         "days": len(self.price_logs),
                         "wins": self.wins,
-                    
+                        "losses": self.losses,
+                        "stales": self.stales,
+                        "wallet": self.wallet,
+                        "config_filename": basename(self.config_file),
+                        "c
