@@ -1613,4 +1613,11 @@ class Bot:
                         "stales": self.stales,
                         "wallet": self.wallet,
                         "config_filename": basename(self.config_file),
-                        "c
+                        "cfg": self.cfg,
+                    }
+
+        # now that we are done, lets record our results
+        with open(
+            f"{self.logs_dir}/backtesting.log", "a", encoding="utf-8"
+        ) as f:
+            current_expos
