@@ -1620,4 +1620,10 @@ class Bot:
         with open(
             f"{self.logs_dir}/backtesting.log", "a", encoding="utf-8"
         ) as f:
-            current_expos
+            current_exposure = float(0)
+            for symbol in self.wallet:
+                current_exposure = current_exposure + self.coins[symbol].profit
+
+            log_entry = "|".join(
+                [
+                    f"pro
