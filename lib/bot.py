@@ -1626,4 +1626,7 @@ class Bot:
 
             log_entry = "|".join(
                 [
-                    f"pro
+                    f"profit:{self.profit + current_exposure:.3f}",
+                    f"investment:{self.initial_investment}",
+                    f"days:{len(self.price_logs)}",
+                    f"w{self.wins},l{self.losses},
