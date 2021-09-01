@@ -1637,4 +1637,11 @@ class Bot:
 
             f.write(f"{log_entry}\n")
 
-       
+        with open(
+            f"tmp/{basename(self.config_file)}.results.json",
+            "wt",
+        ) as f:
+            f.write(json.dumps(backtesting_results))
+
+        self.save_coins(
+            f"tmp/{basename(self.config_f
