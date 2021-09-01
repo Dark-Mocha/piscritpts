@@ -1629,4 +1629,12 @@ class Bot:
                     f"profit:{self.profit + current_exposure:.3f}",
                     f"investment:{self.initial_investment}",
                     f"days:{len(self.price_logs)}",
-                    f"w{self.wins},l{self.losses},
+                    f"w{self.wins},l{self.losses},s{self.stales},h{len(self.wallet)}",
+                    f"cfg:{basename(self.config_file)}",
+                    json.dumps(self.cfg),
+                ]
+            )
+
+            f.write(f"{log_entry}\n")
+
+       
