@@ -1644,4 +1644,9 @@ class Bot:
             f.write(json.dumps(backtesting_results))
 
         self.save_coins(
-            f"tmp/{basename(self.config_f
+            f"tmp/{basename(self.config_file)}.coins.json",
+            f"tmp/{basename(self.config_file)}.wallet.json",
+        )
+
+    def load_klines_for_coin(self, coin: Coin) -> bool:
+        """fetches from binance or a local cache klines
