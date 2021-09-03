@@ -1649,4 +1649,10 @@ class Bot:
         )
 
     def load_klines_for_coin(self, coin: Coin) -> bool:
-        """fetches from binance or a local cache klines
+        """fetches from binance or a local cache klines for a coin"""
+
+        ok: bool = False
+        data: Dict[str, Dict[str, List[List[float]]]] = {}
+        # fetch all the available klines for this coin, for the last
+        # 60min, 24h, and 1000 days
+      
