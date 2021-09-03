@@ -1655,4 +1655,9 @@ class Bot:
         data: Dict[str, Dict[str, List[List[float]]]] = {}
         # fetch all the available klines for this coin, for the last
         # 60min, 24h, and 1000 days
-      
+        response: requests.Response = requests.get(
+            self.klines_caching_service_url
+            + f"?symbol={coin.symbol}"
+            + f"&date={coin.date}"
+            + f"&mode={self.mode}"
+   
