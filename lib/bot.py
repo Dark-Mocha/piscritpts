@@ -1660,4 +1660,11 @@ class Bot:
             + f"?symbol={coin.symbol}"
             + f"&date={coin.date}"
             + f"&mode={self.mode}"
-   
+            + f"&debug={self.debug}",
+            timeout=30,
+        )
+        data = response.json()
+        if data:
+            ok = True
+            coin.lowest = data["lowest"]
+            coin.averages = d
