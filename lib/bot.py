@@ -1675,4 +1675,9 @@ class Bot:
     @retry(wait=wait_exponential(multiplier=1, max=3))
     def requests_with_backoff(
         self, session: requests.Session, query: str
-   
+    ) -> requests.Response:
+        """retry wrapper for requests calls"""
+        response: requests.Response = session.get(query, timeout=5)
+
+        # 418 is a binance api limits response
+        # don't 
