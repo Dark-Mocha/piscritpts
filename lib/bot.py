@@ -1684,4 +1684,11 @@ class Bot:
         # free from the ban.
         status: int = response.status_code
         if status in [418, 429]:
-            backoff: int = int(response.header
+            backoff: int = int(response.headers["Retry-After"])
+            logging.warning(
+                f"HTTP {status} from binance, sleeping for {backoff}s"
+            )
+            sleep(backoff + 1)
+            response.raise_for_status()
+
+        wi
