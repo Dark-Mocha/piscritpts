@@ -1680,4 +1680,8 @@ class Bot:
         response: requests.Response = session.get(query, timeout=5)
 
         # 418 is a binance api limits response
-        # don't 
+        # don't raise a HTTPError Exception straight away but block until we are
+        # free from the ban.
+        status: int = response.status_code
+        if status in [418, 429]:
+            backoff: int = int(response.header
