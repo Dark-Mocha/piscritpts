@@ -1667,4 +1667,12 @@ class Bot:
         if data:
             ok = True
             coin.lowest = data["lowest"]
-            coin.averages = d
+            coin.averages = data["averages"]
+            coin.highest = data["highest"]
+
+        return ok
+
+    @retry(wait=wait_exponential(multiplier=1, max=3))
+    def requests_with_backoff(
+        self, session: requests.Session, query: str
+   
