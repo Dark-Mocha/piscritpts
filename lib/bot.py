@@ -1691,4 +1691,11 @@ class Bot:
             sleep(backoff + 1)
             response.raise_for_status()
 
-        wi
+        with open("log/binance.response.log", "at") as f:
+            f.write(f"{query} {status} {response}\n")
+        return response
+
+    def process_klines_line(
+        self,
+        kline: Tuple[
+            
