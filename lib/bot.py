@@ -1698,4 +1698,14 @@ class Bot:
     def process_klines_line(
         self,
         kline: Tuple[
-            
+            float,
+            float,
+            float,
+            float,
+            float,
+            float,
+            float,
+            float,
+            float,
+            float,
+            float,
