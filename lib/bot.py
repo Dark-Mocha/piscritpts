@@ -1715,4 +1715,11 @@ class Bot:
         """returns date, low, avg, high from a kline"""
         (_, _, high, low, _, _, closetime, _, _, _, _, _) = kline
 
-        date = float(c_from_timestamp(clo
+        date = float(c_from_timestamp(closetime / 1000).timestamp())
+        low = float(low)
+        high = float(high)
+        avg = (low + high) / 2
+
+        return [date, low, avg, high]
+
+    def print_final_balance_report(self) -> No
