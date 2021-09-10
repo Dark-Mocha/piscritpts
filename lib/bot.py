@@ -1709,3 +1709,10 @@ class Bot:
             float,
             float,
             float,
+            float,
+        ],
+    ) -> List[float]:
+        """returns date, low, avg, high from a kline"""
+        (_, _, high, low, _, _, closetime, _, _, _, _, _) = kline
+
+        date = float(c_from_timestamp(clo
