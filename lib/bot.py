@@ -1722,4 +1722,10 @@ class Bot:
 
         return [date, low, avg, high]
 
-    def print_final_balance_report(self) -> No
+    def print_final_balance_report(self) -> None:
+        """calculates and outputs final balance"""
+
+        current_exposure = float(0)
+        for item in self.wallet:
+            holding = self.coins[item]
+            cost = holding.volume * ho
