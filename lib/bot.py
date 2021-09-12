@@ -1733,4 +1733,8 @@ class Bot:
             age = holding.holding_time
             current_exposure = current_exposure + self.coins[item].profit
 
-            loggi
+            logging.info(f"WALLET: {item} age:{age} cost:{cost} value:{value}")
+
+        logging.info(f"bot profit: {self.profit}")
+        logging.info(f"current exposure: {current_exposure:.3f}")
+        l
