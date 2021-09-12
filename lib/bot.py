@@ -1728,4 +1728,9 @@ class Bot:
         current_exposure = float(0)
         for item in self.wallet:
             holding = self.coins[item]
-            cost = holding.volume * ho
+            cost = holding.volume * holding.bought_at
+            value = holding.volume * holding.price
+            age = holding.holding_time
+            current_exposure = current_exposure + self.coins[item].profit
+
+            loggi
