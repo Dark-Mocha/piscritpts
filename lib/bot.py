@@ -1746,4 +1746,11 @@ class Bot:
         logging.info(
             f"wins:{self.wins} losses:{self.losses} "
             + f"stales:{self.stales} holds:{len(self.wallet)}"
-  
+        )
+
+    def print_current_balance_report(self) -> None:
+        """calculates and current balance"""
+
+        for item in self.wallet:
+            holding = self.coins[item]
+            cost = holding.volume * hold
