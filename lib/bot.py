@@ -1741,4 +1741,9 @@ class Bot:
         logging.info(f"final balance: {self.profit + current_exposure:.3f}")
         logging.info(
             f"investment: start: {int(self.initial_investment)} "
+            + f"end: {int(self.investment)}"
+        )
+        logging.info(
+            f"wins:{self.wins} losses:{self.losses} "
+            + f"stales:{self.stales} holds:{len(self.wallet)}"
   
