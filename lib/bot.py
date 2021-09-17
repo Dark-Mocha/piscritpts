@@ -1737,4 +1737,8 @@ class Bot:
 
         logging.info(f"bot profit: {self.profit}")
         logging.info(f"current exposure: {current_exposure:.3f}")
-        l
+        logging.info(f"total fees: {self.fees:.3f}")
+        logging.info(f"final balance: {self.profit + current_exposure:.3f}")
+        logging.info(
+            f"investment: start: {int(self.initial_investment)} "
+  
