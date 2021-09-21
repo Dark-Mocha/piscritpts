@@ -1763,4 +1763,13 @@ class Bot:
                         f"WALLET: {item} age:{age}",
                         f"bought_at:{holding.bought_at}",
                         f"current_price:{holding.price}",
-                        f"cost:{cost} value:
+                        f"cost:{cost} value:{value}",
+                    ]
+                )
+            )
+
+    def calculates_exposure(self) -> float:
+        """calculates current balance"""
+
+        exposure: float = float(0)
+        for symbol in self.wallet:
