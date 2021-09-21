@@ -1773,3 +1773,9 @@ class Bot:
 
         exposure: float = float(0)
         for symbol in self.wallet:
+            exposure = exposure + self.coins[symbol].profit
+
+        return exposure
+
+    def refresh_config_from_config_endpoint_service(self) -> bool:
+        """updates the bot config (ticker list) from the config en
