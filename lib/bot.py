@@ -1753,4 +1753,11 @@ class Bot:
 
         for item in self.wallet:
             holding = self.coins[item]
-            cost = holding.volume * hold
+            cost = holding.volume * holding.bought_at
+            value = holding.volume * holding.price
+            age = holding.holding_time
+
+            logging.info(
+                " ".join(
+                    [
+                     
