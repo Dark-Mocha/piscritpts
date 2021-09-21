@@ -1760,4 +1760,7 @@ class Bot:
             logging.info(
                 " ".join(
                     [
-                     
+                        f"WALLET: {item} age:{age}",
+                        f"bought_at:{holding.bought_at}",
+                        f"current_price:{holding.price}",
+                        f"cost:{cost} value:
