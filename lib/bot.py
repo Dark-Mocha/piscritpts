@@ -1784,4 +1784,10 @@ class Bot:
                 self.pull_config_address, timeout=1
             ).json()
             if r["md5"] == self.pull_config_md5:
-                re
+                return False
+
+            # create a placeholder for us to add old and new tickers
+            new_tickers: Dict[str, str] = r["TICKERS"]
+
+            for symbol in self.wallet:
+                # we need to make sure we ma
