@@ -1790,4 +1790,9 @@ class Bot:
             new_tickers: Dict[str, str] = r["TICKERS"]
 
             for symbol in self.wallet:
-                # we need to make sure we ma
+                # we need to make sure we maintain any tickers for coins we may
+                # have in our wallet.
+                new_tickers[symbol] = self.tickers[symbol]
+
+            self.tickers = new_tickers
+            n
