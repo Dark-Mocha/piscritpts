@@ -1778,4 +1778,10 @@ class Bot:
         return exposure
 
     def refresh_config_from_config_endpoint_service(self) -> bool:
-        """updates the bot config (ticker list) from the config en
+        """updates the bot config (ticker list) from the config endpoint"""
+        try:
+            r: Dict[str, Any] = requests.get(
+                self.pull_config_address, timeout=1
+            ).json()
+            if r["md5"] == self.pull_config_md5:
+                re
