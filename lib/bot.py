@@ -1795,4 +1795,7 @@ class Bot:
                 new_tickers[symbol] = self.tickers[symbol]
 
             self.tickers = new_tickers
-            n
+            now: str = udatetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+            logging.info(
+                f"{now}: updating tickers: had: "
+                + f"{self.pull_config_md5} now: {r['
