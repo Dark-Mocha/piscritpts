@@ -1798,4 +1798,10 @@ class Bot:
             now: str = udatetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
             logging.info(
                 f"{now}: updating tickers: had: "
-                + f"{self.pull_config_md5} now: {r['
+                + f"{self.pull_config_md5} now: {r['md5']}"
+            )
+            logging.info("new tickers:")
+            pp: pprint.PrettyPrinter = pprint.PrettyPrinter(indent=4)
+            pp.pprint(self.tickers)
+            self.pull_config_md5 = r["md5"]
+   
