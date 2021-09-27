@@ -1804,4 +1804,8 @@ class Bot:
             pp: pprint.PrettyPrinter = pprint.PrettyPrinter(indent=4)
             pp.pprint(self.tickers)
             self.pull_config_md5 = r["md5"]
-   
+            # clean old coins data, or we will get errors later on
+            symbols: List[str] = list(self.coins.keys())
+            for symbol in symbols:
+                if symbol not in self.tickers.keys():
+                    del s
