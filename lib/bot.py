@@ -1820,4 +1820,11 @@ class Bot:
 
         except Exception as error_msg:  # pylint: disable=broad-except
             logging.warning(
-       
+                f"Failed to pull config from {self.pull_config_address}"
+            )
+            logging.error(error_msg)
+            return False
+        return True
+
+    def process_control_flags(self) -> None:
+        """process control/flags"
