@@ -1808,4 +1808,8 @@ class Bot:
             symbols: List[str] = list(self.coins.keys())
             for symbol in symbols:
                 if symbol not in self.tickers.keys():
-                    del s
+                    del self.coins[symbol]
+            # we now need to update the config file, so that when we restart
+            # the bot will have access to all the ticker info on any coins
+            # it might be holding
+    
