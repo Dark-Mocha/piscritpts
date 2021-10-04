@@ -1812,4 +1812,7 @@ class Bot:
             # we now need to update the config file, so that when we restart
             # the bot will have access to all the ticker info on any coins
             # it might be holding
-    
+            with open(self.config_file, encoding="utf-8") as f:
+                _cfg: Dict[str, Any] = yaml.safe_load(f.read())
+                _cfg["TICKERS"] = self.tickers
+            with open(self.config
