@@ -1815,4 +1815,9 @@ class Bot:
             with open(self.config_file, encoding="utf-8") as f:
                 _cfg: Dict[str, Any] = yaml.safe_load(f.read())
                 _cfg["TICKERS"] = self.tickers
-            with open(self.config
+            with open(self.config_file, "wt", encoding="utf-8") as f:
+                yaml.dump(_cfg, f, default_flow_style=False)
+
+        except Exception as error_msg:  # pylint: disable=broad-except
+            logging.warning(
+       
