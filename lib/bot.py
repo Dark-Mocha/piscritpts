@@ -1827,4 +1827,10 @@ class Bot:
         return True
 
     def process_control_flags(self) -> None:
-        """process control/flags"
+        """process control/flags"""
+        if exists("control/BALANCE"):
+            self.print_current_balance_report()
+            unlink("control/BALANCE")
+        if exists("control/SELL"):
+            logging.warning("control/SELL flag found")
+     
