@@ -1837,4 +1837,9 @@ class Bot:
                 for line in f:
                     symbol = line.strip()
                     if symbol in self.wallet:
-                        logging.warning(f"control/SELL contains {sy
+                        logging.warning(f"control/SELL contains {symbol}")
+                        self.coins[symbol].status = "CONTROL_FLAG"
+                        self.sell_coin(self.coins[symbol])
+            unlink("control/SELL")
+        if exists("control/STOP"):
+            logging.warning("control/STO
