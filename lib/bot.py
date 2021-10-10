@@ -1842,4 +1842,10 @@ class Bot:
                         self.sell_coin(self.coins[symbol])
             unlink("control/SELL")
         if exists("control/STOP"):
-            logging.warning("control/STO
+            logging.warning("control/STOP flag found. Stopping bot.")
+            self.quit = True
+            unlink("control/STOP")
+            return
+
+    def update(self, coin: Coin, date: float, market_price: float) -> None:
+        """upda
