@@ -1833,4 +1833,8 @@ class Bot:
             unlink("control/BALANCE")
         if exists("control/SELL"):
             logging.warning("control/SELL flag found")
-     
+            with open("control/SELL") as f:
+                for line in f:
+                    symbol = line.strip()
+                    if symbol in self.wallet:
+                        logging.warning(f"control/SELL contains {sy
