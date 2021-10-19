@@ -1848,4 +1848,9 @@ class Bot:
             return
 
     def update(self, coin: Coin, date: float, market_price: float) -> None:
-        """upda
+        """updates a coin object with latest market values"""
+        coin.date = date
+        coin.last = coin.price
+        coin.price = market_price
+
+        # update any coin we HOLD with the number seconds since we
