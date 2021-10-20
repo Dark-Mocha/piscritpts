@@ -1858,4 +1858,9 @@ class Bot:
             coin.holding_time = int(coin.date - coin.bought_date)
 
         # if we had a STOP_LOSS event, and we've expired the NAUGHTY_TIMEOUT
-        # then se
+        # then set the coin free again, and allow the bot to buy it.
+        if coin.naughty:
+            if int(coin.date - coin.naughty_date) > coin.naughty_timeout:
+                coin.naughty = False
+
+        # do we have a new min
