@@ -1853,4 +1853,9 @@ class Bot:
         coin.last = coin.price
         coin.price = market_price
 
-        # update any coin we HOLD with the number seconds since we
+        # update any coin we HOLD with the number seconds since we bought it
+        if coin.status in ["TARGET_SELL", "HOLD"]:
+            coin.holding_time = int(coin.date - coin.bought_date)
+
+        # if we had a STOP_LOSS event, and we've expired the NAUGHTY_TIMEOUT
+        # then se
