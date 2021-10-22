@@ -1863,4 +1863,12 @@ class Bot:
             if int(coin.date - coin.naughty_date) > coin.naughty_timeout:
                 coin.naughty = False
 
-        # do we have a new min
+        # do we have a new min price?
+        if market_price < coin.min:
+            coin.min = market_price
+
+        # do we have a new max price?
+        if market_price > coin.max:
+            coin.max = market_price
+
+        # coi
