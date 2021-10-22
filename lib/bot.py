@@ -1871,4 +1871,8 @@ class Bot:
         if market_price > coin.max:
             coin.max = market_price
 
-        # coi
+        # coin.volume is only set when we hold this coin in our wallet
+        if coin.volume:
+            coin.value = coin.volume * coin.price
+            coin.cost = coin.bought_at * coin.volume
+            coin.profit = coin.value - coin.
