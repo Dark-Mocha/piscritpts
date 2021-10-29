@@ -1875,4 +1875,10 @@ class Bot:
         if coin.volume:
             coin.value = coin.volume * coin.price
             coin.cost = coin.bought_at * coin.volume
-            coin.profit = coin.value - coin.
+            coin.profit = coin.value - coin.cost
+
+        # monitors for the highest price recorded for a coin we are looking
+        # to sell soon.
+        if coin.status == "TARGET_SELL":
+            if market_price > coin.tip:
+                coin.tip =
