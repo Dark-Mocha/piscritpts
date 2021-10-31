@@ -1881,4 +1881,10 @@ class Bot:
         # to sell soon.
         if coin.status == "TARGET_SELL":
             if market_price > coin.tip:
-                coin.tip =
+                coin.tip = market_price
+
+        # monitors for the lowest price recorded for a coin we are looking
+        # to buy soon.
+        if coin.status == "TARGET_DIP":
+            if market_price < coin.dip:
+            
