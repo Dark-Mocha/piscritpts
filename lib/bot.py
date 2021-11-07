@@ -1891,4 +1891,10 @@ class Bot:
                 coin.dip = market_price
 
         # updates the different price buckets data for this coint and
-        # removes any old data from those bu
+        # removes any old data from those buckets.
+        self.consolidate_averages(coin, date, market_price)
+        self.trim_averages(coin, date)
+
+    def consolidate_on_new_slot(
+        self, coin: Coin, date: float, unit: str
+   
