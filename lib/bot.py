@@ -1887,4 +1887,8 @@ class Bot:
         # to buy soon.
         if coin.status == "TARGET_DIP":
             if market_price < coin.dip:
-            
+                logging.debug(f"{coin.symbol}: new dip: {coin.dip}")
+                coin.dip = market_price
+
+        # updates the different price buckets data for this coint and
+        # removes any old data from those bu
