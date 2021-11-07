@@ -1897,4 +1897,13 @@ class Bot:
 
     def consolidate_on_new_slot(
         self, coin: Coin, date: float, unit: str
-   
+    ) -> None:
+        """consolidates on a new min/hour/day"""
+
+        previous = {"d": "h", "h": "m", "m": "s"}[unit]
+
+        if unit != "m":
+            coin.lowest[unit].append(
+                [
+                    date,
+                    min(  # py
