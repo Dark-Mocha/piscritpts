@@ -1906,4 +1906,9 @@ class Bot:
             coin.lowest[unit].append(
                 [
                     date,
-                    min(  # py
+                    min(  # pylint: disable=consider-using-generator
+                        [v for _, v in coin.lowest[previous]]
+                    ),
+                ]
+            )
+            coin.averages[unit].a
