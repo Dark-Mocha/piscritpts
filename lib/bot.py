@@ -1911,4 +1911,9 @@ class Bot:
                     ),
                 ]
             )
-            coin.averages[unit].a
+            coin.averages[unit].append(
+                [
+                    date,
+                    mean([v for _, v in coin.averages[previous]]),
+                ]  # pylint: disable=consider-using-generator
+            
