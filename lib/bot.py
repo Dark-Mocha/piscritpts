@@ -1916,4 +1916,10 @@ class Bot:
                     date,
                     mean([v for _, v in coin.averages[previous]]),
                 ]  # pylint: disable=consider-using-generator
-            
+            )
+            coin.highest[unit].append(
+                [
+                    date,
+                    max(  # pylint: disable=consider-using-generator
+                        [v for _, v in coin.highest[previous]]
+    
