@@ -1922,4 +1922,11 @@ class Bot:
                     date,
                     max(  # pylint: disable=consider-using-generator
                         [v for _, v in coin.highest[previous]]
-    
+                    ),
+                ]
+            )
+        else:
+            coin.lowest["m"].append(
+                [
+                    date,
+                    min(  # pylint: disable=consider-using-gene
