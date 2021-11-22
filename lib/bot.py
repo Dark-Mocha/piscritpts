@@ -1929,4 +1929,11 @@ class Bot:
             coin.lowest["m"].append(
                 [
                     date,
-                    min(  # pylint: disable=consider-using-gene
+                    min(  # pylint: disable=consider-using-generator
+                        [v for _, v in coin.averages["s"]]
+                    ),
+                ]
+            )
+            coin.averages["m"].append(
+                [date, mean([v for _, v in coin.averages["s"]])]
+  
