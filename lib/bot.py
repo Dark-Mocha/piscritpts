@@ -1936,4 +1936,10 @@ class Bot:
             )
             coin.averages["m"].append(
                 [date, mean([v for _, v in coin.averages["s"]])]
-  
+            )
+            coin.highest["m"].append(
+                [
+                    date,
+                    max(  # pylint: disable=consider-using-generator
+                        [v for _, v in coin.averages["s"]]
+           
