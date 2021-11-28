@@ -1956,4 +1956,7 @@ class Bot:
         coin.averages["s"].append([date, market_price])
 
         # append the latest values,
-       
+        # but only if the old 'm' record, is older than 1 minute
+        new_minute: bool = self.is_a_new_slot_of(coin, date, "m")
+        # on a new minute window, we need to find the lowest, average, and max
+        # 
