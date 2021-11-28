@@ -1942,4 +1942,11 @@ class Bot:
                     date,
                     max(  # pylint: disable=consider-using-generator
                         [v for _, v in coin.averages["s"]]
-           
+                    ),
+                ]
+            )
+
+    def consolidate_averages(
+        self, coin: Coin, date: float, market_price: float
+    ) -> None:
+        """consolidates all coin price averages over the different buc
