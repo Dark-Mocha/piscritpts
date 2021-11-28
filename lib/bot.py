@@ -1949,4 +1949,11 @@ class Bot:
     def consolidate_averages(
         self, coin: Coin, date: float, market_price: float
     ) -> None:
-        """consolidates all coin price averages over the different buc
+        """consolidates all coin price averages over the different buckets"""
+
+        # append the latest 's' value, this could done more frequently than
+        # once per second.
+        coin.averages["s"].append([date, market_price])
+
+        # append the latest values,
+       
