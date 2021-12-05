@@ -1967,4 +1967,9 @@ class Bot:
             self.consolidate_on_new_slot(coin, date, "m")
         else:
             # finally if we're not reached a new minute, then jump out early
-            # as
+            # as we won't have any additional data to process in the following
+            # buckets of hours, or days
+            return
+
+        # deals with the scenario where we have minutes data but no hourly
+        # data 
