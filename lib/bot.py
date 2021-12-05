@@ -1959,4 +1959,7 @@ class Bot:
         # but only if the old 'm' record, is older than 1 minute
         new_minute: bool = self.is_a_new_slot_of(coin, date, "m")
         # on a new minute window, we need to find the lowest, average, and max
-        # 
+        # prices across all the last 60 seconds of data we have available in
+        # our 'seconds' buckets.
+        # note that for seconds, we only store 'averages' as it doesn't make
+        # sense, to record lows/highs within a second win
