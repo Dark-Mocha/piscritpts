@@ -1962,4 +1962,9 @@ class Bot:
         # prices across all the last 60 seconds of data we have available in
         # our 'seconds' buckets.
         # note that for seconds, we only store 'averages' as it doesn't make
-        # sense, to record lows/highs within a second win
+        # sense, to record lows/highs within a second window
+        if new_minute:
+            self.consolidate_on_new_slot(coin, date, "m")
+        else:
+            # finally if we're not reached a new minute, then jump out early
+            # as
