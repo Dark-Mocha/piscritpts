@@ -1972,4 +1972,9 @@ class Bot:
             return
 
         # deals with the scenario where we have minutes data but no hourly
-        # data 
+        # data in our buckets yet.
+        # if we find the oldest record in our 'minutes' bucket is older than
+        # 1 hour, then we have entered a new hour window.
+        new_hour = self.is_a_new_slot_of(coin, date, "h")
+
+        #
