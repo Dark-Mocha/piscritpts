@@ -1986,4 +1986,9 @@ class Bot:
             # there won't be any new day changes to be managed.
             return
 
-        # deal with the scenario where we have hourly da
+        # deal with the scenario where we have hourly data but no daily data
+        # yet if the older record for hourly data is older than 1 day, then
+        # we've entered a new day window
+        new_day = self.is_a_new_slot_of(coin, date, "d")
+
+        # on a new day 
