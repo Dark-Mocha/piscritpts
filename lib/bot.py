@@ -1977,4 +1977,8 @@ class Bot:
         # 1 hour, then we have entered a new hour window.
         new_hour = self.is_a_new_slot_of(coin, date, "h")
 
-        #
+        # on a new hour, we need to record the min, average, max prices for
+        # this coin, based on the data we have from the last 60 minutes.
+        if new_hour:
+            self.consolidate_on_new_slot(coin, date, "h")
+        else
