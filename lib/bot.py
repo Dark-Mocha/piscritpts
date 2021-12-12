@@ -1981,4 +1981,9 @@ class Bot:
         # this coin, based on the data we have from the last 60 minutes.
         if new_hour:
             self.consolidate_on_new_slot(coin, date, "h")
-        else
+        else:
+            # if we're not in a new hour, then skip further processing as
+            # there won't be any new day changes to be managed.
+            return
+
+        # deal with the scenario where we have hourly da
