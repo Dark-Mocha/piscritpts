@@ -1991,4 +1991,8 @@ class Bot:
         # we've entered a new day window
         new_day = self.is_a_new_slot_of(coin, date, "d")
 
-        # on a new day 
+        # on a new day window, we need to update the min, averages, max prices
+        # recorded for this coin, based on the history available from the last
+        # 24 hours as recorded in our hourly buckets.
+        if new_day:
+    
