@@ -1999,4 +1999,12 @@ class Bot:
 
     def is_a_new_slot_of(self, coin: Coin, date: float, unit: str) -> bool:
         """finds out if we entered a new unit time slot"""
-     
+        table = {
+            "m": ("s", 60),
+            "h": ("m", 3600),
+            "d": ("h", 86400),
+        }
+        previous, period = table[unit]
+
+        new_slot: bool = False
+        # deals with the scenario, where we d
