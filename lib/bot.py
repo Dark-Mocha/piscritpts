@@ -1995,4 +1995,8 @@ class Bot:
         # recorded for this coin, based on the history available from the last
         # 24 hours as recorded in our hourly buckets.
         if new_day:
-    
+            self.consolidate_on_new_slot(coin, date, "d")
+
+    def is_a_new_slot_of(self, coin: Coin, date: float, unit: str) -> bool:
+        """finds out if we entered a new unit time slot"""
+     
