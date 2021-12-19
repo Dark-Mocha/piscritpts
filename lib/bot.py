@@ -2007,4 +2007,10 @@ class Bot:
         previous, period = table[unit]
 
         new_slot: bool = False
-        # deals with the scenario, where we d
+        # deals with the scenario, where we don't yet have 'units' data
+        #  available yet
+        if not coin.averages[unit] and coin.averages[previous]:
+            if coin.averages[previous][0][0] <= date - period:
+                new_slot = True
+
+        # checks if our late
