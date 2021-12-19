@@ -2013,4 +2013,8 @@ class Bot:
             if coin.averages[previous][0][0] <= date - period:
                 new_slot = True
 
-        # checks if our late
+        # checks if our latest 'unit' record is older than 'period'
+        # then we've entered a new 'unit' window
+        if coin.averages[unit] and not new_slot:
+            record_date, _ = coin.averages[unit][-1]
+            if record_date <= date 
