@@ -2017,4 +2017,11 @@ class Bot:
         # then we've entered a new 'unit' window
         if coin.averages[unit] and not new_slot:
             record_date, _ = coin.averages[unit][-1]
-            if record_date <= date 
+            if record_date <= date - period:
+                new_slot = True
+        return new_slot
+
+    def trim_averages(self, coin: Coin, date: float) -> None:
+        """trims all coin price older than ..."""
+
+        # checks the older record for each buc
