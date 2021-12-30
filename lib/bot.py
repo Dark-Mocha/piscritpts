@@ -2024,4 +2024,10 @@ class Bot:
     def trim_averages(self, coin: Coin, date: float) -> None:
         """trims all coin price older than ..."""
 
-        # checks the older record for each buc
+        # checks the older record for each bucket and cleans up any data
+        # older than 60secs, 60min, 24hours
+        d, _ = coin.averages["s"][0]
+        if d < date - 60:
+            del coin.averages["s"][0]
+
+            if
