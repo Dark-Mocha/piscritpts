@@ -2030,4 +2030,9 @@ class Bot:
         if d < date - 60:
             del coin.averages["s"][0]
 
-            if
+            if coin.averages["m"]:
+                d, _ = coin.averages["m"][0]
+                if d < date - 3600:
+                    del coin.lowest["m"][0]
+                    del coin.averages["m"][0]
+  
