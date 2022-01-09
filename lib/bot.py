@@ -2045,4 +2045,9 @@ class Bot:
                             del coin.highest["h"][0]
 
     def check_for_pump_and_dump(self, coin: Coin) -> bool:
-        """calculates curren
+        """calculates current price vs 1 hour ago for pump/dump events"""
+
+        # disclaimer: this might need some work, as it only avoids very sharp
+        # pump and dump short peaks.
+
+        # if the strategy doesn
