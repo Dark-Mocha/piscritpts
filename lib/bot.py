@@ -2050,4 +2050,8 @@ class Bot:
         # disclaimer: this might need some work, as it only avoids very sharp
         # pump and dump short peaks.
 
-        # if the strategy doesn
+        # if the strategy doesn't consume averages, we force an average setting
+        # in here of 2hours so that we can use an anti-pump protection
+        timeslice: int = int("".join(coin.klines_trend_period[:-1]))
+        if timeslice == 0:
+ 
