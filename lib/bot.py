@@ -2041,4 +2041,8 @@ class Bot:
                         d, _ = coin.averages["h"][0]
                         if d < date - 86400:
                             del coin.lowest["h"][0]
- 
+                            del coin.averages["h"][0]
+                            del coin.highest["h"][0]
+
+    def check_for_pump_and_dump(self, coin: Coin) -> bool:
+        """calculates curren
