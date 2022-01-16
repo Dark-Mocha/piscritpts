@@ -2054,4 +2054,9 @@ class Bot:
         # in here of 2hours so that we can use an anti-pump protection
         timeslice: int = int("".join(coin.klines_trend_period[:-1]))
         if timeslice == 0:
- 
+            coin.klines_trend_period = "2h"
+            coin.klines_slice_percentage_change = float(1)
+
+        # make the coin as a pump if we don't have enough data to validate if
+        # this could possibly be a pump
+    
