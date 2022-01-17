@@ -2064,4 +2064,7 @@ class Bot:
 
         # on a pump, we would have a low price, followed by a pump(high price),
         # followed by a dump(low price)
-        # so don'
+        # so don't buy if we see this pattern over the last 2 hours.
+        last2hours: List[List[float]] = coin.averages["h"][-2:]
+        two_hours_ago: float = last2hours[0][1]
+        one_hour_ago: float = last2
