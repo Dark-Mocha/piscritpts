@@ -2059,4 +2059,9 @@ class Bot:
 
         # make the coin as a pump if we don't have enough data to validate if
         # this could possibly be a pump
-    
+        if len(coin.averages["h"]) < 2:
+            return True
+
+        # on a pump, we would have a low price, followed by a pump(high price),
+        # followed by a dump(low price)
+        # so don'
