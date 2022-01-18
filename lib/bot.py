@@ -2067,4 +2067,11 @@ class Bot:
         # so don't buy if we see this pattern over the last 2 hours.
         last2hours: List[List[float]] = coin.averages["h"][-2:]
         two_hours_ago: float = last2hours[0][1]
-        one_hour_ago: float = last2
+        one_hour_ago: float = last2hours[1][1]
+
+        if (
+            (two_hours_ago < one_hour_ago)
+            and (one_hour_ago > float(coin.price))
+            and (coin.price > two_hours_ago)
+        ):
+      
