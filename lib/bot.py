@@ -2081,4 +2081,7 @@ class Bot:
     def new_listing(self, coin: Coin, days: int) -> bool:
         """checks if coin is a new listing"""
         # wait a few days before going to buy a new coin
-        # si
+        # since we list what coins we buy in TICKERS the bot would never
+        # buy a coin as soon it is listed.
+        # However in backtesting, the bot will buy that coin as its listed in
+        # the TICKERS list and
