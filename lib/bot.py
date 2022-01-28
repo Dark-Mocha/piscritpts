@@ -2074,4 +2074,11 @@ class Bot:
             and (one_hour_ago > float(coin.price))
             and (coin.price > two_hours_ago)
         ):
-      
+            return True
+
+        return False
+
+    def new_listing(self, coin: Coin, days: int) -> bool:
+        """checks if coin is a new listing"""
+        # wait a few days before going to buy a new coin
+        # si
