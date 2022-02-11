@@ -2084,4 +2084,7 @@ class Bot:
         # since we list what coins we buy in TICKERS the bot would never
         # buy a coin as soon it is listed.
         # However in backtesting, the bot will buy that coin as its listed in
-        # the TICKERS list and
+        # the TICKERS list and the price lines show up in the price logs.
+        # we want to avoid buy these new listings as they are very volatile
+        # and the bot won't have enough history to properly backtest a coin
+     
