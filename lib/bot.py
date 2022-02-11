@@ -2087,4 +2087,10 @@ class Bot:
         # the TICKERS list and the price lines show up in the price logs.
         # we want to avoid buy these new listings as they are very volatile
         # and the bot won't have enough history to properly backtest a coin
-     
+        # looking for a profit pattern to use.
+        if len(coin.averages["d"]) < days:
+            return True
+        return False
+
+    def get_price_log(
+        self, session: requests.Session, qu
