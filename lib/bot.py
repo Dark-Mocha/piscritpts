@@ -2099,4 +2099,11 @@ class Bot:
 
         for w in [1, 2, 3, 4]:
             try:
-                response: requests.Response = session.get(query, timeo
+                response: requests.Response = session.get(query, timeout=30)
+                status: int = response.status_code
+                if status != 200:
+                    response.raise_for_status()
+                else:
+                    return (True, (response.content).splitlines())
+
+           
