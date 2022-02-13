@@ -2093,4 +2093,10 @@ class Bot:
         return False
 
     def get_price_log(
-        self, session: requests.Session, qu
+        self, session: requests.Session, query: str
+    ) -> Tuple[bool, List[bytes]]:
+        """retry wrapper for requests calls"""
+
+        for w in [1, 2, 3, 4]:
+            try:
+                response: requests.Response = session.get(query, timeo
