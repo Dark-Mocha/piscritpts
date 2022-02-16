@@ -2110,4 +2110,4 @@ class Bot:
                 with open("log/price_log_service.response.log", "at") as f:
                     f.write(f"{query} {e}\n")
                 sleep(6 * w)
-        return (False, [
+        return (False, [])
