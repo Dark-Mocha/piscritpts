@@ -21,4 +21,11 @@ class Coin:  # pylint: disable=too-few-public-methods
         trail_recovery_percentage: float,
         soft_limit_holding_time: int,
         hard_limit_holding_time: int,
-        naugh
+        naughty_timeout: int,
+        klines_trend_period: str,
+        klines_slice_percentage_change: float,
+    ) -> None:
+        """Coin object"""
+        self.symbol = symbol
+        # number of units of a coin held
+        self.volume:
