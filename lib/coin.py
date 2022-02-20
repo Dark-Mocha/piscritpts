@@ -16,4 +16,9 @@ class Coin:  # pylint: disable=too-few-public-methods
         market_price: float,
         buy_at: float,
         sell_at: float,
-     
+        stop_loss: float,
+        trail_target_sell_percentage: float,
+        trail_recovery_percentage: float,
+        soft_limit_holding_time: int,
+        hard_limit_holding_time: int,
+        naugh
