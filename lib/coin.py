@@ -28,4 +28,9 @@ class Coin:  # pylint: disable=too-few-public-methods
         """Coin object"""
         self.symbol = symbol
         # number of units of a coin held
-        self.volume:
+        self.volume: float = float(0)
+        # what price we bought the coin
+        self.bought_at: float = float(0)
+        # minimum coin price recorded since reset
+        self.min = float(market_price)
+     
