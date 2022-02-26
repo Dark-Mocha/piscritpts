@@ -33,4 +33,9 @@ class Coin:  # pylint: disable=too-few-public-methods
         self.bought_at: float = float(0)
         # minimum coin price recorded since reset
         self.min = float(market_price)
-     
+        # maximum coin price recorded since reset
+        self.max = float(market_price)
+        #  date of latest price info available for this coin
+        self.date = date
+        # current price for the coin
+        self.price
