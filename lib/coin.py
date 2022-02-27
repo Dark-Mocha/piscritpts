@@ -43,4 +43,9 @@ class Coin:  # pylint: disable=too-few-public-methods
         self.holding_time = int(0)
         # current value, as number of units vs current price
         self.value = float(0)
-        # total cost f
+        # total cost for all units at time ot buy
+        self.cost = float(0)
+        # coin price recorded in the previous iteration
+        self.last = market_price
+        # percentage to mark coin as TARGET_DIP
+        
