@@ -48,4 +48,8 @@ class Coin:  # pylint: disable=too-few-public-methods
         # coin price recorded in the previous iteration
         self.last = market_price
         # percentage to mark coin as TARGET_DIP
-        
+        self.buy_at_percentage: float = add_100(buy_at)
+        # percentage to mark coin as TARGET_SELL
+        self.sell_at_percentage: float = add_100(sell_at)
+        # percentage to trigger a stop loss
+       
