@@ -38,4 +38,9 @@ class Coin:  # pylint: disable=too-few-public-methods
         #  date of latest price info available for this coin
         self.date = date
         # current price for the coin
-        self.price
+        self.price = float(market_price)
+        # how long in secs we have been holding this coin
+        self.holding_time = int(0)
+        # current value, as number of units vs current price
+        self.value = float(0)
+        # total cost f
