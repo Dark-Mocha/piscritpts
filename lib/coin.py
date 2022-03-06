@@ -62,4 +62,10 @@ class Coin:  # pylint: disable=too-few-public-methods
         # trailling stop loss
         self.trail_target_sell_percentage: float = add_100(
             trail_target_sell_percentage
+        )
+        # lowest price while the coin is in TARGET_DIP
+        self.dip = market_price
+        # highest price while the coin in TARGET_SELL
+        self.tip = market_price
+        # total profit for this coin
   
