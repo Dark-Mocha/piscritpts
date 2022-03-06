@@ -56,4 +56,10 @@ class Coin:  # pylint: disable=too-few-public-methods
         # current status of coins ['', 'HOLD', 'TARGET_DIP', ...]
         self.status = ""
         # percentage to recover after a drop that triggers a buy
+        self.trail_recovery_percentage: float = add_100(
+            trail_recovery_percentage
+        )
+        # trailling stop loss
+        self.trail_target_sell_percentage: float = add_100(
+            trail_target_sell_percentage
   
