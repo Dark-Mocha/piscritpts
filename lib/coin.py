@@ -52,4 +52,8 @@ class Coin:  # pylint: disable=too-few-public-methods
         # percentage to mark coin as TARGET_SELL
         self.sell_at_percentage: float = add_100(sell_at)
         # percentage to trigger a stop loss
-       
+        self.stop_loss_at_percentage: float = add_100(stop_loss)
+        # current status of coins ['', 'HOLD', 'TARGET_DIP', ...]
+        self.status = ""
+        # percentage to recover after a drop that triggers a buy
+  
