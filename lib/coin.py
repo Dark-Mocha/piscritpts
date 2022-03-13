@@ -68,4 +68,7 @@ class Coin:  # pylint: disable=too-few-public-methods
         # highest price while the coin in TARGET_SELL
         self.tip = market_price
         # total profit for this coin
-  
+        self.profit = float(0)
+        # how to long to keep a coin before shrinking SELL_AT_PERCENTAGE
+        self.soft_limit_holding_time: int = int(soft_limit_holding_time)
+        # How long to hold a coin before 
