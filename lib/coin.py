@@ -71,4 +71,7 @@ class Coin:  # pylint: disable=too-few-public-methods
         self.profit = float(0)
         # how to long to keep a coin before shrinking SELL_AT_PERCENTAGE
         self.soft_limit_holding_time: int = int(soft_limit_holding_time)
-        # How long to hold a coin before 
+        # How long to hold a coin before forcing a sale
+        self.hard_limit_holding_time: int = int(hard_limit_holding_time)
+        # how long to block the bot from buying a coin after a STOP_LOSS
+        self.naughty_timeout: int = int(naught
