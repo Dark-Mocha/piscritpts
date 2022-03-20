@@ -74,4 +74,9 @@ class Coin:  # pylint: disable=too-few-public-methods
         # How long to hold a coin before forcing a sale
         self.hard_limit_holding_time: int = int(hard_limit_holding_time)
         # how long to block the bot from buying a coin after a STOP_LOSS
-        self.naughty_timeout: int = int(naught
+        self.naughty_timeout: int = int(naughty_timeout)
+        # dicts storing price data, on different buckets
+        self.lowest: dict[str, List[List[float]]] = {
+            "m": [],
+            "h": [],
+            "d
