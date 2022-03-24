@@ -87,4 +87,11 @@ class Coin:  # pylint: disable=too-few-public-methods
             "h": [],
             "d": [],
         }
-        self.highest: dict[str, List[List[float]]] = 
+        self.highest: dict[str, List[List[float]]] = {
+            "m": [],
+            "h": [],
+            "d": [],
+        }
+        # How long to look for trend changes in a coin price
+        self.klines_trend_period: str = str(klines_trend_period)
+        # per
