@@ -79,4 +79,12 @@ class Coin:  # pylint: disable=too-few-public-methods
         self.lowest: dict[str, List[List[float]]] = {
             "m": [],
             "h": [],
-            "d
+            "d": [],
+        }
+        self.averages: dict[str, List[List[float]]] = {
+            "s": [],
+            "m": [],
+            "h": [],
+            "d": [],
+        }
+        self.highest: dict[str, List[List[float]]] = 
