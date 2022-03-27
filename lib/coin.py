@@ -94,4 +94,9 @@ class Coin:  # pylint: disable=too-few-public-methods
         }
         # How long to look for trend changes in a coin price
         self.klines_trend_period: str = str(klines_trend_period)
-        # per
+        # percentage of coin price change in a trend_period slice
+        self.klines_slice_percentage_change: float = float(
+            klines_slice_percentage_change
+        )
+        # what date we bought the coin
+ 
