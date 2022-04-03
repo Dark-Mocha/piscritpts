@@ -99,4 +99,7 @@ class Coin:  # pylint: disable=too-few-public-methods
             klines_slice_percentage_change
         )
         # what date we bought the coin
- 
+        self.bought_date: float = None  # type: ignore
+        # what date we had the last STOP_LOSS
+        self.naughty_date: float = None  # type: ignore
+        # if we're currently not 
