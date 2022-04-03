@@ -102,4 +102,7 @@ class Coin:  # pylint: disable=too-few-public-methods
         self.bought_date: float = None  # type: ignore
         # what date we had the last STOP_LOSS
         self.naughty_date: float = None  # type: ignore
-        # if we're currently not 
+        # if we're currently not buying this coin
+        self.naughty: bool = False
+        # used in backtesting, the last read date, as the date in the price.log
+        self.last_read_date: float = date
