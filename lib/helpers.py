@@ -46,4 +46,8 @@ def c_from_timestamp(date: float) -> datetime:
 
 @retry(wait=wait_exponential(multiplier=1, max=3))
 def cached_binance_client(access_key: str, secret_key: str) -> Client:
-    """retry wrap
+    """retry wrapper for binance client first call"""
+
+    lock = SoftFileLock("state/binance.client.lockfile", timeout=10)
+    # when running automated-testing with multiple threads, we will hit
+    # api requests limits, this happens during the cl
