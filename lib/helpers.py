@@ -40,4 +40,10 @@ def c_date_from(day: str) -> float:
 
 @lru_cache(64)
 def c_from_timestamp(date: float) -> datetime:
-    """returns a cached datetime.fro
+    """returns a cached datetime.fromtimestamp()"""
+    return datetime.fromtimestamp(date)
+
+
+@retry(wait=wait_exponential(multiplier=1, max=3))
+def cached_binance_client(access_key: str, secret_key: str) -> Client:
+    """retry wrap
