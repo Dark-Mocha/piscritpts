@@ -34,4 +34,10 @@ def add_100(number: float) -> float:
 
 @lru_cache(64)
 def c_date_from(day: str) -> float:
-  
+    """returns a cached datetime.fromisoformat()"""
+    return datetime.fromisoformat(day).timestamp()
+
+
+@lru_cache(64)
+def c_from_timestamp(date: float) -> datetime:
+    """returns a cached datetime.fro
