@@ -60,4 +60,9 @@ def cached_binance_client(access_key: str, secret_key: str) -> Client:
             udatetime.now().timestamp() - getctime(cachefile) < (30 * 60)
         ):
             logging.debug("re-using local cached binance.client file")
-           
+            with open(cachefile, "rb") as f:
+                _client = pickle.load(f)  # nosec
+        else:
+            try:
+                logging.debug("refreshing cached binance.client")
+                _client = 
