@@ -70,4 +70,8 @@ def cached_binance_client(access_key: str, secret_key: str) -> Client:
                 logging.warning(f"API client exception: {err}")
                 if "much request weight used" in str(err):
                     timestamp = (
-          
+                        int(re.findall(r"IP banned until (\d+)", str(err))[0])
+                        / 1000
+                    )
+                    logging.info(
+                        f"Pausing until {datetime.fromtimestamp(time
