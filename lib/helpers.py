@@ -65,4 +65,9 @@ def cached_binance_client(access_key: str, secret_key: str) -> Client:
         else:
             try:
                 logging.debug("refreshing cached binance.client")
-                _client = 
+                _client = Client(access_key, secret_key)
+            except Exception as err:
+                logging.warning(f"API client exception: {err}")
+                if "much request weight used" in str(err):
+                    timestamp = (
+          
