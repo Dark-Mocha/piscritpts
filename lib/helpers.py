@@ -54,4 +54,10 @@ def cached_binance_client(access_key: str, secret_key: str) -> Client:
     # which mostly issues a ping. To avoid this when running multiple processes
     # we cache the client in a pickled state on disk and load it if it already
     # exists.
-    cachefile = "cache/binance
+    cachefile = "cache/binance.client"
+    with lock:
+        if exists(cachefile) and (
+            udatetime.now().timestamp() - getctime(cachefile) < (30 * 60)
+        ):
+            logging.debug("re-using local cached binance.client file")
+           
