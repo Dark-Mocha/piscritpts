@@ -74,4 +74,9 @@ def cached_binance_client(access_key: str, secret_key: str) -> Client:
                         / 1000
                     )
                     logging.info(
-                        f"Pausing until {datetime.fromtimestamp(time
+                        f"Pausing until {datetime.fromtimestamp(timestamp)}"
+                    )
+                    while int(time()) < timestamp:
+                        sleep(1)
+                raise Exception from err  # pylint: disable=broad-exception-raised
+            with open(cachef
