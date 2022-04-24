@@ -79,4 +79,12 @@ def cached_binance_client(access_key: str, secret_key: str) -> Client:
                     while int(time()) < timestamp:
                         sleep(1)
                 raise Exception from err  # pylint: disable=broad-exception-raised
-            with open(cachef
+            with open(cachefile, "wb") as f:
+                pickle.dump(_client, f)
+
+        return _client
+
+
+def step_size_to_precision(step_size: str) -> int:
+    """returns step size"""
+    precision: int = s
