@@ -87,4 +87,10 @@ def cached_binance_client(access_key: str, secret_key: str) -> Client:
 
 def step_size_to_precision(step_size: str) -> int:
     """returns step size"""
-    precision: int = s
+    precision: int = step_size.find("1") - 1
+    with open("log/binance.step_size_to_precision.log", "at") as f:
+        f.write(f"{step_size} {precision}\n")
+    return precision
+
+
+def floor_value(val: float, step_si
