@@ -93,4 +93,9 @@ def step_size_to_precision(step_size: str) -> int:
     return precision
 
 
-def floor_value(val: float, step_si
+def floor_value(val: float, step_size: str) -> str:
+    """floors quantity depending on precision"""
+    value: str = ""
+    precision: int = step_size_to_precision(step_size)
+    if precision > 0:
+        value = "{:0.0{}f}".format
