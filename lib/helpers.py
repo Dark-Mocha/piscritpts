@@ -104,4 +104,5 @@ def floor_value(val: float, step_size: str) -> str:
     else:
         value = str(math.floor(int(val)))
     with open("log/binance.floor_value.log", "at") as f:
-        f.write(
+        f.write(f"{val} {step_size} {precision} {value}\n")
+    return value
