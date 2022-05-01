@@ -98,4 +98,10 @@ def floor_value(val: float, step_size: str) -> str:
     value: str = ""
     precision: int = step_size_to_precision(step_size)
     if precision > 0:
-        value = "{:0.0{}f}".format
+        value = "{:0.0{}f}".format(  # pylint: disable=consider-using-f-string
+            val, precision
+        )
+    else:
+        value = str(math.floor(int(val)))
+    with open("log/binance.floor_value.log", "at") as f:
+        f.write(
