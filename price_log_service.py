@@ -5,4 +5,10 @@ app: Flask = Flask(__name__)
 
 
 @app.route("/<path:path>")
-d
+def root(path):
+    """root handler"""
+    return send_from_directory("log", path)
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8998)
