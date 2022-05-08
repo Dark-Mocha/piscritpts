@@ -26,4 +26,5 @@ disable = [
   "C0103"
 ]
 [tool.pylint.basic]
-good-names-rgxs =
+good-names-rgxs = "^[_a-z][_a-z0-9]?$"
+
