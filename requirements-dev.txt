@@ -16,3 +16,6 @@ snakeviz
 types-PyYAML
 typing-extensions
 urllib3-mock
+virtualenv
+types-requests
+flaky
