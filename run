@@ -1,1 +1,9 @@
-#!/usr/bin/en
+#!/usr/bin/env bash
+#
+
+function usage() {
+	echo "USAGE:"
+	echo "./run logmode CONFIG_FILE=< config.yaml >"
+	echo "./run backtesting CONFIG_FILE=< config.yaml >"
+	echo "./run testnet CONFIG_FILE=< config.yaml >"
+	echo "./run liv
