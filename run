@@ -10,4 +10,8 @@ function usage() {
 	echo "./run compress-logs"
 	echo "./run lastfewdays DAYS=3 PAIR=USDT"
 	echo "./run download-price-logs FROM=20210101 TO=20211231"
-	echo "./run prove-backtesting CONFIG_FILE=myconfi
+	echo "./run prove-backtesting CONFIG_FILE=myconfig.yaml"
+	echo "./run config-endpoint-service BIND=0.0.0.0 CONFIG_FILE=myconfig.yaml"
+	echo "./run klines-caching-service BIND=0.0.0.0"
+	echo "./run price_log_service BIND=0.0.0.0"
+	echo "./run download_p
