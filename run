@@ -6,4 +6,8 @@ function usage() {
 	echo "./run logmode CONFIG_FILE=< config.yaml >"
 	echo "./run backtesting CONFIG_FILE=< config.yaml >"
 	echo "./run testnet CONFIG_FILE=< config.yaml >"
-	echo "./run liv
+	echo "./run live CONFIG_FILE=< config.yaml >"
+	echo "./run compress-logs"
+	echo "./run lastfewdays DAYS=3 PAIR=USDT"
+	echo "./run download-price-logs FROM=20210101 TO=20211231"
+	echo "./run prove-backtesting CONFIG_FILE=myconfi
