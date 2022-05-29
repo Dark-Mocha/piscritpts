@@ -14,4 +14,12 @@ function usage() {
 	echo "./run config-endpoint-service BIND=0.0.0.0 CONFIG_FILE=myconfig.yaml"
 	echo "./run klines-caching-service BIND=0.0.0.0"
 	echo "./run price_log_service BIND=0.0.0.0"
-	echo "./run download_p
+	echo "./run download_price_logs FROM=20220101 TO=20220131"
+}
+
+function free_port () { # looks for a free TCP port
+    LPORT=32768;
+    UPORT=60999;
+    while true; do
+        MPORT=$[$LPORT + ($RANDOM % $UPORT)];
+        (echo ""
