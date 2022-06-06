@@ -22,4 +22,14 @@ function free_port () { # looks for a free TCP port
     UPORT=60999;
     while true; do
         MPORT=$[$LPORT + ($RANDOM % $UPORT)];
-        (echo ""
+        (echo "" >/dev/tcp/127.0.0.1/${MPORT}) >/dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo $MPORT;
+            return 0;
+        fi
+    done
+}
+
+function set_service_ports () { # locks a port to use by each service
+	for service in $*
+	
