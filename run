@@ -32,4 +32,12 @@ function free_port () { # looks for a free TCP port
 
 function set_service_ports () { # locks a port to use by each service
 	for service in $*
-	
+	do
+		if [ ! -f $STATE_DIR/.${service}.port ] ; then
+			free_port > $STATE_DIR/.${service}.port
+		fi
+	done
+}
+
+function checks() { # runs docker version checks
+	if [ "`docker --version | cut -d " " -f3 | tr -d 'v'
