@@ -40,4 +40,11 @@ function set_service_ports () { # locks a port to use by each service
 }
 
 function checks() { # runs docker version checks
-	if [ "`docker --version | cut -d " " -f3 | tr -d 'v'
+	if [ "`docker --version | cut -d " " -f3 | tr -d 'v'| cut -c1`" -lt 2 ]; \
+		then echo "docker version is too old"; exit 1; fi
+}
+
+function build() { # builds docker images
+	docker pull ubuntu:focal
+	docker buildx build  --build-arg BUILDKIT_INLINE_CACHE=1 -t tempbuild \
+		--cache-f
