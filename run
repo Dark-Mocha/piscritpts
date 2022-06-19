@@ -47,4 +47,11 @@ function checks() { # runs docker version checks
 function build() { # builds docker images
 	docker pull ubuntu:focal
 	docker buildx build  --build-arg BUILDKIT_INLINE_CACHE=1 -t tempbuild \
-		--cache-f
+		--cache-from=${IMAGE}:latest \
+		--cache-from=${IMAGE}:next_release \
+		--cache-from=${IMAGE}:${TAG} .
+	docker tag tempbuild ${IMAGE}:${TAG}
+}
+
+function down() { # power down all containers
+	docker ps | grep "${CONTAINER_SUFFIX}" | awk '{pri
