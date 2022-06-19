@@ -54,4 +54,12 @@ function build() { # builds docker images
 }
 
 function down() { # power down all containers
-	docker ps | grep "${CONTAINER_SUFFIX}" | awk '{pri
+	docker ps | grep "${CONTAINER_SUFFIX}" | awk '{print $1}' | xargs -i docker kill {}
+}
+
+function latest() { # pulls :latest image tag
+	docker pull ${IMAGE}:${TAG} >/dev/null
+}
+
+# this should become its own docker image
+function download_price_logs() { # downloads kli
