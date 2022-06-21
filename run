@@ -62,4 +62,16 @@ function latest() { # pulls :latest image tag
 }
 
 # this should become its own docker image
-function download_price_logs() { # downloads kli
+function download_price_logs() { # downloads klines logs fro binance
+	if [ -z "$FROM" ]; then
+		echo "FROM env variable not set"
+		exit 1
+	fi
+	if [ -z "$TO" ]; then
+		echo "TO env variable not set"
+		exit 1
+	fi
+
+	docker run --rm \
+		${USE_TTY} \
+	
