@@ -82,3 +82,10 @@ function download_price_logs() { # downloads klines logs fro binance
 		${IMAGE}:${TAG} \
     /cryptobot/.venv/bin/python -u  /cryptobot/utils/pull_klines.py \
 		-s ${FROM} -e ${TO}
+}
+
+function docker_network() { # creates a docker network
+	docker network ls |grep ${CONTAINER_SUFFIX} >/dev/null 2>&1 || docker network create ${CONTAINER_SUFFIX}
+}
+
+function logmode() { # runs in 
