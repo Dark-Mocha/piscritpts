@@ -74,4 +74,11 @@ function download_price_logs() { # downloads klines logs fro binance
 
 	docker run --rm \
 		${USE_TTY} \
-	
+		${DOCKER_RUN_AS} \
+		${DOCKER_NAME} \
+		${DOCKER_MOUNTS} \
+		${DOCKER_NETWORK} \
+		${RUN_IN_BACKGROUND} \
+		${IMAGE}:${TAG} \
+    /cryptobot/.venv/bin/python -u  /cryptobot/utils/pull_klines.py \
+		-s ${FROM} -e ${TO}
