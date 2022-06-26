@@ -105,4 +105,16 @@ function logmode() { # runs in logmode
 
 function testnet() { # runs in testnet mode
 	if [ -z "$PORT" ]; then
-		export PORT=$( cat ${STATE_DIR
+		export PORT=$( cat ${STATE_DIR}/.testnet.port)
+	fi
+
+	docker run --rm \
+		${USE_TTY} \
+		${DOCKER_RUN_AS} \
+		${DOCKER_NAME} \
+		${DOCKER_MOUNTS} \
+		${DOCKER_NETWORK} \
+		${RUN_IN_BACKGROUND} \
+    -p ${BIND}:${PORT}:5555 \
+		${IMAGE}:${TAG} \
+		/cryptobot/.venv/bin
