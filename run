@@ -117,4 +117,11 @@ function testnet() { # runs in testnet mode
 		${RUN_IN_BACKGROUND} \
     -p ${BIND}:${PORT}:5555 \
 		${IMAGE}:${TAG} \
-		/cryptobot/.venv/bin
+		/cryptobot/.venv/bin/python -u app.py \
+		-s /cryptobot/secrets/${SECRETS_FILE:-binance.testnet.yaml} \
+		-c /cryptobot/configs/${CONFIG_FILE} \
+		-m ${MODE} > ${LOG_DIR}/${MODE}.${CONFIG_FILE}.txt 2>&1
+}
+
+function live() { # runs in live mode
+	if [ -z "$P
