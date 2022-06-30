@@ -134,4 +134,9 @@ function live() { # runs in live mode
 		${DOCKER_NAME} \
 		${DOCKER_MOUNTS} \
 		${DOCKER_NETWORK} \
-		${RUN_IN_
+		${RUN_IN_BACKGROUND} \
+    -p ${BIND}:${PORT}:5555 \
+		${IMAGE}:${TAG} \
+		/cryptobot/.venv/bin/python -u app.py \
+		-s /cryptobot/secrets/${SECRETS_FILE:-binance.prod.yaml} \
+		-c /cryptobot/configs/${CONFIG_FILE} 
