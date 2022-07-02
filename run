@@ -148,4 +148,10 @@ function backtesting() { # runs in backtesting mode
 		${USE_TTY} \
 		${DOCKER_RUN_AS} \
 		${DOCKER_NAME} \
-		${DOCKER_MOUNTS} 
+		${DOCKER_MOUNTS} \
+		${DOCKER_NETWORK} \
+		${RUN_IN_BACKGROUND} \
+		${IMAGE}:${TAG} \
+		/usr/bin/eatmydata /cryptobot/.venv/bin/python -u app.py \
+		-s /cryptobot/secrets/${SECRETS_FILE:-fake.yaml} \
+		-c /cryptobot/conf
