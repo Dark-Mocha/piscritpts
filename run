@@ -154,4 +154,10 @@ function backtesting() { # runs in backtesting mode
 		${IMAGE}:${TAG} \
 		/usr/bin/eatmydata /cryptobot/.venv/bin/python -u app.py \
 		-s /cryptobot/secrets/${SECRETS_FILE:-fake.yaml} \
-		-c /cryptobot/conf
+		-c /cryptobot/configs/${CONFIG_FILE} \
+		-m backtesting > ${RESULTS_DIR}/backtesting.${CONFIG_FILE}.txt 2>&1
+}
+
+function prove_backtesting() { # runs the prove backtesting
+	if [ -z "$CONFIG_FILE" ]; then
+		echo "CONFIG_FILE env v
