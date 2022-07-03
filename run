@@ -160,4 +160,16 @@ function backtesting() { # runs in backtesting mode
 
 function prove_backtesting() { # runs the prove backtesting
 	if [ -z "$CONFIG_FILE" ]; then
-		echo "CONFIG_FILE env v
+		echo "CONFIG_FILE env variable not set"
+		exit 1
+	fi
+
+	RESULTS_LOG="${RESULTS_DIR}/prove-backtesting"
+	RESULTS_LOG="${RESULTS_LOG}.${CONFIG_FILE}.txt"
+	docker run --rm \
+		${USE_TTY} \
+		${DOCKER_RUN_AS} \
+		${DOCKER_NAME} \
+		${DOCKER_MOUNTS} \
+		${DOCKER_NETWORK} \
+		${RUN
