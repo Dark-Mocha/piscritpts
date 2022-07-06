@@ -172,4 +172,11 @@ function prove_backtesting() { # runs the prove backtesting
 		${DOCKER_NAME} \
 		${DOCKER_MOUNTS} \
 		${DOCKER_NETWORK} \
-		${RUN
+		${RUN_IN_BACKGROUND} \
+		-e CONFIG_FILE=${CONFIG_FILE} \
+		${IMAGE}:${TAG} \
+		/usr/bin/eatmydata /cryptobot/utils/prove-backtesting.sh \
+		> ${RESULTS_LOG}
+}
+
+function config_endpoint_service() { # runs the config endpoin
