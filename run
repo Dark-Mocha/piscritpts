@@ -190,4 +190,13 @@ function config_endpoint_service() { # runs the config endpoint service
 	fi
 
 	docker run --rm \
-		${U
+		${USE_TTY} \
+		${DOCKER_RUN_AS} \
+		${DOCKER_NAME} \
+		${DOCKER_MOUNTS} \
+		${DOCKER_NETWORK} \
+		${RUN_IN_BACKGROUND} \
+		-e CONFIG_FILE=${CONFIG_FILE} \
+    -p ${BIND}:${PORT}:5883 \
+		${IMAGE}:${TAG} \
+    /cry
