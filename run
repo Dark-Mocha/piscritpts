@@ -179,4 +179,15 @@ function prove_backtesting() { # runs the prove backtesting
 		> ${RESULTS_LOG}
 }
 
-function config_endpoint_service() { # runs the config endpoin
+function config_endpoint_service() { # runs the config endpoint service
+	if [ -z "$PORT" ]; then
+		export PORT=$( cat ${STATE_DIR}/.${MODE}.port )
+	fi
+
+	if [ -z "$CONFIG_FILE" ]; then
+		echo "CONFIG_FILE env variable not set"
+		exit 1
+	fi
+
+	docker run --rm \
+		${U
