@@ -199,4 +199,12 @@ function config_endpoint_service() { # runs the config endpoint service
 		-e CONFIG_FILE=${CONFIG_FILE} \
     -p ${BIND}:${PORT}:5883 \
 		${IMAGE}:${TAG} \
-    /cry
+    /cryptobot/utils/config-endpoint-service.sh
+}
+
+function klines_caching_service() { # runs the klines caching service
+	if [ -z "$PORT" ]; then
+		export PORT=$( cat ${STATE_DIR}/.${MODE}.port )
+	fi
+
+	if [ -n "
