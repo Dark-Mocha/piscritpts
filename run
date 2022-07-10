@@ -207,4 +207,11 @@ function klines_caching_service() { # runs the klines caching service
 		export PORT=$( cat ${STATE_DIR}/.${MODE}.port )
 	fi
 
-	if [ -n "
+	if [ -n "${RUN_IN_BACKGROUND}" ]; then
+		docker ps | grep "klines_caching_service-${CONTAINER_SUFFIX}" \
+			|awk '{ print $1 }' | xargs -i docker kill {} >/dev/null 2>&1
+	fi
+
+	docker run --rm \
+		${USE_TTY} \
+		${DOCKER_RUN_A
