@@ -214,4 +214,13 @@ function klines_caching_service() { # runs the klines caching service
 
 	docker run --rm \
 		${USE_TTY} \
-		${DOCKER_RUN_A
+		${DOCKER_RUN_AS} \
+		${DOCKER_NAME} \
+		${DOCKER_MOUNTS} \
+		${DOCKER_NETWORK} \
+		--network-alias klines \
+		${RUN_IN_BACKGROUND} \
+    -p ${BIND}:${PORT}:8999 \
+		${IMAGE}:${TAG} \
+    /cryptobot/.venv/bin/gunicorn --preload \
+		
