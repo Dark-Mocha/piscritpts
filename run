@@ -223,4 +223,11 @@ function klines_caching_service() { # runs the klines caching service
     -p ${BIND}:${PORT}:8999 \
 		${IMAGE}:${TAG} \
     /cryptobot/.venv/bin/gunicorn --preload \
-		
+			--workers=${N_CPUS} \
+			--worker-class=gthread \
+			--threads=8 \
+			--worker-tmp-dir /dev/shm \
+			--bind 0.0.0.0:8999  klines_caching_service:app
+}
+
+function price_log_service() { # runs the 
