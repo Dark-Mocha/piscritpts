@@ -230,4 +230,11 @@ function klines_caching_service() { # runs the klines caching service
 			--bind 0.0.0.0:8999  klines_caching_service:app
 }
 
-function price_log_service() { # runs the 
+function price_log_service() { # runs the klines caching service
+	if [ -z "$PORT" ]; then
+		export PORT=$( cat ${STATE_DIR}/.${MODE}.port )
+	fi
+
+	if [ -n "${RUN_IN_BACKGROUND}" ]; then
+		docker ps | grep "price-log-service-${CONTAINER_SUFFIX}" \
+			|awk '{
