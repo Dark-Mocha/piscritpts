@@ -237,4 +237,13 @@ function price_log_service() { # runs the klines caching service
 
 	if [ -n "${RUN_IN_BACKGROUND}" ]; then
 		docker ps | grep "price-log-service-${CONTAINER_SUFFIX}" \
-			|awk '{
+			|awk '{ print $1 }' | xargs -i docker kill {} >/dev/null 2>&1
+	fi
+
+	docker run --rm \
+		${USE_TTY} \
+		${DOCKER_RUN_AS} \
+		${DOCKER_NAME} \
+		${DOCKER_MOUNTS} \
+		${DOCKER_NETWORK} \
+		--network-alias price-log-service 
