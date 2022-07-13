@@ -246,4 +246,12 @@ function price_log_service() { # runs the klines caching service
 		${DOCKER_NAME} \
 		${DOCKER_MOUNTS} \
 		${DOCKER_NETWORK} \
-		--network-alias price-log-service 
+		--network-alias price-log-service \
+		${RUN_IN_BACKGROUND} \
+    -p ${BIND}:${PORT}:8998 \
+		${IMAGE}:${TAG} \
+    /cryptobot/.venv/bin/gunicorn --preload \
+			--workers=${N_CPUS} \
+			--worker-class=gthread \
+			--threads=8 \
+			--worker-tmp
