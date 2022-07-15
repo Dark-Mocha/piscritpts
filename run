@@ -262,4 +262,12 @@ function setup() { # local setup for development
 	which pyenv >/dev/null 2>&1 ||  curl https://pyenv.run | bash
 	export PATH=~/.pyenv/bin:$PATH
 
-	if [
+	if [ ! -e .venv ]; then
+		pyenv install -s
+		pyenv exec python -m venv .venv
+	fi
+
+	source .venv/bin/activate
+	pip --disable-pip-version-check install wheel
+	pip --disable-pip-version-check install -r requirements.txt
+	pip
