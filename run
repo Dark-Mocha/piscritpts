@@ -270,4 +270,13 @@ function setup() { # local setup for development
 	source .venv/bin/activate
 	pip --disable-pip-version-check install wheel
 	pip --disable-pip-version-check install -r requirements.txt
-	pip
+	pip --disable-pip-version-check install -r requirements-dev.txt
+	deactivate
+}
+
+function tests() { # CI and pre-commit tests
+	set -e
+	set -o pipefail
+
+	IMAGE=local TAG=tests build
+	docker build -f Dockerfile.t
