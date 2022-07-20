@@ -279,4 +279,12 @@ function tests() { # CI and pre-commit tests
 	set -o pipefail
 
 	IMAGE=local TAG=tests build
-	docker build -f Dockerfile.t
+	docker build -f Dockerfile.tests .
+}
+
+function github_actions_ci_pr_docker_tests() {
+	set -ex
+  ./run down
+  ./run build TAG=pr
+  ./run klines-caching-service RUN_IN_BACKGROUND=yes TAG=pr
+  ./run price-log-service RUN_IN_BACKGROUND=yes
