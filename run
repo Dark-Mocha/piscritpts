@@ -287,4 +287,10 @@ function github_actions_ci_pr_docker_tests() {
   ./run down
   ./run build TAG=pr
   ./run klines-caching-service RUN_IN_BACKGROUND=yes TAG=pr
-  ./run price-log-service RUN_IN_BACKGROUND=yes
+  ./run price-log-service RUN_IN_BACKGROUND=yes TAG=pr
+
+	sleep 5
+
+	# don't worry if we can't push, as when running locally this will fail anyway
+	docker push ghcr.io/azulinho/cryptobot:pr || true
+	# TODO: review where these are being consumed in the tests
