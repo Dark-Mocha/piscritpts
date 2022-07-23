@@ -300,4 +300,8 @@ function github_actions_ci_pr_docker_tests() {
 
 	mkdir -p log/ETHUSDT
 	mkdir -p log/BTCUSDT
-	for ta in 01 02 03 04 05 06 0
+	for ta in 01 02 03 04 05 06 07 08 09
+	do
+		cat tests/price.log.gz | grep 2021-12-${ta}  |gzip -1 > log/202112${ta}.log.gz
+		cat tests/price.log.gz | grep ETHUSDT | grep 2021-12-${ta}  |gzip -1 > log/ETHUSDT/202112${ta}.log.gz
+		cat tests/pr
