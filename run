@@ -304,4 +304,9 @@ function github_actions_ci_pr_docker_tests() {
 	do
 		cat tests/price.log.gz | grep 2021-12-${ta}  |gzip -1 > log/202112${ta}.log.gz
 		cat tests/price.log.gz | grep ETHUSDT | grep 2021-12-${ta}  |gzip -1 > log/ETHUSDT/202112${ta}.log.gz
-		cat tests/pr
+		cat tests/price.log.gz | grep BTCUSDT | grep 2021-12-${ta}  |gzip -1 > log/BTCUSDT/202112${ta}.log.gz
+	done
+	cp tests/index.json.gz log/
+
+	export PRICE_LOG_PORT=$( cat ${STATE_DIR}/.price_log_service.port)
+	curl --output /dev/null http://${DOCKER_IP}:$
