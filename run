@@ -309,4 +309,9 @@ function github_actions_ci_pr_docker_tests() {
 	cp tests/index.json.gz log/
 
 	export PRICE_LOG_PORT=$( cat ${STATE_DIR}/.price_log_service.port)
-	curl --output /dev/null http://${DOCKER_IP}:$
+	curl --output /dev/null http://${DOCKER_IP}:${PRICE_LOG_PORT}/index.json.gz
+
+	echo BuyMoonSellRecoveryStrategy.yaml
+	cp tests/BuyMoonSellRecoveryStrategy.yaml configs/
+	./run backtesting CONFIG_FILE=BuyMoonSellRecoveryStrategy.yaml TAG=pr
+	grep 
