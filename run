@@ -314,4 +314,8 @@ function github_actions_ci_pr_docker_tests() {
 	echo BuyMoonSellRecoveryStrategy.yaml
 	cp tests/BuyMoonSellRecoveryStrategy.yaml configs/
 	./run backtesting CONFIG_FILE=BuyMoonSellRecoveryStrategy.yaml TAG=pr
-	grep 
+	grep 'wins:366 losses:98 stales:104 holds:1' results/backtesting.BuyMoonSellRecoveryStrategy.yaml.txt
+
+	echo BuyOnGrowthTrendAfterDropStrategy.yaml
+	cp tests/BuyOnGrowthTrendAfterDropStrategy.yaml configs/
+	./run backtesting
