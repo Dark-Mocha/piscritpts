@@ -333,4 +333,7 @@ function github_actions_ci_pr_docker_tests() {
 
 	echo BuyDropSellRecoveryStrategyWhenBTCisDown.yaml
 	cp tests/BuyDropSellRecoveryStrategyWhenBTCisDown.yaml configs/
-	./run back
+	./run backtesting CONFIG_FILE=BuyDropSellRecoveryStrategyWhenBTCisDown.yaml TAG=pr
+	grep 'wins:10 losses:0 stales:125 holds:0' results/backtesting.BuyDropSellRecoveryStrategyWhenBTCisDown.yaml.txt
+
+	echo BuyOnRecoveryAfterDropDuringGrowthTren
