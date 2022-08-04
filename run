@@ -343,4 +343,5 @@ function github_actions_ci_pr_docker_tests() {
 
 	echo BuyOnRecoveryAfterDropFromAverageStrategy.yaml
 	cp tests/BuyOnRecoveryAfterDropFromAverageStrategy.yaml configs/
-	./ru
+	./run backtesting CONFIG_FILE=BuyOnRecoveryAfterDropFromAverageStrategy.yaml TAG=pr
+	grep 'wins:195 losses:4 stales:621 holds:0' results/backtesting.BuyOnRecoveryAfterDropFromAverageStrategy.yaml.tx
