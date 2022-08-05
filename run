@@ -351,4 +351,13 @@ function github_actions_ci_pr_docker_tests() {
 	./run prove-backtesting \
 		TAG=pr CONFIG_FILE=prove-backtesting.yaml
 
-	wc -l results/prove-backtesting.prove-backtesting.ya
+	wc -l results/prove-backtesting.prove-backtesting.yaml.txt \
+		| grep '29'
+
+	for ta in 01 02 03 04 05 06 07 08 09
+	do
+		rm -f log/202112${ta}.log.gz
+		rm -f log/ETHUSDT/202112${ta}.log.gz
+		rm -f log/BTCUSDT/202112${ta}.log.gz
+	done
+	rm -f log/index.json.g
