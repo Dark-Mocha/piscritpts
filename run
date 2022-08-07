@@ -369,4 +369,15 @@ function compress_logs() { # compresses the latest price logs
 	find ${LOG_DIR}/ -name "202*.log" | grep -v "$(date  '+%Y%m%d')" | xargs -i gzip -3 {}
 }
 
-function last_few_days() { # generates a lastfewdays.log.gz fr
+function last_few_days() { # generates a lastfewdays.log.gz from last n days
+	if [ -z "$PAIR" ]; then
+		echo "PAIR env variable not set"
+		exit 1
+	fi
+	if [ -z "$DAYS" ]; then
+		echo "DAYS env variable not set"
+		exit 1
+	fi
+
+	rm -f lastfewdays.log.gz; for ta in `find log/ -name '202*.gz' |sort -n \
+		| tail 
