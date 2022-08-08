@@ -380,4 +380,10 @@ function last_few_days() { # generates a lastfewdays.log.gz from last n days
 	fi
 
 	rm -f lastfewdays.log.gz; for ta in `find log/ -name '202*.gz' |sort -n \
-		| tail 
+		| tail -${DAYS}` ; do zcat $ta | grep -a "${PAIR}" \
+		| grep -vEa 'DOWN${PAIR}|UP${PAIR}|BULL${PAIR}|BEAR${PAIR}' \
+		| gzip -3 >> lastfewdays.log.gz; done
+}
+
+function main() { # main innit?
+	LOCAL_PATH="$
