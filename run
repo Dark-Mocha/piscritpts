@@ -394,4 +394,15 @@ function main() { # main innit?
 	export USE_TTY=""
 	test -t 1 && USE_TTY="-it"
 
-	# allow for the same syntax used in makefiles using '-' instea
+	# allow for the same syntax used in makefiles using '-' instead of '_'
+	export MODE=$( echo $1 | tr -s '-' '_' )
+	shift 1
+
+	# convert CLI into env vars
+	for ARG in $*
+	do
+		export $ARG
+	done
+
+	# certain modes require certain env vars set
+	if [ "`echo " $MODE " | grep -cE ' logmod
