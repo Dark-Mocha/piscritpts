@@ -386,4 +386,12 @@ function last_few_days() { # generates a lastfewdays.log.gz from last n days
 }
 
 function main() { # main innit?
-	LOCAL_PATH="$
+	LOCAL_PATH="$(pwd)"
+	export PATH="${LOCAL_PATH}/.venv/bin:$PATH"
+
+	if [ $# -eq 0 ]; then usage; exit 1; fi
+
+	export USE_TTY=""
+	test -t 1 && USE_TTY="-it"
+
+	# allow for the same syntax used in makefiles using '-' instea
