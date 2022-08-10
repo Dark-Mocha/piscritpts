@@ -405,4 +405,12 @@ function main() { # main innit?
 	done
 
 	# certain modes require certain env vars set
-	if [ "`echo " $MODE " | grep -cE ' logmod
+	if [ "`echo " $MODE " | grep -cE ' logmode | live | testnet '`" -eq 1 ]; then
+		if [ -z "$CONFIG_FILE" ]; then
+			echo "CONFIG_FILE env variable not set"
+			exit 1
+		fi
+	fi
+
+	if [ -z "$RUN_IN_BACKGROUND" ]; then
+		export RUN_IN_BACKGROUND=""
