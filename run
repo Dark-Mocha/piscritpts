@@ -414,3 +414,17 @@ function main() { # main innit?
 
 	if [ -z "$RUN_IN_BACKGROUND" ]; then
 		export RUN_IN_BACKGROUND=""
+	else
+		export RUN_IN_BACKGROUND="-d"
+	fi
+
+	if [ -z "$IMAGE" ]; then
+		export IMAGE="ghcr.io/azulinho/cryptobot"
+	fi
+
+	if [ -z "$TAG" ]; then
+		export TAG="latest"
+	fi
+
+	if [ -z "$SMP_MULTIPLIER" ]; then
+		export SMP
