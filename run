@@ -427,4 +427,13 @@ function main() { # main innit?
 	fi
 
 	if [ -z "$SMP_MULTIPLIER" ]; then
-		export SMP
+		export SMP_MULTIPLIER=1
+	fi
+
+	if [ -z "$BIND_ADDRESS" ]; then
+		export DOCKER_IP=$(ip a show docker0 |grep 'inet '| awk '{ print $2 }' | cut -f1 -d '/')
+		export BIND_ADDRESS=$DOCKER_IP
+	fi
+
+	if [ -z "$LOG_DIR" ]; then
+		expo
