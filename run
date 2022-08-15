@@ -436,4 +436,16 @@ function main() { # main innit?
 	fi
 
 	if [ -z "$LOG_DIR" ]; then
-		expo
+		export LOG_DIR="$(pwd)/log"
+	fi
+
+	if [ -z "$CONFIG_DIR" ]; then
+		export CONFIG_DIR="$(pwd)/configs"
+	fi
+
+	if [ -z "$SECRETS_DIR" ]; then
+		export SECRETS_DIR="$(pwd)/secrets"
+	fi
+
+	if [ -z "$STATE_DIR" ]; then
+		export STATE_DIR="$(pwd)/state"
