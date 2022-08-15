@@ -449,3 +449,15 @@ function main() { # main innit?
 
 	if [ -z "$STATE_DIR" ]; then
 		export STATE_DIR="$(pwd)/state"
+	fi
+
+	if [ -z "$RESULTS_DIR" ]; then
+		export RESULTS_DIR="$(pwd)/results"
+	fi
+
+	if [ -z "$CONTROL_DIR" ]; then
+		export CONTROL_DIR="$(pwd)/control"
+	fi
+
+	if [ -z "$CACHE_DIR" ]; then
+		export CACHE_DIR="$(pwd)/ca
