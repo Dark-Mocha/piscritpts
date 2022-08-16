@@ -460,4 +460,20 @@ function main() { # main innit?
 	fi
 
 	if [ -z "$CACHE_DIR" ]; then
-		export CACHE_DIR="$(pwd)/ca
+		export CACHE_DIR="$(pwd)/cache"
+	fi
+
+	# TODO: do I need this?
+	if [ -z "$TESTS_DIR" ]; then
+		export TESTS_DIR="$(pwd)/tests"
+	fi
+
+	if [ -z "$SORTBY" ]; then
+		export SORTBY="number_of_clean_wins"
+	fi
+
+	if [ -z "$FILTER" ]; then
+		export FILTER=''
+	fi
+
+	i
