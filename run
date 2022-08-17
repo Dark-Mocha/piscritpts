@@ -476,4 +476,12 @@ function main() { # main innit?
 		export FILTER=''
 	fi
 
-	i
+	if [ -z "$TMP_DIR" ]; then
+		export TMP_DIR="$(pwd)/tmp"
+	fi
+
+
+	export N_CPUS=`grep processor /proc/cpuinfo|wc -l`
+
+	export DOCKER_MOUNTS=""
+	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v /etc/timezone:/e
