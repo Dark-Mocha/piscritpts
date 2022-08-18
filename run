@@ -484,4 +484,7 @@ function main() { # main innit?
 	export N_CPUS=`grep processor /proc/cpuinfo|wc -l`
 
 	export DOCKER_MOUNTS=""
-	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v /etc/timezone:/e
+	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v /etc/timezone:/etc/timezone:ro"
+	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v /etc/localtime:/etc/localtime:ro"
+	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v $PWD/strategies:/cryptobot/strategies:rw "
+	export DOCKER_MOUNTS="${DOCKER_M
