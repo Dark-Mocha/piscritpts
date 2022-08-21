@@ -492,4 +492,7 @@ function main() { # main innit?
 	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v $LOG_DIR:/cryptobot/log:rw "
 	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v $STATE_DIR:/cryptobot/state:rw "
 	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v $RESULTS_DIR:/cryptobot/results:rw "
-	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v $CONTR
+	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v $CONTROL_DIR:/cryptobot/control:rw "
+	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v $CACHE_DIR:/cryptobot/cache:rw "
+	export DOCKER_MOUNTS="${DOCKER_MOUNTS} -v $TESTS_DIR:/cryptobot/tests:rw "
+	export DOCKER_MOUNTS="${DOCK
