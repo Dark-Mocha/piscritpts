@@ -499,4 +499,10 @@ function main() { # main innit?
 
 	export DOCKER_RUN_AS="--user $(id -u):$(id -g)"
 	export DOCKER_PREFIX_VARS="U=`id -u` G=`id -g` BIND=${BIND_ADDRESS} "
-	export CONTAINER_SUFFIX="$(whoami)-$(pwd 
+	export CONTAINER_SUFFIX="$(whoami)-$(pwd |md5sum |cut -c1-8)"
+	export DOCKER_NAME="--name $MODE-${CONTAINER_SUFFIX}"
+	export DOCKER_NETWORK="--network ${CONTAINER_SUFFIX}"
+
+	checks
+	docker_network
+  set_service_ports klines_caching_service config_endpoint_ser
