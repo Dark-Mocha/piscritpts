@@ -505,4 +505,8 @@ function main() { # main innit?
 
 	checks
 	docker_network
-  set_service_ports klines_caching_service config_endpoint_ser
+  set_service_ports klines_caching_service config_endpoint_service live testnet price_log_service
+	${MODE}
+}
+
+main $*
