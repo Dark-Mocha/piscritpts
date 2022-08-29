@@ -10,4 +10,8 @@ class Strategy(Bot):
     def buy_strategy(self, coin: Coin) -> bool:
         """BuyDropSellRecoveryStrategy buy_strategy
 
-        this strategy, looks for the recovery point in price for a c
+        this strategy, looks for the recovery point in price for a coin after
+        a drop in price.
+        when a coin drops by BUY_AT_PERCENTAGE the bot marks that coin
+        as TARGET_DIP, and then monitors its price recording the lowest
+        price it sees(t
