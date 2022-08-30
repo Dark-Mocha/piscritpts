@@ -14,4 +14,10 @@ class Strategy(Bot):
         a drop in price.
         when a coin drops by BUY_AT_PERCENTAGE the bot marks that coin
         as TARGET_DIP, and then monitors its price recording the lowest
-        price it sees(t
+        price it sees(the dip).
+        As soon the coin goes above the dip by TRAIL_RECOVERY_PERCENTAGE
+        the bot buys the coin."""
+
+        if (
+            # as soon the price goes below BUY_AT_PERCENTAGE, mark coin as
+      
