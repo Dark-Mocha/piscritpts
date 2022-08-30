@@ -20,4 +20,10 @@ class Strategy(Bot):
 
         if (
             # as soon the price goes below BUY_AT_PERCENTAGE, mark coin as
-      
+            # TARGET_DIP
+            coin.status == ""
+            and not coin.naughty
+            and coin.price < percent(coin.buy_at_percentage, coin.max)
+        ):
+            coin.dip = coin.price
+            logg
