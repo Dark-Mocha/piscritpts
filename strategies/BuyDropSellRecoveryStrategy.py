@@ -26,4 +26,10 @@ class Strategy(Bot):
             and coin.price < percent(coin.buy_at_percentage, coin.max)
         ):
             coin.dip = coin.price
-            logg
+            logging.info(
+                f"{c_from_timestamp(coin.date)}: {coin.symbol} [{coin.status}] "
+                + f"-> [TARGET_DIP] ({coin.price})"
+            )
+            coin.status = "TARGET_DIP"
+
+        if coin.status != "TARGET_DIP
