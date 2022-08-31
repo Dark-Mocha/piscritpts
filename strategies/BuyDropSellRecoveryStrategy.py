@@ -32,4 +32,10 @@ class Strategy(Bot):
             )
             coin.status = "TARGET_DIP"
 
-        if coin.status != "TARGET_DIP
+        if coin.status != "TARGET_DIP":
+            return False
+
+        # record the dip, and wait until the price recovers all the way
+        # to the TRAIL_RECOVERY_PERCENTAGE, then buy.
+        self.log_debug_coin(coin)
+        if co
