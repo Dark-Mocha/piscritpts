@@ -38,4 +38,8 @@ class Strategy(Bot):
         # record the dip, and wait until the price recovers all the way
         # to the TRAIL_RECOVERY_PERCENTAGE, then buy.
         self.log_debug_coin(coin)
-        if co
+        if coin.price > coin.last:
+            if coin.price > percent(coin.trail_recovery_percentage, coin.dip):
+                self.buy_coin(coin)
+                return True
+        return False
