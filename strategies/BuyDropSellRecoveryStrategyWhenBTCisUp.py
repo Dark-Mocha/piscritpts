@@ -32,3 +32,11 @@ class Strategy(Bot):
         klines_trend_period = int(self.coins[BTC].klines_trend_period[:-1])
 
         last_period = list(self.coins[BTC].averages[unit])[
+            -klines_trend_period:
+        ]
+
+        if len(last_period) < klines_trend_period:
+            return False
+
+        last_period_slice = last_period[0][1]
+        for _, n in last_p
