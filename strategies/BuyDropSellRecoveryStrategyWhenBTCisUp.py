@@ -18,3 +18,14 @@ class Strategy(Bot):
         wait for the coin to go up in price by TRAIL_RECOVERY_PERCENTAGE
         before buying the coin
 
+        """
+
+        BTC = f"BTC{self.pairing}"
+        # with this strategy we never buy BTC
+        if coin.symbol == BTC:
+            return False
+
+        if BTC not in self.coins:
+            return False
+
+        uni
