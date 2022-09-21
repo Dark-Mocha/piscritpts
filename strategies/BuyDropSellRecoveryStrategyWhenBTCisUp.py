@@ -28,4 +28,7 @@ class Strategy(Bot):
         if BTC not in self.coins:
             return False
 
-        uni
+        unit = str(self.coins[BTC].klines_trend_period[-1:]).lower()
+        klines_trend_period = int(self.coins[BTC].klines_trend_period[:-1])
+
+        last_period = list(self.coins[BTC].averages[unit])[
