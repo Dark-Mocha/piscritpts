@@ -39,4 +39,11 @@ class Strategy(Bot):
             return False
 
         last_period_slice = last_period[0][1]
-        for _, n in last_p
+        for _, n in last_period[1:]:
+            if (
+                percent(
+                    100
+                    + float(self.coins[BTC].klines_slice_percentage_change),
+                    last_period_slice,
+                )
+                
