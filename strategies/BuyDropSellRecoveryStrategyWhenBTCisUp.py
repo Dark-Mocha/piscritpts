@@ -46,4 +46,12 @@ class Strategy(Bot):
                     + float(self.coins[BTC].klines_slice_percentage_change),
                     last_period_slice,
                 )
-                
+                > n
+            ):
+                return False
+            last_period_slice = n
+
+        # has the price gone down by x% on a coin we don't own?
+        if (
+            coin.price < percent(coin.buy_at_percentage, coin.max)
+  
