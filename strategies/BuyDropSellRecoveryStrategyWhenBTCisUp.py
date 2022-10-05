@@ -54,4 +54,9 @@ class Strategy(Bot):
         # has the price gone down by x% on a coin we don't own?
         if (
             coin.price < percent(coin.buy_at_percentage, coin.max)
-  
+            and coin.status == ""
+            and not coin.naughty
+        ):
+            coin.dip = coin.price
+            logging.info(
+                f"{c_from_timestamp(coin.date)}: {coin.symbol} [{coin.stat
