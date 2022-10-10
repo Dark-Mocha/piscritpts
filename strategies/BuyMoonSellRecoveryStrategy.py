@@ -15,3 +15,8 @@ class Strategy(Bot):
         it buys the coin.
 
         """
+        if coin.price > percent(coin.buy_at_percentage, coin.last):
+            self.buy_coin(coin)
+            self.log_debug_coin(coin)
+            return True
+        return False
