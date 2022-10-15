@@ -19,4 +19,9 @@ class Strategy(Bot):
         and buy it as soon we're over the dip by TRAIL_RECOVERY_PERCENTAGE.
         """
 
-        u
+        unit = str(coin.klines_trend_period[-1:]).lower()
+        klines_trend_period = int(coin.klines_trend_period[:-1])
+
+        last_period = list(coin.averages[unit])[-klines_trend_period:]
+
+        # we nee
