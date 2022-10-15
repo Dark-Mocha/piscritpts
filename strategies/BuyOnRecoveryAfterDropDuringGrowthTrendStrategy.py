@@ -24,4 +24,10 @@ class Strategy(Bot):
 
         last_period = list(coin.averages[unit])[-klines_trend_period:]
 
-        # we nee
+        # we need at least a full period of klines before we can
+        # make a buy decision
+        if len(last_period) < klines_trend_period:
+            return False
+
+        last_period_slice = last_period[0][1]
+        # i
