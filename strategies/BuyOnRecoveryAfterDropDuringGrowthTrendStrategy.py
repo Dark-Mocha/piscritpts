@@ -30,4 +30,8 @@ class Strategy(Bot):
             return False
 
         last_period_slice = last_period[0][1]
-        # i
+        # if the price keeps going down, skip it
+        # we want to make sure the price has increased over n slices of the
+        # klines_trend_period (m, h, d) by klines_slice_percentage_change
+        # each time.
+        for _, n in last_pe
