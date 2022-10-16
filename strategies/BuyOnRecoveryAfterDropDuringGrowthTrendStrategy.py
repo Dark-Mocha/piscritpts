@@ -34,4 +34,11 @@ class Strategy(Bot):
         # we want to make sure the price has increased over n slices of the
         # klines_trend_period (m, h, d) by klines_slice_percentage_change
         # each time.
-        for _, n in last_pe
+        for _, n in last_period[1:]:
+            if (
+                percent(
+                    100 + coin.klines_slice_percentage_change,
+                    last_period_slice,
+                )
+                > n
+            )
