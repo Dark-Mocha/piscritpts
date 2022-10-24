@@ -41,4 +41,11 @@ class Strategy(Bot):
                     last_period_slice,
                 )
                 > n
-            )
+            ):
+                return False
+            last_period_slice = n
+
+        # check if the maximum price recorded is now lower than the
+        # BUY_AT_PERCENTAGE
+        if (
+            coin.price < percent(coin.buy_at
