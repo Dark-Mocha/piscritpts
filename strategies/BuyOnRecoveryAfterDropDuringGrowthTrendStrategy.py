@@ -48,4 +48,10 @@ class Strategy(Bot):
         # check if the maximum price recorded is now lower than the
         # BUY_AT_PERCENTAGE
         if (
-            coin.price < percent(coin.buy_at
+            coin.price < percent(coin.buy_at_percentage, coin.max)
+            and coin.status == ""
+            and not coin.naughty
+        ):
+            coin.dip = coin.price
+            logging.info(
+                f"{c_from_timestamp(coin
