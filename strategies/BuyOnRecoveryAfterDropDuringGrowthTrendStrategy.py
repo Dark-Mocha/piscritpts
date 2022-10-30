@@ -65,4 +65,9 @@ class Strategy(Bot):
 
         # do some gimmicks, and don't buy the coin straight away
         # but only buy it when the price is now higher than the last
-        # price recorded. This way we
+        # price recorded. This way we ensure that we got the dip
+        self.log_debug_coin(coin)
+        if coin.price > coin.last:
+            if coin.price > percent(coin.trail_recovery_percentage, coin.dip):
+                self.buy_coin(coin)
+           
