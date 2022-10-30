@@ -61,4 +61,8 @@ class Strategy(Bot):
             return False
 
         if coin.status != "TARGET_DIP":
-   
+            return False
+
+        # do some gimmicks, and don't buy the coin straight away
+        # but only buy it when the price is now higher than the last
+        # price recorded. This way we
