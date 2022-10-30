@@ -54,4 +54,11 @@ class Strategy(Bot):
         ):
             coin.dip = coin.price
             logging.info(
-                f"{c_from_timestamp(coin
+                f"{c_from_timestamp(coin.date)}: {coin.symbol} [{coin.status}] "
+                + f"-> [TARGET_DIP] ({coin.price})"
+            )
+            coin.status = "TARGET_DIP"
+            return False
+
+        if coin.status != "TARGET_DIP":
+   
