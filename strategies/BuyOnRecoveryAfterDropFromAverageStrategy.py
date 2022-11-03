@@ -1,26 +1,24 @@
+
 """ bot buy strategy file """
 from lib.bot import Bot
 from lib.coin import Coin
-from lib.helpers import c_from_timestamp, logging, percent
+from lib.helpers import c_from_timestamp, logging, mean, percent
 
 
 class Strategy(Bot):
-    """BuyOnRecoveryAfterDropDuringGrowthTrendStrategy"""
+    """BuyOnRecoveryAfterDropFromAverageStrategy"""
 
     def buy_strategy(self, coin: Coin) -> bool:
-        """BuyOnRecoveryAfterDropDuringGrowthTrendStrategy buy_strategy
+        """BuyOnRecoveryAfterDropFromAverageStrategy buy_strategy
 
-        This strategy looks for coins that have gone up by
-        KLINES_SLICE_PERCENTAGE_CHANGE in each slice (m,h,d) of the
-        KLINES_TREND_PERIOD.
-        Then it checkous that the current price for those is
-        lower than the BUY_AT_PERCENTAGE over the maximum price recorded.
+        This strategy looks for coins that are below the average price over
+        the last KLINES_TREND_PERIOD by at least the BUY_AT_PERCENTAGE.
         if it is, then mark the coin as TARGET_DIP
         and buy it as soon we're over the dip by TRAIL_RECOVERY_PERCENTAGE.
         """
 
         unit = str(coin.klines_trend_period[-1:]).lower()
-        klines_trend_period = int(coin.klines_trend_period[:-1])
+        klines_trend_period = int("".join(coin.klines_trend_period[:-1]))
 
         last_period = list(coin.averages[unit])[-klines_trend_period:]
 
@@ -29,28 +27,13 @@ class Strategy(Bot):
         if len(last_period) < klines_trend_period:
             return False
 
-        last_period_slice = last_period[0][1]
-        # if the price keeps going down, skip it
-        # we want to make sure the price has increased over n slices of the
-        # klines_trend_period (m, h, d) by klines_slice_percentage_change
-        # each time.
-        for _, n in last_period[1:]:
-            if (
-                percent(
-                    100 + coin.klines_slice_percentage_change,
-                    last_period_slice,
-                )
-                > n
-            ):
-                return False
-            last_period_slice = n
-
-        # check if the maximum price recorded is now lower than the
-        # BUY_AT_PERCENTAGE
+        average = mean([v for _, v in last_period])
+        # check if the average price recorded over the last_period is now
+        # lower than the BUY_AT_PERCENTAGE
         if (
-            coin.price < percent(coin.buy_at_percentage, coin.max)
-            and coin.status == ""
+            coin.status == ""
             and not coin.naughty
+            and (coin.price < percent(coin.buy_at_percentage, average))
         ):
             coin.dip = coin.price
             logging.info(
@@ -58,7 +41,6 @@ class Strategy(Bot):
                 + f"-> [TARGET_DIP] ({coin.price})"
             )
             coin.status = "TARGET_DIP"
-            return False
 
         if coin.status != "TARGET_DIP":
             return False
