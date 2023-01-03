@@ -34,4 +34,5 @@ TICKERS:
     <<: *defaults
 
 PRICE_LOGS: [
-  "tests.pric
+  "tests.price.log.gz",
+]
