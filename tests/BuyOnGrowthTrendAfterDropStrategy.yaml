@@ -26,4 +26,16 @@ ANCHORS:
     HARD_LIMIT_HOLDING_TIME: 100
     NAUGHTY_TIMEOUT: 120
     KLINES_TREND_PERIOD: 3h
-    KLINES
+    KLINES_SLICE_PERCENTAGE_CHANGE: +0.1
+
+
+TICKERS:
+  BTCUSDT:
+    <<: *defaults
+
+  ETHUSDT:
+    <<: *defaults
+
+PRICE_LOGS: [
+  "tests.price.log.gz",
+]
