@@ -10,4 +10,12 @@ TRADING_FEE: 0.1
 SELL_AS_SOON_IT_DROPS: False # <-- HERE SCALPING MODE
 PRICE_LOG_SERVICE_URL: "http://price-log-service:8998/"
 
-STRATEGY: Buy
+STRATEGY: BuyOnRecoveryAfterDropDuringGrowthTrendStrategy
+
+
+ANCHORS:
+  DEFAULTS: &defaults
+    BUY_AT_PERCENTAGE: -0.1
+    SELL_AT_PERCENTAGE: +0.1
+    STOP_LOSS_AT_PERCENTAGE: -1.0
+    TRAIL_TARGET_SELL_PER
