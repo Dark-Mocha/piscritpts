@@ -32,4 +32,8 @@ TICKERS:
     <<: *defaults
 
   ETHUSDT:
-   
+    <<: *defaults
+
+PRICE_LOGS: [
+  "tests.price.log.gz",
+]
