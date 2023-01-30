@@ -20,4 +20,23 @@ ANCHORS: &defaults
   TRAIL_TARGET_SELL_PERCENTAGE: -0.5
   TRAIL_RECOVERY_PERCENTAGE: +1.0
   NAUGHTY_TIMEOUT: 28800
-  KLI
+  KLINES_TREND_PERIOD: 7d
+  KLINES_SLICE_PERCENTAGE_CHANGE: +1
+
+
+TICKERS:
+  BTCUSDT:
+    <<: *defaults
+
+  ETHUSDT:
+    <<: *defaults
+
+  BNBUSDT:
+    <<: *defaults
+
+  DOTUSDT:
+    <<: *defaults
+
+  ADAUSDT:
+    <<: *defaults
+    BUY_AT_PERCENTAGE: -
