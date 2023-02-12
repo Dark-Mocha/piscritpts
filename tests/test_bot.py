@@ -300,3 +300,206 @@ class TestBot:
             return_value={
                 "symbol": "BTCUSDT",
                 "orderId": "1",
+                "transactTime": 1507725176595,
+                "fills": [
+                    {
+                        "price": "100",
+                        "qty": "0.5",
+                        "commission": "1",
+                    }
+                ],
+            },
+        ) as _:
+            with mock.patch.object(
+                bot.client,
+                "get_order",
+                return_value={
+                    "symbol": "BTCUSDT",
+                    "orderId": 1,
+                    "price": 100,
+                    "status": "FILLED",
+                },
+            ) as _:
+                with mock.patch.object(
+                    bot.client,
+                    "get_all_orders",
+                    return_value=[
+                        {
+                            "symbol": "BTCUSDT",
+                            "orderId": 1,
+                            "price": 100,
+                            "status": "FILLED",
+                        }
+                    ],
+                ) as _:
+                    with mock.patch.object(
+                        bot, "get_step_size", return_value=(True, "0.00001000")
+                    ) as _:
+                        assert bot.sell_coin(coin) is True
+                        assert bot.wallet == []
+                        # assert float(coin.price) == float(100)
+                        # assert float(coin.bought_at) == float(0)
+                        print(coin.value)
+                        assert float(coin.value) == float(0.0)
+
+    def test_sell_coin_using_limit_order_in_testnet(self, bot, coin):
+        bot.mode = "testnet"
+        bot.order_type = "LIMIT"
+        coin.price = 100
+        bot.wallet = ["BTCUSDT"]
+        bot.coins["BTCUSDT"] = coin
+
+        with mock.patch.object(
+            bot.client,
+            "create_order",
+            return_value={
+                "symbol": "BTCUSDT",
+                "orderId": "1",
+                "transactTime": 1507725176595,
+            },
+        ) as _:
+            with mock.patch.object(
+                bot.client,
+                "get_order",
+                return_value={
+                    "symbol": "BTCUSDT",
+                    "orderId": 1,
+                    "price": 100,
+                    "status": "FILLED",
+                    "executedQty": 0.5,
+                },
+            ) as _:
+                with mock.patch.object(
+                    bot, "get_step_size", return_value=(True, "0.00001000")
+                ) as _:
+                    with mock.patch.object(
+                        bot.client,
+                        "get_order_book",
+                        return_value={"bids": [[100, 1]]},
+                    ) as _:
+                        assert bot.sell_coin(coin) is True
+                        assert bot.wallet == []
+                        assert float(coin.price) == float(100)
+                        assert float(coin.bought_at) == float(0)
+                        assert float(coin.value) == float(0.0)
+
+    def test_get_step_size(self, bot):
+        with mock.patch.object(
+            bot.client,
+            "get_symbol_info",
+            return_value={
+                "symbol": "BTCUSDT",
+                "status": "TRADING",
+                "baseAsset": "BTC",
+                "baseAssetPrecision": 8,
+                "quoteAsset": "USDT",
+                "quotePrecision": 8,
+                "quoteAssetPrecision": 8,
+                "baseCommissionPrecision": 8,
+                "quoteCommissionPrecision": 8,
+                "orderTypes": [
+                    "LIMIT",
+                    "LIMIT_MAKER",
+                    "MARKET",
+                    "STOP_LOSS_LIMIT",
+                    "TAKE_PROFIT_LIMIT",
+                ],
+                "icebergAllowed": "true",
+                "ocoAllowed": "true",
+                "quoteOrderQtyMarketAllowed": "true",
+                "allowTrailingStop": "true",
+                "cancelReplaceAllowed": "true",
+                "isSpotTradingAllowed": "true",
+                "isMarginTradingAllowed": "true",
+                "filters": [
+                    {
+                        "filterType": "PRICE_FILTER",
+                        "minPrice": "0.10000000",
+                        "maxPrice": "100000.00000000",
+                        "tickSize": "0.10000000",
+                    },
+                    {
+                        "filterType": "LOT_SIZE",
+                        "minQty": "0.00100000",
+                        "maxQty": "900000.00000000",
+                        "stepSize": "0.00001000",
+                    },
+                    {
+                        "filterType": "MIN_NOTIONAL",
+                        "minNotional": "10.00000000",
+                        "applyToMarket": "true",
+                        "avgPriceMins": 5,
+                    },
+                    {"filterType": "ICEBERG_PARTS", "limit": 10},
+                    {
+                        "filterType": "MARKET_LOT_SIZE",
+                        "minQty": "0.00000000",
+                        "maxQty": "15943.07122777",
+                        "stepSize": "0.00000000",
+                    },
+                    {
+                        "filterType": "TRAILING_DELTA",
+                        "minTrailingAboveDelta": 10,
+                        "maxTrailingAboveDelta": 2000,
+                        "minTrailingBelowDelta": 10,
+                        "maxTrailingBelowDelta": 2000,
+                    },
+                    {
+                        "filterType": "PERCENT_PRICE_BY_SIDE",
+                        "bidMultiplierUp": "5",
+                        "bidMultiplierDown": "0.2",
+                        "askMultiplierUp": "5",
+                        "askMultiplierDown": "0.2",
+                        "avgPriceMins": 5,
+                    },
+                    {"filterType": "MAX_NUM_ORDERS", "maxNumOrders": 200},
+                    {
+                        "filterType": "MAX_NUM_ALGO_ORDERS",
+                        "maxNumAlgoOrders": 5,
+                    },
+                ],
+                "permissions": [
+                    "SPOT",
+                    "MARGIN",
+                    "TRD_GRP_004",
+                    "TRD_GRP_005",
+                ],
+                "defaultSelfTradePreventionMode": "NONE",
+                "allowedSelfTradePreventionModes": ["NONE"],
+            },
+        ) as _:
+            result = bot.get_step_size("BTCUSDT")
+            assert result == (True, "0.00001000")
+
+    def test_extract_order_data(self, bot, coin):
+        order_details = {
+            "symbol": "BTCSDT",
+            "orderId": 832382,
+            "orderListId": -1,
+            "clientOrderId": "jaksil2Ajbkl39kklapAQp",
+            "transactTime": 1681589444803,
+            "price": "0.00000000",
+            "origQty": "2.31000000",
+            "executedQty": "2.31000000",
+            "cummulativeQuoteQty": "768.15300000",
+            "status": "FILLED",
+            "timeInForce": "GTC",
+            "type": "MARKET",
+            "side": "SELL",
+            "workingTime": 1681589444803,
+            "fills": [
+                {
+                    "price": "332.60000000",
+                    "qty": "0.78000000",
+                    "commission": "0.00000000",
+                    "commissionAsset": "USDT",
+                    "tradeId": 69154,
+                },
+                {
+                    "price": "332.50000000",
+                    "qty": "1.53000000",
+                    "commission": "0.00000000",
+                    "commissionAsset": "USDT",
+                    "tradeId": 69155,
+                },
+            ],
