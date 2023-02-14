@@ -503,3 +503,185 @@ class TestBot:
                     "tradeId": 69155,
                 },
             ],
+            "selfTradePreventionMode": "NONE",
+        }
+
+        bot.calculate_volume_size = mock.MagicMock()
+        bot.calculate_volume_size.return_value = (True, 0.5)
+
+        ok, data = bot.extract_order_data(order_details, coin)
+        assert ok is True
+        assert data["avgPrice"] == 332.53376623376624
+        assert data["volume"] == 0.5
+
+    def test_calculate_volume_size(self, bot, coin):
+        with mock.patch.object(
+            bot, "get_step_size", return_value=(True, "0.00001000")
+        ) as _:
+            ok, volume = bot.calculate_volume_size(coin)
+            assert ok == True
+            assert volume == 0.5
+
+    def test_get_binance_prices(self, bot):
+        pass
+
+    def test_init_or_update_coin(self, bot, cfg):
+        binance_data = {"symbol": "BTCUSDT", "price": "101.000"}
+
+        bot.load_klines_for_coin = mock.Mock()
+
+        result = bot.init_or_update_coin(binance_data)
+        assert result is None
+
+        assert float(bot.coins["BTCUSDT"].price) == float(101.0)
+        assert bot.coins["BTCUSDT"].buy_at_percentage == float(
+            100 + cfg["TICKERS"]["BTCUSDT"]["BUY_AT_PERCENTAGE"]
+        )
+        assert bot.coins["BTCUSDT"].stop_loss_at_percentage == float(
+            100 + cfg["TICKERS"]["BTCUSDT"]["STOP_LOSS_AT_PERCENTAGE"]
+        )
+        assert bot.coins["BTCUSDT"].sell_at_percentage == float(
+            100 + cfg["TICKERS"]["BTCUSDT"]["SELL_AT_PERCENTAGE"]
+        )
+        assert bot.coins["BTCUSDT"].trail_target_sell_percentage == float(
+            100 + cfg["TICKERS"]["BTCUSDT"]["TRAIL_TARGET_SELL_PERCENTAGE"]
+        )
+        assert bot.coins["BTCUSDT"].trail_recovery_percentage == float(
+            100 + cfg["TICKERS"]["BTCUSDT"]["TRAIL_RECOVERY_PERCENTAGE"]
+        )
+        assert bot.coins["BTCUSDT"].naughty_timeout == int(
+            cfg["TICKERS"]["BTCUSDT"]["NAUGHTY_TIMEOUT"]
+        )
+
+    def test_process_coins(self, bot, coin):
+        # the bot will not buy coins when we have less than 31days of prices
+        # so we mock those calls done in process_coins() to so that
+        # the new_listing() check doesn't return False
+        # as the coin won't have any averages['d'] value
+        bot.load_klines_for_coin = mock.Mock()
+        bot.new_listing = mock.Mock()
+
+        for x in list(reversed(range(32))):
+            coin_time = float(
+                lib.bot.udatetime.now().timestamp() - (x * 86400)
+            )
+            bot.update(coin, coin_time, 0)
+
+        bot.coins["BTCUSDT"] = coin
+
+        with mock.patch.object(
+            bot.client,
+            "create_order",
+            return_value={
+                "symbol": "BTCUSDT",
+                "orderId": "1",
+                "transactTime": 1507725176595,
+                "fills": [
+                    {
+                        "price": "100",
+                        "qty": "1",
+                        "commission": "1",
+                    }
+                ],
+            },
+        ) as _:
+            with mock.patch.object(
+                bot.client,
+                "get_all_orders",
+                return_value=[{"symbol": "BTCUSDT", "orderId": 1}],
+            ) as _:
+                with mock.patch.object(
+                    bot, "get_step_size", return_value="0.00001000"
+                ) as _:
+                    binance_data = [
+                        {"symbol": "BTCUSDT", "price": "101.000"},
+                        {"symbol": "BTCUSDT", "price": "70.000"},
+                        {"symbol": "BTCUSDT", "price": "75.000"},
+                    ]
+                    with mock.patch.object(
+                        bot, "get_binance_prices", return_value=binance_data
+                    ) as _:
+                        with mock.patch.object(
+                            bot, "run_strategy", return_value=None
+                        ) as m5:
+                            bot.process_coins()
+                            assert m5.assert_called() is None
+
+    def test_load_klines_for_coin(self, bot, coin):
+        date = float(
+            datetime.fromisoformat(
+                "2021-12-04 05:23:05.693516",
+            ).timestamp()
+            / 1000
+        )
+        r = lib.bot.requests.models.Response()
+        r.status_code = 200
+        r.headers["Content-Type"] = "application/json"
+        response = {}
+        for metric in ["lowest", "averages", "highest"]:
+            response[metric] = {}
+            for unit in ["s", "m", "h", "d"]:
+                response[metric][unit] = []
+
+        price = 1
+        seconds = 0
+        unit = "m"
+        for _ in range(60):
+            response["lowest"][unit].append((date + seconds, price - 1))
+            response["averages"][unit].append((date + seconds, price))
+            response["highest"][unit].append((date + seconds, price + 1))
+            price = price + 1
+            seconds = seconds + 60
+
+        price = 1
+        seconds = 0
+        unit = "h"
+        for _ in range(24):
+            response["lowest"][unit].append((date + seconds, price - 1))
+            response["averages"][unit].append((date + seconds, price))
+            response["highest"][unit].append((date + seconds, price + 1))
+            price = price + 1
+            seconds = seconds + 3600
+
+        price = 1
+        seconds = 0
+        unit = "d"
+        for _ in range(60):
+            response["lowest"][unit].append((date + seconds, price - 1))
+            response["averages"][unit].append((date + seconds, price))
+            response["highest"][unit].append((date + seconds, price + 1))
+            price = price + 1
+            seconds = seconds + 86400
+
+        coin.date = date + seconds
+        # pylint: disable=protected-access
+        r._content = app.json.dumps(response).encode("utf-8")
+
+        with mock.patch("lib.bot.requests.get", return_value=r) as _:
+            bot.load_klines_for_coin(coin)
+
+        # upstream we retrieve 1000 days of history, but we only mock 60 days
+        # in here. so we should expect 60 days of data
+        assert len(coin.lowest["d"]) == 60
+        assert len(coin.lowest["h"]) == 24
+        assert len(coin.lowest["m"]) == 60
+
+        assert len(coin.averages["d"]) == 60
+        assert len(coin.averages["h"]) == 24
+        assert len(coin.averages["m"]) == 60
+
+        assert len(coin.highest["d"]) == 60
+        assert len(coin.highest["h"]) == 24
+        assert len(coin.highest["m"]) == 60
+
+        assert coin.lowest["m"][0] == [1638595.3856935161, 0]
+        assert coin.lowest["m"][59] == [1642135.3856935161, 59.0]
+
+        assert coin.averages["m"][0] == [1638595.3856935161, 1]
+        assert coin.averages["m"][59] == [1642135.3856935161, 60.0]
+
+        assert coin.highest["m"][0] == [1638595.3856935161, 2]
+        assert coin.highest["m"][59] == [1642135.3856935161, 61.0]
+
+        assert coin.lowest["h"][0] == [1638595.3856935161, 0]
+        assert coin.lowest["h"][23] == [1721395.3856935161, 23]
