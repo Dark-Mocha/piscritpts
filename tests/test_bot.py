@@ -685,3 +685,206 @@ class TestBot:
 
         assert coin.lowest["h"][0] == [1638595.3856935161, 0]
         assert coin.lowest["h"][23] == [1721395.3856935161, 23]
+
+        assert coin.averages["h"][0] == [1638595.3856935161, 1]
+        assert coin.averages["h"][23] == [1721395.3856935161, 24]
+
+        assert coin.highest["h"][0] == [1638595.3856935161, 2]
+        assert coin.highest["h"][23] == [1721395.3856935161, 25]
+
+    def test_new_listing(self, bot, coin):
+        for x in list(reversed(range(3600 * 24 * 2 + 3600 + 60 + 1))):
+            coin_time = float(lib.bot.udatetime.now().timestamp() - x)
+            bot.update(coin, coin_time, 100)
+
+        assert bot.new_listing(coin, 3) is True
+        assert bot.new_listing(coin, 1) is False
+
+    def test_refresh_config_from_config_endpoint_service(self, bot):
+        bot.pull_config_address = "http://fake"
+
+        lib.bot.requests.get = mock.MagicMock()
+        lib.bot.requests.get.return_value.status_code.return_value = 200
+
+        with mock.patch(
+            "builtins.open",
+            mock.mock_open(read_data=json.dumps({"TICKERS": {}})),
+        ) as _:
+            # same md5 should return False
+            lib.bot.requests.get.return_value.json.return_value = {
+                "md5": "fake1",
+                "TICKERS": {},
+            }
+
+            bot.pull_config_md5 = "fake1"
+            assert bot.refresh_config_from_config_endpoint_service() is False
+
+            # different md5 should return True
+            bot.pull_config_md5 = "fake2"
+            assert bot.refresh_config_from_config_endpoint_service() is True
+
+            # different md5 should update TICKERS
+            lib.bot.requests.get.return_value.json.return_value = {
+                "md5": "fake3",
+                "TICKERS": {"BTCUSDT": {}},
+            }
+            assert bot.refresh_config_from_config_endpoint_service() is True
+            assert bot.pull_config_md5 == "fake3"
+            assert bot.tickers == {"BTCUSDT": {}}
+
+            # different md5 should update TICKERS and keep existing WALLET
+            lib.bot.requests.get.return_value.json.return_value = {
+                "md5": "fake4",
+                "TICKERS": {"ETHUSDT": {}},
+            }
+            bot.tickers = {"BTCUSDT": {}}
+            bot.wallet = ["BTCUSDT"]
+            assert bot.refresh_config_from_config_endpoint_service() is True
+            assert bot.pull_config_md5 == "fake4"
+            assert bot.tickers == {"BTCUSDT": {}, "ETHUSDT": {}}
+
+            # different md5 should update TICKERS and remove if not in wallet
+            lib.bot.requests.get.return_value.json.return_value = {
+                "md5": "fake5",
+                "TICKERS": {"ETHUSDT": {}},
+            }
+            bot.tickers = {"BTCUSDT": {}}
+            bot.wallet = []
+            assert bot.refresh_config_from_config_endpoint_service() is True
+            assert bot.pull_config_md5 == "fake5"
+            assert bot.tickers == {"ETHUSDT": {}}
+
+            # an exception should return false
+            lib.bot.requests.get.return_value.json.return_value = {
+                "md5": "fake9"
+            }
+            assert bot.refresh_config_from_config_endpoint_service() is False
+
+    def test_run_stategy_gives_False_if_coin_not_in_tickers(self, bot, coin):
+        bot.tickers = {}
+        assert bot.run_strategy(coin) is False
+
+    def test_run_stategy_gives_False_if_coin_is_naught(self, bot, coin):
+        coin.naughty = True
+        bot.coins["BTCUSDT"] = coin
+        bot.run_strategy(coin) is False
+
+    def test_run_stategy_calls_sale_if_wallet_not_empty(self, bot, coin):
+        # if there are coins in WALLET
+        bot.wallet = ["XXXX"]
+        bot.coins["BTCUSDT"] = coin
+        bot.target_sell = mock.MagicMock()
+        bot.check_for_sale_conditions = mock.MagicMock()
+        bot.new_listing = mock.MagicMock()
+        bot.enable_pump_and_checks = mock.MagicMock()
+        bot.buy_strategy = mock.MagicMock()
+
+        bot.run_strategy(coin)
+
+        bot.target_sell.assert_called_once()
+        bot.check_for_sale_conditions.assert_called_once()
+
+    def test_run_stategy_returns_false_on_new_listing(self, bot, coin):
+        bot.wallet = []
+        bot.tickers["BTCUSDT"] = {}
+        coin.symbol = "BTCUSDT"
+        coin.naughty = False
+        bot.coins["BTCUSDT"] = coin
+        bot.enable_new_listing_checks = True
+        bot.enable_new_listing_checks_age_in_days = 30
+        bot.new_listing = mock.MagicMock()
+        bot.new_listing.return_value = True
+        assert bot.run_strategy(coin) is False
+        bot.new_listing.assert_called_once()
+
+    def test_run_stategy_returns_false_on_full_wallet(self, bot, coin):
+        bot.coins["BTCUSDT"] = coin
+        bot.enable_new_listing_checks = False
+        bot.wallet = ["BTCUSDT"]
+        bot.max_coins = 1
+        assert bot.run_strategy(coin) is False
+
+    def test_run_stategy_returns_false_on_a_pump(self, bot, coin):
+        bot.coins["BTCUSDT"] = coin
+        bot.enable_new_listing_checks = False
+        bot.enable_pump_and_dump_checks = True
+        bot.wallet = []
+        bot.max_coins = 1
+        bot.check_for_pump_and_dump = mock.MagicMock()
+        bot.check_for_pump_and_dump.return_value = True
+
+        assert bot.run_strategy(coin) is False
+        bot.check_for_pump_and_dump.assert_called_once()
+
+    def test_run_stategy_returns_True(self, bot, coin):
+        bot.coins["BTCUSDT"] = coin
+        bot.enable_new_listing_checks = False
+        bot.enable_pump_and_dump_checks = False
+        bot.buy_strategy = mock.MagicMock()
+        assert bot.run_strategy(coin) is True
+        bot.buy_strategy.assert_called_once()
+
+    def test_get_price_log(self, bot):
+        session = mock.MagicMock()
+        session.get = mock.MagicMock()
+        session.get.return_value.status_code = 200
+        session.get.return_value.content = "001 SYMBOL 100\n002 SYMBOL 101"
+
+        with mock.patch(
+            "builtins.open",
+            mock.mock_open(read_data=""),
+        ) as _:
+            ok, data = bot.get_price_log(session, "http://log/log")
+            assert data[0] == "001 SYMBOL 100"
+            assert ok is True
+
+    def test_place_sell_order(self, bot, coin):
+        bot.extract_order_data = mock.MagicMock()
+        bot.client.get_order = mock.MagicMock()
+        bot.client.create_order = mock.MagicMock()
+        bot.client.get_order_book = mock.MagicMock()
+
+        # empty order_book should return False
+        bot.order_type = "LIMIT"
+        bot.client.get_order_book.return_value = {
+            "lastUpdateId": 1027024,
+            "bids": [],
+            "asks": [],
+        }
+        assert bot.place_sell_order(coin) is False
+
+        # a good order_book should return True
+        bot.order_type = "MARKET"
+        bot.client.get_order_book.return_value = {
+            "lastUpdateId": 1027024,
+            "bids": [
+                [
+                    "4.00000000",  # PRICE
+                    "431.00000000",  # QTY
+                    [],  # Can be ignored
+                ]
+            ],
+            "asks": [["4.00000200", "12.00000000", []]],
+        }
+
+        bot.client.get_order.return_value = {
+            "symbol": "LTCBTC",
+            "orderId": 1,
+            "clientOrderId": "myOrder1",
+            "price": "0.1",
+            "origQty": "1.0",
+            "executedQty": "0.0",
+            "status": "FILLED",
+            "timeInForce": "GTC",
+            "type": "LIMIT",
+            "side": "BUY",
+            "stopPrice": "0.0",
+            "icebergQty": "0.0",
+            "time": 1499827319559,
+        }
+
+        bot.extract_order_data.return_value = (
+            True,
+            {"avgPrice": 100, "volume": 1},
+        )
+        assert bot.place_sell_order(coin) is True
