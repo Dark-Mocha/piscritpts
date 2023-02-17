@@ -16,4 +16,11 @@ g: Dict[str, Any] = {}
 app: Flask = Flask(__name__)
 
 
-def log_m
+def log_msg(msg: str) -> None:
+    """logs out message prefixed with timestamp"""
+    now: str = datetime.now().strftime("%H:%M:%S")
+    print(f"{now} {msg}")
+
+
+def run_prove_backtesting() -> None:
+    """calls pr
