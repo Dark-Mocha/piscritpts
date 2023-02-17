@@ -1262,3 +1262,251 @@ class TestCoinStatus:
         coin.volume = 1
         coin.holding_time = 5400
         with mock.patch.object(
+            bot.client,
+            "create_order",
+            return_value={
+                "symbol": "BTCUSDT",
+                "orderId": "1",
+                "transactTime": 1507725176595,
+                "fills": [
+                    {
+                        "price": "100",
+                        "qty": "1",
+                        "commission": "1",
+                    }
+                ],
+            },
+        ) as _:
+            with mock.patch.object(
+                bot.client,
+                "get_all_orders",
+                return_value=[{"symbol": "BTCUSDT", "orderId": 1}],
+            ) as _:
+                result = bot.past_soft_limit(coin)
+                assert result is True
+                assert coin.naughty_timeout == int(
+                    bot.tickers["BTCUSDT"]["NAUGHTY_TIMEOUT"]
+                )
+                assert coin.sell_at_percentage == 101.5
+                assert coin.trail_target_sell_percentage == 99.749
+
+    def test_clear_all_coins_stats(self, bot, coin):
+        coin1 = coin
+        coin2 = coin
+        coin1.symbol = "BTCUSDT"
+        coin1.status = "DIRTY"
+        coin2.symbol = "ETHUSDT"
+        coin2.status = "DIRTY"
+        bot.coins["BTCUSDT"] = coin1
+        bot.coins["ETHUSDT"] = coin2
+
+        result = bot.clear_all_coins_stats()
+        assert result is None
+        assert bot.coins["BTCUSDT"].status == ""
+        assert bot.coins["ETHUSDT"].status == ""
+
+    def test_clear_coin_stats(self, bot, coin, cfg):
+        coin.status = "DIRTY"
+        coin.holding_time = 999
+        coin.buy_at_percentage = 999
+        coin.sell_at_percentage = 999
+        coin.stop_loss_at_percentage = 999
+        coin.trail_target_sell_percentage = 999
+        coin.trail_recovery_percentage = 999
+        coin.bought_at = float(9999)
+        coin.dip = float(9999)
+        coin.tip = float(9999)
+        coin.max = float(9999)
+        coin.min = float(9999)
+
+        result = bot.clear_coin_stats(coin)
+        assert result is None
+        assert coin.status == ""
+        assert coin.holding_time == 1
+        assert (
+            coin.buy_at_percentage
+            == 100 + cfg["TICKERS"]["BTCUSDT"]["BUY_AT_PERCENTAGE"]
+        )
+        assert (
+            coin.sell_at_percentage
+            == 100 + cfg["TICKERS"]["BTCUSDT"]["SELL_AT_PERCENTAGE"]
+        )
+        assert (
+            coin.stop_loss_at_percentage
+            == 100 + cfg["TICKERS"]["BTCUSDT"]["STOP_LOSS_AT_PERCENTAGE"]
+        )
+        assert (
+            coin.trail_target_sell_percentage
+            == 100 + cfg["TICKERS"]["BTCUSDT"]["TRAIL_TARGET_SELL_PERCENTAGE"]
+        )
+        assert (
+            coin.trail_recovery_percentage
+            == 100 + cfg["TICKERS"]["BTCUSDT"]["TRAIL_RECOVERY_PERCENTAGE"]
+        )
+        assert coin.bought_at == float(0)
+        assert coin.dip == float(0)
+        assert coin.tip == float(0)
+        assert coin.max == float(100)
+        assert coin.min == float(100)
+        assert coin.min == coin.price
+        assert coin.max == coin.price
+
+    def test_target_sell_coin_change_status_from_hold_to_target_sell(
+        self, bot, coin
+    ):
+        coin.status = "HOLD"
+        coin.sell_at_percentage = 3
+        coin.bought_at = 100
+        coin.bought_date = float(lib.bot.udatetime.now().timestamp() - 3600)
+        bot.update(coin, float(lib.bot.udatetime.now().timestamp()), 120.00)
+        bot.target_sell(coin)
+        assert coin.status == "TARGET_SELL"
+
+
+class TestBotProfit:
+    def test_update_investment(self, bot):
+        bot.profit = 10
+
+        result = bot.update_investment()
+        assert result is None
+        assert bot.investment == 110
+
+    def test_update_bot_profit_returns_None(self, bot, coin):
+        result = bot.update_bot_profit(coin)
+        assert result is None
+
+    def test_update_bot_profit_on_profit(self, bot, coin):
+        coin.cost = 100
+        coin.value = 200
+        coin.profit = 100
+
+        bot.update_bot_profit(coin)
+        # bought 100 of coin and paid 0.1% of fees which is 0.10
+        # sold 200 of coin and paid 0.1% of fees which is 0.20
+        assert float(round(bot.fees, 1)) == float(0.3)
+        assert float(bot.profit) == float(99.7)
+
+    def test_update_bot_profit_on_loss(self, bot, coin):
+        coin.cost = 110
+        coin.value = 100
+        coin.profit = -10
+
+        bot.update_bot_profit(coin)
+        # bought 110 of coin and paid 0.1% of fees which is 0.11
+        # sold 100 of coin and paid 0.1% of fees which is 0.10
+        assert bot.profit == -10.21
+        assert bot.fees == 0.21000000000000002
+
+
+class StrategyBaseTestClass:
+    def test_coin_is_set_to_target_dip_when_price_drops(self, bot, coin):
+        coin.status = ""
+        coin.price = 90
+        coin.max = 100
+        for _ in range(32):
+            # TODO: mock new_listing()
+            # address pump_checks
+            coin.averages["d"].append((datetime.now().timestamp(), 9999))
+            coin.averages["h"].append((datetime.now().timestamp(), 9999))
+
+        result = bot.buy_strategy(coin)
+        assert result is False
+        assert coin.status == "TARGET_DIP"
+
+    def test_returns_early_when_coin_is_not_TARGET_DIP(self, bot, coin):
+        coin.status = ""
+        coin.price = 100
+        coin.max = 100
+        result = bot.buy_strategy(coin)
+        assert result is False
+        assert coin.status == ""
+
+
+class TestStrategyBuyDropSellRecovery(StrategyBaseTestClass):
+    @pytest.fixture()
+    def bot(self, cfg):
+        from strategies.BuyDropSellRecoveryStrategy import Strategy
+
+        app.Client = mock.MagicMock()
+        lib.bot.requests.get = mock.MagicMock()
+
+        client = app.Client("FAKE", "FAKE")
+
+        bot = Strategy(client, "configfilename", cfg)
+        bot.client.API_URL = "https://www.google.com"
+        yield bot
+        del bot
+
+    def test_coin_is_not_bought_when_current_price_lower_than_last(
+        self, bot, coin
+    ):
+        coin.status = "TARGET_DIP"
+        coin.price = 90
+        coin.last = 100
+        with mock.patch.object(bot, "buy_coin", return_value=False) as m1:
+            result = bot.buy_strategy(coin)
+            assert result is False
+            assert coin.status == "TARGET_DIP"
+            m1.assert_not_called()
+
+    def test_bot_buys_coin_when_price_over_trail_recovery_dip(self, bot, coin):
+        coin.status = "TARGET_DIP"
+        coin.price = 90
+        coin.last = 80
+        coin.dip = 80
+
+        for _ in range(14):
+            coin.averages["d"].append(0)
+
+        with mock.patch.object(bot, "buy_coin", return_value=False) as m1:
+            result = bot.buy_strategy(coin)
+            assert result is True
+            assert coin.status == "TARGET_DIP"
+            m1.assert_called()
+
+
+class TestStrategyMoonSellRecovery:
+    @pytest.fixture()
+    def bot(self, cfg):
+        from strategies.BuyMoonSellRecoveryStrategy import Strategy
+
+        app.Client = mock.MagicMock()
+        lib.bot.requests.get = mock.MagicMock()
+
+        client = app.Client("FAKE", "FAKE")
+
+        bot = Strategy(client, "configfilename", cfg)
+        bot.client.API_URL = "https://www.google.com"
+        yield bot
+        del bot
+
+    def test_bot_does_not_buy_coin_when_price_below_buy_at_percentage(
+        self, bot, coin
+    ):
+        # TODO: refactor this into its own config fixture
+        coin.buy_at_percentage = 105
+        coin.price = 101
+        coin.last = 100
+        with mock.patch.object(bot, "buy_coin", return_value=False) as m1:
+            result = bot.buy_strategy(coin)
+            assert result is False
+            m1.assert_not_called()
+
+    def test_bot_buys_coin_when_price_above_buy_at_percentage(self, bot, coin):
+        # TODO: refactor this into its own config fixture
+        coin.buy_at_percentage = 105
+        coin.price = 100
+        coin.last = 90
+        for _ in range(14):
+            coin.averages["d"].append(0)
+
+        with mock.patch.object(bot, "buy_coin", return_value=True) as m1:
+            result = bot.buy_strategy(coin)
+            assert result is True
+            m1.assert_called()
+
+
+class TestStrategyBuyOnGrowthTrendAfterDrop(StrategyBaseTestClass):
+    @pytest.fixture()
+    def bot(self, cfg):
+        from strategies.BuyOnGrowthTrendAfterDropStrategy import Strategy
