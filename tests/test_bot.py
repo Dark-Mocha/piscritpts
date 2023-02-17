@@ -888,3 +888,199 @@ class TestBot:
             {"avgPrice": 100, "volume": 1},
         )
         assert bot.place_sell_order(coin) is True
+
+        # Expired Sell Order should return False
+        bot.order_type = "LIMIT"
+        bot.client.get_order_book.return_value = {
+            "lastUpdateId": 1027024,
+            "bids": [
+                [
+                    "4.00000000",  # PRICE
+                    "431.00000000",  # QTY
+                    [],  # Can be ignored
+                ]
+            ],
+            "asks": [["4.00000200", "12.00000000", []]],
+        }
+
+        bot.client.get_order.return_value = {
+            "symbol": "LTCBTC",
+            "orderId": 1,
+            "clientOrderId": "myOrder1",
+            "price": "0.1",
+            "origQty": "1.0",
+            "executedQty": "0.0",
+            "status": "EXPIRED",
+            "timeInForce": "GTC",
+            "type": "LIMIT",
+            "side": "BUY",
+            "stopPrice": "0.0",
+            "icebergQty": "0.0",
+            "time": 1499827319559,
+        }
+
+        assert bot.place_sell_order(coin) is False
+
+
+class TestBotCheckForSaleConditions:
+    def test_returns_early_on_empty_wallet(self, bot, coin):
+        bot.wallet = []
+        result = bot.check_for_sale_conditions(coin)
+        assert result == (False, "NOT_IN_WALLET")
+
+    def test_returns_early_on_stop_loss(self, bot, coin):
+        bot.wallet = ["BTCUSDT"]
+        coin.price = 1
+        coin.bought_at = 100
+        result = bot.check_for_sale_conditions(coin)
+        assert result == (True, "STOP_LOSS")
+
+    def test_returns_early_on_stale_coin(self, bot, coin):
+        bot.wallet = ["BTCUSDT"]
+        coin.price = 1000
+        coin.holding_time = 99999
+        coin.status = "DIRTY"
+        bot.hard_limit_holding_time = 1
+        result = bot.check_for_sale_conditions(coin)
+        assert result == (True, "STALE")
+
+    def test_returns_early_on_coing_gone_up_and_dropped_when_flagged_on(
+        self, bot, coin
+    ):
+        bot.wallet = ["BTCUSDT"]
+        bot.sell_as_soon_it_drops = True
+        coin.status = "TARGET_SELL"
+        coin.price = 100.5
+        coin.last = 120
+        coin.bought_at = 100
+        result = bot.check_for_sale_conditions(coin)
+        print(coin.stop_loss_at_percentage)
+        assert result == (True, "GONE_UP_AND_DROPPED")
+
+    def test_returns_early_on_possible_sale(self, bot, coin):
+        bot.wallet = ["BTCUSDT"]
+        coin.status = "TARGET_SELL"
+        coin.bought_at = 1
+        coin.price = 50
+        coin.last = 100
+        coin.tip = 200
+        result = bot.check_for_sale_conditions(coin)
+        assert result == (True, "TARGET_SELL")
+
+    def test_returns_final_on_past_soft_limit(self, bot, coin):
+        bot.wallet = ["BTCUSDT"]
+        coin.bought_at = 100
+        coin.price = 100
+        coin.last = 100
+        coin.tip = 100
+        result = bot.check_for_sale_conditions(coin)
+        assert result == (False, "HOLD")
+
+
+class TestBuyCoin:
+    def test_buy_coin_when_coin_already_on_wallet(self, bot, coin):
+        bot.wallet = ["BTCUSDT"]
+        bot.buy_coin(coin)
+        assert bot.wallet == ["BTCUSDT"]
+
+    def test_buy_coin_when_wallet_is_full(self, bot, coin):
+        bot.wallet = ["BTCUSDT", "ETHUSDT"]
+        bot.buy_coin(coin)
+        assert bot.wallet == ["BTCUSDT", "ETHUSDT"]
+
+    def test_buy_coin_when_coin_is_naughty(self, bot, coin):
+        coin.naughty = True
+        bot.buy_coin(coin)
+        assert bot.wallet == []
+
+    @mock.patch("lib.bot.Bot.get_step_size", return_value=(True, "0.00001000"))
+    def test_buy_coin_in_backtesting(self, _, bot, coin):
+        bot.mode = "backtesting"
+        coin.price = 100
+
+        bot.buy_coin(coin)
+        assert bot.wallet == ["BTCUSDT"]
+        assert coin.bought_at == 100
+        assert coin.volume == 0.5
+
+    def test_buy_coin_using_market_order_in_testnet(self, bot, coin):
+        bot.mode = "testnet"
+        coin.price = 100
+
+        with mock.patch.object(
+            bot.client,
+            "create_order",
+            return_value={
+                "symbol": "BTCUSDT",
+                "orderId": "1",
+                "transactTime": 1507725176595,
+                "fills": [
+                    {
+                        "price": "100",
+                        "qty": "0.5",
+                        "commission": "0.00000000",
+                        "commissionAsset": "BNB",
+                        "tradeId": 3616061,
+                    }
+                ],
+            },
+        ) as _:
+            with mock.patch.object(
+                bot.client,
+                "get_order",
+                return_value={
+                    "symbol": "BTCUSDT",
+                    "orderId": 1,
+                    "price": 100,
+                    "status": "FILLED",
+                    "executedQty": 0.5,
+                },
+            ) as _:
+                with mock.patch.object(
+                    bot.client,
+                    "get_all_orders",
+                    return_value=[
+                        {
+                            "symbol": "BTCUSDT",
+                            "orderId": 1,
+                            "status": "FILLED",
+                            "price": 100,
+                            "executedQty": 0.5,
+                        }
+                    ],
+                ) as _:
+                    with mock.patch.object(
+                        bot, "get_step_size", return_value=(True, "0.00001000")
+                    ) as _:
+                        assert bot.buy_coin(coin) is True
+                        assert bot.wallet == ["BTCUSDT"]
+                        assert coin.bought_at == 100
+                        assert coin.volume == 0.5
+                        # TODO: assert that clear_all_coins_stats
+
+    def test_buy_coin_using_limit_order_in_testnet(self, bot, coin):
+        bot.mode = "testnet"
+        bot.debug = True
+        bot.order_type = "LIMIT"
+        coin.price = 100
+
+        with mock.patch.object(
+            bot.client,
+            "create_order",
+            return_value={
+                "symbol": "BTCUSDT",
+                "orderId": "1",
+                "transactTime": 1507725176595,
+            },
+        ) as _:
+            with mock.patch.object(
+                bot.client,
+                "get_order",
+                return_value={
+                    "symbol": "BTCUSDT",
+                    "orderId": 1,
+                    "status": "FILLED",
+                    "price": 100,
+                    "executedQty": 0.5,
+                },
+            ) as _:
