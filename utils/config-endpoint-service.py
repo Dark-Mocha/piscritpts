@@ -23,4 +23,11 @@ def log_msg(msg: str) -> None:
 
 
 def run_prove_backtesting() -> None:
-    """calls pr
+    """calls prove-backtesting"""
+
+    yesterday: datetime = datetime.now() - timedelta(days=1)
+    end_date: str = yesterday.strftime("%Y%m%d")
+
+    with open("configs/CONFIG_ENDPOINT_SERVICE.yaml", "w") as c:
+        endpoint_config: dict[str, Any] = g["CONFIG"]
+  
