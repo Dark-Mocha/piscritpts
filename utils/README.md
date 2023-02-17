@@ -12,4 +12,5 @@ best_runs.py
 prints out the final results from each prove-backtesting run:
 
 ```
-python utils/best_ru
+python utils/best_runs.py | sort -k
+```
