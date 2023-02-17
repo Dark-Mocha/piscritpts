@@ -1510,3 +1510,67 @@ class TestStrategyBuyOnGrowthTrendAfterDrop(StrategyBaseTestClass):
     @pytest.fixture()
     def bot(self, cfg):
         from strategies.BuyOnGrowthTrendAfterDropStrategy import Strategy
+
+        app.Client = mock.MagicMock()
+        lib.bot.requests.get = mock.MagicMock()
+
+        client = app.Client("FAKE", "FAKE")
+
+        bot = Strategy(client, "configfilename", cfg)
+        bot.client.API_URL = "https://www.google.com"
+        yield bot
+        del bot
+
+    def test_coin_not_bought_when_price_below_averages_threshold(
+        self, bot, coin
+    ):
+        coin.status = "TARGET_DIP"
+        coin.price = 90
+        coin.last = 80
+        coin.dip = 80
+
+        coin.klines_slice_percentage_change = float(1)
+        coin.klines_trend_period = "3h"
+
+        for x in list(reversed(range(14))):
+            coin_time = float(
+                lib.bot.udatetime.now().timestamp() - (86400 * x)
+            )
+            coin.averages["d"].append((coin_time, 1))
+
+        with mock.patch.object(bot, "buy_coin", return_value=True) as m1:
+            result = bot.buy_strategy(coin)
+            assert result is False
+            assert coin.status == "TARGET_DIP"
+            m1.assert_not_called()
+
+    def test_coin_bought_when_price_above_averages_threshold(self, bot, coin):
+        coin.status = "TARGET_DIP"
+        coin.price = 90
+        coin.last = 80
+        coin.dip = 80
+
+        coin.klines_slice_percentage_change = 1  # +1%
+        coin.klines_trend_period = "4d"
+
+        avg_price = float(1)
+        for x in list(reversed(range(14))):
+            coin_time = float(
+                lib.bot.udatetime.now().timestamp() - (86400 * x)
+            )
+            coin.averages["d"].append((coin_time, avg_price))
+            avg_price = avg_price * 1.01  # +1%
+
+        with mock.patch.object(bot, "buy_coin", return_value=True) as m1:
+            result = bot.buy_strategy(coin)
+            m1.assert_called()
+            assert coin.status == "TARGET_DIP"
+            assert result is True
+
+
+class TestBacktesting:
+    def backtesting(self):
+        pass
+
+    def backtest_logfile(self):
+        pass
