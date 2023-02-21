@@ -40,4 +40,15 @@ def run_prove_backtesting() -> None:
 
     subprocess.run(
         "python -u utils/prove-backtesting.py "
-        +
+        + "-c configs/CONFIG_ENDPOINT_SERVICE.yaml",
+        shell=True,
+        check=False,
+    )
+
+
+@app.route("/")
+def root() -> Response:
+    """Flask / handler"""
+    strategy: str = g["CONFIG"]["STRATEGY"]
+
+    with open(f
