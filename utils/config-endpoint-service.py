@@ -33,4 +33,11 @@ def run_prove_backtesting() -> None:
         endpoint_config["FROM_DATE"] = end_date
         endpoint_config["END_DATE"] = end_date
         # prove-backtestin won't take 0 but it doesn't matter as
-        # we're giving yesterday's date as the star
+        # we're giving yesterday's date as the start/end date and the logs
+        # for today (ROLL_FORWARD=1) don't exist yet.
+        endpoint_config["ROLL_FORWARD"] = int(1)
+        c.write(json.dumps(endpoint_config))
+
+    subprocess.run(
+        "python -u utils/prove-backtesting.py "
+        +
