@@ -30,4 +30,7 @@ def run_prove_backtesting() -> None:
 
     with open("configs/CONFIG_ENDPOINT_SERVICE.yaml", "w") as c:
         endpoint_config: dict[str, Any] = g["CONFIG"]
-  
+        endpoint_config["FROM_DATE"] = end_date
+        endpoint_config["END_DATE"] = end_date
+        # prove-backtestin won't take 0 but it doesn't matter as
+        # we're giving yesterday's date as the star
