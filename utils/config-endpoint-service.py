@@ -51,4 +51,8 @@ def root() -> Response:
     """Flask / handler"""
     strategy: str = g["CONFIG"]["STRATEGY"]
 
-    with open(f
+    with open(f"configs/optimized.{strategy}.yaml") as c:
+        cfg: Dict[str, Any] = yaml.safe_load(c.read())
+        hashstr: str = hashlib.md5(
+            (json.dumps(cfg["TICKERS"], sort_keys=True)).encode("utf-8")
+        ).hexdiges
