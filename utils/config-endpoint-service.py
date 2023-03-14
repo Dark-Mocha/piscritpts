@@ -55,4 +55,15 @@ def root() -> Response:
         cfg: Dict[str, Any] = yaml.safe_load(c.read())
         hashstr: str = hashlib.md5(
             (json.dumps(cfg["TICKERS"], sort_keys=True)).encode("utf-8")
-        ).hexdiges
+        ).hexdigest()
+        cfg["md5"] = hashstr
+    return jsonify(cfg)
+
+
+def api_endpoint() -> None:
+    """runs Flask"""
+    app.run(debug=True, use_reloader=False, host="0.0.0.0", port=5883)
+
+
+if __name__ == "__main__":
+    parse
