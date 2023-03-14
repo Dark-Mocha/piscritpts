@@ -66,4 +66,11 @@ def api_endpoint() -> None:
 
 
 if __name__ == "__main__":
-    parse
+    parser: argparse.ArgumentParser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-c", "--config", help="prove-backtesting config.yaml file"
+    )
+
+    args: argparse.Namespace = parser.parse_args()
+
+    wit
