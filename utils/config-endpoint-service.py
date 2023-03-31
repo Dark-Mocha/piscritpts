@@ -73,4 +73,10 @@ if __name__ == "__main__":
 
     args: argparse.Namespace = parser.parse_args()
 
-    wit
+    with open(args.config, "rt") as f:
+        config: Any = yaml.safe_load(f.read())
+
+    g["CONFIG"] = config
+
+    t: threading.Thread = threading.Thread(target=api_endpoint)
+    t.daem
