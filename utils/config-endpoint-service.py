@@ -87,4 +87,4 @@ if __name__ == "__main__":
         if os.path.exists("control/RUN"):
             log_msg("control/RUN flag found")
             os.unlink("control/RUN")
-            run_
+            run_prove_backtesting()
