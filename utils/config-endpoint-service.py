@@ -79,4 +79,12 @@ if __name__ == "__main__":
     g["CONFIG"] = config
 
     t: threading.Thread = threading.Thread(target=api_endpoint)
-    t.daem
+    t.daemon = True
+    t.start()
+
+    while True:
+        time.sleep(1)
+        if os.path.exists("control/RUN"):
+            log_msg("control/RUN flag found")
+            os.unlink("control/RUN")
+            run_
