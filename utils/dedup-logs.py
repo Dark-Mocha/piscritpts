@@ -16,4 +16,9 @@ if __name__ == "__main__":
 
         coin = {}
         oldcoin = {}
-        w
+        with gzip.open(str(args.log), "rt") as logfile:
+            line = logfile.readline()
+            date = (line.split(" ")[0]).replace("-", "")
+            fh = open(f"{date}.log.dedup", "wt")  # pylint: disable=R1732
+
+ 
