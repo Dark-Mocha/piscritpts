@@ -25,4 +25,11 @@ if __name__ == "__main__":
             for line in logfile:
                 parts = line.split(" ")
                 symbol = parts[2]
-                date = " ".join(
+                date = " ".join(parts[0:1])
+                price = parts[3]
+
+                if symbol not in coin:
+                    coin[symbol] = price
+                    oldcoin[symbol] = str(0)
+
+                if price != oldcoin[symbol]
