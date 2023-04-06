@@ -32,4 +32,11 @@ if __name__ == "__main__":
                     coin[symbol] = price
                     oldcoin[symbol] = str(0)
 
-                if price != oldcoin[symbol]
+                if price != oldcoin[symbol]:
+                    fh.write(line)
+                    oldcoin[symbol] = str(price)
+
+        fh.close()
+    except Exception:  # pylint: disable=broad-except
+        logging.error(traceback.format_exc())
+        sys.exit(1)
