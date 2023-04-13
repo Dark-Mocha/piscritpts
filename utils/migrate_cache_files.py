@@ -1,1 +1,8 @@
-""
+""" migrates the cache files to the new symbol/file layout """
+from os import listdir, mkdir
+from os.path import exists
+from shutil import move
+
+cache_files = listdir("cache")
+for file in cache_files:
+    
