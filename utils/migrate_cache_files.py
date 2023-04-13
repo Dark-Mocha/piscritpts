@@ -11,4 +11,8 @@ for file in cache_files:
     if not exists(f"cache/{symbol}"):
         print(f"creating cache/{symbol}")
         mkdir(f"cache/{symbol}")
-    if file == s
+    if file == symbol:
+        continue
+
+    print(f"moving cache/{file}")
+    move(f"cache/{file}", f"cache/{symbol}/{file}")
