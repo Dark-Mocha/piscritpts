@@ -5,4 +5,10 @@ from shutil import move
 
 cache_files = listdir("cache")
 for file in cache_files:
-    
+    if "precision" in file:
+        continue
+    symbol = file.split(".")[0]
+    if not exists(f"cache/{symbol}"):
+        print(f"creating cache/{symbol}")
+        mkdir(f"cache/{symbol}")
+    if file == s
