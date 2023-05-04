@@ -305,3 +305,225 @@ class ProveBacktesting:
         # config file.
         old_tickers: Dict[str, Any] = {}
         old_wallet: List[str] = []
+        if os.path.exists(f"configs/optimized.{self.strategy}.yaml"):
+            with open(
+                f"configs/optimized.{self.strategy}.yaml", encoding="utf-8"
+            ) as c:
+                old_tickers = yaml.safe_load(c.read())["TICKERS"]
+
+        if os.path.exists(f"tmp/optimized.{self.strategy}.yaml.wallet.json"):
+            with open(f"tmp/optimized.{self.strategy}.yaml.wallet.json") as w:
+                old_wallet = json.load(w)
+
+        # now generate tickers from the contents of our wallet and the previous
+        # config file, we will merge this with a new config file.
+        x: Dict[str, Any] = {}
+        for symbol in old_wallet:
+            x[symbol] = old_tickers[symbol]
+
+        log_msg(f" wallet: {old_wallet}")
+
+        z: Dict[str, Any] = x | _tickers
+        _tickers = z
+
+        tmpl: Template = Template(
+            """{
+        "CLEAR_COIN_STATS_AT_BOOT": $CLEAR_COIN_STATS_AT_BOOT,
+        "CLEAR_COIN_STATS_AT_SALE": $CLEAR_COIN_STATS_AT_SALE,
+        "DEBUG": $DEBUG,
+        "ENABLE_NEW_LISTING_CHECKS": $ENABLE_NEW_LISTING_CHECKS,
+        "ENABLE_NEW_LISTING_CHECKS_AGE_IN_DAYS": $ENABLE_NEW_LISTING_CHECKS_AGE_IN_DAYS,
+        "INITIAL_INVESTMENT": $INITIAL_INVESTMENT,
+        "KLINES_CACHING_SERVICE_URL": "$KLINES_CACHING_SERVICE_URL",
+        "MAX_COINS": $MAX_COINS,
+        "PAIRING": "$PAIRING",
+        "PAUSE_FOR": $PAUSE_FOR,
+        "PRICE_LOGS": $PRICE_LOGS,
+        "PRICE_LOG_SERVICE_URL": "$PRICE_LOG_SERVICE_URL",
+        "RE_INVEST_PERCENTAGE": $RE_INVEST_PERCENTAGE,
+        "SELL_AS_SOON_IT_DROPS": $SELL_AS_SOON_IT_DROPS,
+        "STOP_BOT_ON_LOSS": $STOP_BOT_ON_LOSS,
+        "STOP_BOT_ON_STALE": $STOP_BOT_ON_STALE,
+        "STRATEGY": "$STRATEGY",
+        "TICKERS": $TICKERS,
+        "TRADING_FEE": $TRADING_FEE
+        }"""
+        )
+
+        with open(f"configs/optimized.{self.strategy}.yaml", "wt") as c:
+            c.write(
+                tmpl.substitute(
+                    {
+                        "CLEAR_COIN_STATS_AT_BOOT": self.clear_coin_stats_at_boot,
+                        "CLEAR_COIN_STATS_AT_SALE": self.clear_coin_stats_at_sale,
+                        "DEBUG": self.debug,
+                        "ENABLE_NEW_LISTING_CHECKS": self.enable_new_listing_checks,
+                        "ENABLE_NEW_LISTING_CHECKS_AGE_IN_DAYS": self.enable_new_listing_checks_age_in_days,  # pylint: disable=line-too-long
+                        "INITIAL_INVESTMENT": s_balance,
+                        "KLINES_CACHING_SERVICE_URL": self.klines_caching_service_url,
+                        "MAX_COINS": self.max_coins,
+                        "PAIRING": self.pairing,
+                        "PAUSE_FOR": self.pause_for,
+                        "PRICE_LOGS": _price_logs,
+                        "PRICE_LOG_SERVICE_URL": self.price_log_service_url,
+                        "RE_INVEST_PERCENTAGE": self.re_invest_percentage,
+                        "SELL_AS_SOON_IT_DROPS": self.sell_as_soon_it_drops,
+                        "STOP_BOT_ON_LOSS": self.stop_bot_on_loss,
+                        "STOP_BOT_ON_STALE": self.stop_bot_on_stale,
+                        "STRATEGY": self.strategy,
+                        "TICKERS": _tickers,
+                        "TRADING_FEE": self.trading_fee,
+                    }
+                )
+            )
+
+    def filter_on_avail_days_with_log(
+        self, dates: List[str], data: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """build a dictionary with all the coins that have price log entries
+        available for the dates we asked to backtest.
+        then append the list of available price logs to that { coin: [] }
+        """
+
+        next_run_coins: Dict[str, Any] = {}
+
+        for day in data.keys():
+            if day in dates:
+                for coin in data[day]:
+                    # discard any BULL/BEAR tokens
+                    if any(
+                        f"{w}{self.pairing}" in coin
+                        for w in ["UP", "DOWN", "BULL", "BEAR"]
+                    ) or any(
+                        f"{self.pairing}{w}" in coin
+                        for w in ["UP", "DOWN", "BULL", "BEAR"]
+                    ):
+                        continue
+                    if (
+                        self.filter_by in coin
+                        and self.pairing in coin
+                        and coin.endswith(self.pairing)
+                    ):
+                        if coin not in next_run_coins:
+                            next_run_coins[coin] = []
+                        next_run_coins[coin].append(f"{coin}/{day}.log.gz")
+
+        return next_run_coins
+
+    def filter_on_coins_with_min_age_logs(
+        self,
+        index: Dict[str, Any],
+        last_day: str,
+        next_run_coins: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        """from the dict containing all the coins and the price logs to test,
+        drop any coin that doesn't have the required number of logs
+        as per the enable_new_listing_checks_age_in_days setting
+        """
+
+        all_logs: Dict[str, Any] = {}
+
+        # from the dict containing all the coins and the price logs to test,
+        # drop any coin that doesn't have the required number of logs
+        # as per the enable_new_listing_checks_age_in_days setting
+        for day in index.keys():
+            # skip any empty dates in index.json.gz
+            if not index[day]:
+                continue
+            # we need to make sure we don't keep dates past the last day
+            # we're backtesting
+            if datetime.strptime(day, "%Y%m%d") > datetime.strptime(
+                last_day, "%Y%m%d"
+            ):
+                continue
+            for coin in list(next_run_coins.keys()):
+                if coin not in all_logs:
+                    all_logs[coin] = []
+                all_logs[coin].append(f"{coin}/{day}.log.gz")
+
+        for coin in list(next_run_coins.keys()):
+            if (
+                len(all_logs[coin])
+                <= self.enable_new_listing_checks_age_in_days
+            ):
+                del next_run_coins[coin]
+
+        return next_run_coins
+
+    def write_all_coin_configs(
+        self, dates: List[str], thisrun: Dict[str, Any]
+    ) -> Set[str]:
+        """generate all coinfiles"""
+
+        r: requests.Response = get_index_json(
+            f"{self.price_log_service_url}/index.json.gz"
+        )
+        index: Any = json.loads(r.content)
+
+        next_run_coins: Dict[str, Any] = self.filter_on_avail_days_with_log(
+            dates, index
+        )
+
+        if self.enable_new_listing_checks:
+            next_run_coins = self.filter_on_coins_with_min_age_logs(
+                index, dates[-1], next_run_coins
+            )
+        for coin, _price_logs in next_run_coins.items():
+            self.write_single_coin_config(coin, _price_logs, thisrun)
+
+        return set(next_run_coins.keys())
+
+    def parallel_backtest_all_coins(
+        self, _coin_list: Set[str], n_tasks: int, _run: str
+    ) -> Dict[str, Any]:
+        """parallel_backtest_all_coins"""
+
+        tasks: List[Any] = []
+        with Pool(processes=n_tasks) as pool:
+            for coin in _coin_list:
+                if self.filter_by in coin and self.pairing in coin:
+                    # then we backtesting this strategy run against each coin
+                    # ocasionally we get stuck runs, so we timeout a coin run
+                    # to a maximum of 15 minutes
+                    job: Any = pool.apply_async(
+                        wrap_subprocessing,
+                        (f"coin.{coin}.yaml",),
+                    )
+                    tasks.append(job)
+
+            for t in tasks:
+                try:
+                    t.get()
+                except subprocess.TimeoutExpired as excp:
+                    log_msg(f"timeout while running: {excp}")
+
+        for coin in _coin_list:
+            try:
+                os.remove(f"tmp/coin.{coin}.yaml.coins.json")
+                os.remove(f"tmp/coin.{coin}.yaml.wallet.json")
+                os.remove(f"tmp/coin.{coin}.yaml.results.json")
+            except:  # pylint: disable=bare-except
+                pass
+
+        return self.gather_best_results_from_run(_coin_list, _run)
+
+    def gather_best_results_from_run(
+        self, _coin_list: Set[str], run_id: str
+    ) -> Dict[str, Any]:
+        """finds the best results from run"""
+        wins_re: str = r".*INFO.*\swins:([0-9]+)\slosses:([0-9]+)\sstales:([0-9]+)\sholds:([0-9]+)"
+        balance_re: str = r".*INFO.*final\sbalance:\s(-?[0-9]+\.[0-9]+)"
+
+        highest_profit: float = float(0)
+        coin_with_highest_profit: str = ""
+
+        _run: Dict[str, Any] = {}
+        _run["total_wins"] = 0
+        _run["total_losses"] = 0
+        _run["total_stales"] = 0
+        _run["total_holds"] = 0
+        _run["total_profit"] = 0
+
+        # TODO: parsing logfiles is not nice, rework this in app.py
+        for symbol in _coin_list:
+            results_txt: str = f"results/backtesting.coin.{symbol}.yaml.txt"
