@@ -527,3 +527,217 @@ class ProveBacktesting:
         # TODO: parsing logfiles is not nice, rework this in app.py
         for symbol in _coin_list:
             results_txt: str = f"results/backtesting.coin.{symbol}.yaml.txt"
+            with open(results_txt) as r:
+                run_results: str = r.read()
+
+            try:
+                wins, losses, stales, holds = re.search(
+                    wins_re, run_results
+                ).groups()  # type: ignore
+                balance = float(
+                    re.search(balance_re, run_results).groups()[0]  # type: ignore
+                )
+            except AttributeError as e:
+                log_msg(
+                    f"Exception while collecting results from {results_txt}"
+                )
+                log_msg(str(e))
+                log_msg(f"Contents of file below: \n{run_results}")
+                wins, losses, stales, holds = [0, 0, 0, 0]
+                balance = float(0)
+
+            if self.sort_by in [
+                "number_of_clean_wins",
+                "max_profit_on_clean_wins",
+            ]:
+                if (int(losses) + int(stales) + int(holds)) == 0:
+                    _run["total_wins"] += int(wins)
+                    _run["total_losses"] += int(losses)
+                    _run["total_stales"] += int(stales)
+                    _run["total_holds"] += int(holds)
+                    _run["total_profit"] += float(balance)
+            else:
+                # greed
+                _run["total_wins"] += int(wins)
+                _run["total_losses"] += int(losses)
+                _run["total_stales"] += int(stales)
+                _run["total_holds"] += int(holds)
+                _run["total_profit"] += float(balance)
+
+            if balance > highest_profit:
+                if self.sort_by in [
+                    "number_of_clean_wins",
+                    "max_profit_on_clean_wins",
+                ]:
+                    if (int(losses) + int(stales) + int(holds)) == 0:
+                        coin_with_highest_profit = symbol
+                        highest_profit = float(balance)
+                else:
+                    # greed
+                    coin_with_highest_profit = symbol
+                    highest_profit = balance
+
+        log_msg(
+            f" {run_id}: sum of all coins profit:{_run['total_profit']:.3f}|"
+            + f"w:{_run['total_wins']},l:{_run['total_losses']},"
+            + f"s:{_run['total_stales']},h:{_run['total_holds']}|"
+            + "coin with highest profit:"
+            + f"{coin_with_highest_profit}:{highest_profit:.3f}"
+        )
+        return _run
+
+    def parse_backtesting_line(
+        self, line, coins
+    ) -> Tuple[bool, Dict[str, Any]]:
+        """process line of the backtesting log"""
+
+        _profit, _, _, wls, cfgname, _cfg = line[7:].split("|")
+        if not self.filter_by in cfgname:
+            return (False, {})
+        profit: float = float(_profit)
+        if profit < 0 or profit < float(self.min):
+            return (False, {})
+
+        coin: str = cfgname[9:].split(".")[0]
+        w, l, s, h = [int(x[1:]) for x in wls.split(",")]
+
+        if self.sort_by in [
+            "number_of_clean_wins",
+            "max_profit_on_clean_wins",
+        ]:
+            # drop any results containing losses, stales, or holds
+            if 0 not in [l, s, h] or w == 0:
+                return (False, {})
+
+        blob: Dict[str, Any] = json.loads(_cfg)
+        if "TICKERS" in blob.keys():
+            coincfg = blob["TICKERS"][coin]  # pylint: disable=W0123
+
+        if coin not in coins:
+            coins[coin] = {
+                "profit": profit,
+                "wls": wls,
+                "w": w,
+                "l": l,
+                "s": s,
+                "h": h,
+                "cfgname": cfgname,
+                "coincfg": coincfg,
+            }
+        else:
+            if self.sort_by in [
+                "greed",
+                "max_profit_on_clean_wins",
+            ]:
+                if profit > coins[coin]["profit"]:
+                    coins[coin] = {
+                        "profit": profit,
+                        "wls": wls,
+                        "w": w,
+                        "l": l,
+                        "s": s,
+                        "h": h,
+                        "cfgname": cfgname,
+                        "coincfg": coincfg,
+                    }
+            if self.sort_by == "number_of_clean_wins":
+                if w >= coins[coin]["w"]:
+                    # if this run has the same amount of wins but higher
+                    # profit, then keep this one.
+                    if (
+                        w == coins[coin]["w"]
+                        and profit < coins[coin]["profit"]
+                    ):
+                        return (False, {})
+                    coins[coin] = {
+                        "profit": profit,
+                        "wls": wls,
+                        "w": w,
+                        "l": l,
+                        "s": s,
+                        "h": h,
+                        "cfgname": cfgname,
+                        "coincfg": coincfg,
+                    }
+        return (True, coins)
+
+    def gather_best_results_from_backtesting_log(
+        self, kind: str
+    ) -> Dict[str, Any]:
+        """parses backtesting.log for the best result for a coin"""
+        coins: Dict[str, Any] = {}
+        _results: Dict[str, Any] = {}
+        log: str = "log/backtesting.log"
+        if os.path.exists(log):
+            with open(log, encoding="utf-8") as lines:
+                for line in lines:
+                    ok, _coins = self.parse_backtesting_line(line, coins)
+                    if ok:
+                        coins = _coins
+
+        for coin in coins:  # pylint: disable=consider-using-dict-items
+            if kind == "coincfg":
+                _results[coin] = coins[coin]["coincfg"]
+        return _results
+
+    def gather_best_results_per_strategy(self, this: Dict[str, Any]) -> None:
+        """finds the best results in the strategy"""
+        best_run: str = ""
+        best_profit_in_runs: int = 0
+        for _run in this.keys():
+            if this[_run]["total_profit"] >= best_profit_in_runs:
+                best_run = _run
+                best_profit_in_runs = this[_run]["total_profit"]
+        log_msg(
+            f"{self.strategy} best run {best_run} profit: {best_profit_in_runs:.3f}"
+        )
+
+    def run_optimized_config(self, s_investment: float) -> float:
+        """runs optimized config"""
+        with open(f"configs/optimized.{self.strategy}.yaml") as cf:
+            _tickers: Dict[str, Any] = yaml.safe_load(cf.read())["TICKERS"]
+        if not _tickers:
+            log_msg(
+                f"automated-backtesting: no tickers in {self.strategy} yaml, skipping run"
+            )
+            return float(s_investment)
+
+        wrap_subprocessing(f"optimized.{self.strategy}.yaml")
+        with open(
+            f"results/backtesting.optimized.{self.strategy}.yaml.txt"
+        ) as results_txt:
+            r = results_txt.read()
+
+            end_investment = float(
+                re.findall(r"investment: start: .* end: (\d+\.?\d+)", r)[0]
+            )
+
+            _diff = str(int(100 - ((s_investment / end_investment) * 100)))
+            if int(_diff) > 0:
+                _diff = f"+{_diff}"
+            log_msg(
+                f" final investment for {self.strategy}: {str(end_investment)} {_diff}%"
+            )
+
+        return end_investment
+
+
+if __name__ == "__main__":
+    for f in glob.glob("tmp/*"):
+        os.remove(f)
+
+    parser: ArgumentParser = ArgumentParser()
+    parser.add_argument("-c", "--cfgs", help="backtesting cfg")
+    args: Namespace = parser.parse_args()
+
+    with open(args.cfgs, encoding="utf-8") as _c:
+        config: Any = yaml.safe_load(_c.read())
+
+    if config["KIND"] != "PROVE_BACKTESTING":
+        log_msg("Incorrect KIND: type")
+        sys.exit(1)
+
+    if os.path.exists("cache/binance.client"):
+        os.remove("cache/binance.client")
+
+    n_cpus: Optional[int] = os.cpu_count()
