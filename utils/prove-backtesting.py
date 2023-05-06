@@ -741,3 +741,66 @@ if __name__ == "__main__":
         os.remove("cache/binance.client")
 
     n_cpus: Optional[int] = os.cpu_count()
+
+    pv: ProveBacktesting = ProveBacktesting(config)
+    pv.check_for_invalid_values()
+
+    # generate start_dates
+    log_msg(
+        f"running from {pv.start_dates[0]} to {pv.start_dates[-1]} "
+        + f"backtesting previous {pv.roll_backwards} days every {pv.roll_forward} days"
+    )
+    final_investment: float = pv.initial_investment
+    starting_investment: float = pv.initial_investment
+    for date in pv.start_dates:
+        cleanup()
+
+        rollbackward_dates: List[str] = pv.rollback_dates_from(date)
+        log_msg(
+            f"now backtesting {rollbackward_dates[0]}...{rollbackward_dates[-1]}"
+        )
+
+        results: Dict[str, Any] = {}
+        for run in pv.runs:
+            flag_checks()
+            # TODO: do we consume the price_logs ?
+            coin_list: Set[str] = pv.write_all_coin_configs(
+                rollbackward_dates, pv.runs[run]
+            )
+            results[run] = pv.parallel_backtest_all_coins(
+                coin_list, pv.concurrency, run
+            )
+
+        # TODO: this simply prints out the best run
+        pv.gather_best_results_per_strategy(results)
+        rollforward_dates: List[str] = pv.rollforward_dates_from(date)
+        price_logs = pv.generate_price_log_list(rollforward_dates)
+        tickers = pv.gather_best_results_from_backtesting_log("coincfg")
+
+        # if our backtesting gave us no tickers,
+        # we'll skip this forward testing run
+        if not tickers:
+            log_msg("forwardtesting config contains no tickers, skipping run")
+            continue
+
+        log_msg(
+            f"now forwardtesting {rollforward_dates[0]}...{rollforward_dates[-1]}"
+        )
+        log_msg(
+            f" starting investment for {pv.strategy}: {starting_investment}"
+        )
+
+        pv.write_optimized_strategy_config(
+            price_logs, tickers, starting_investment
+        )
+        final_investment = pv.run_optimized_config(starting_investment)
+        starting_investment = final_investment
+
+    log_msg("COMPLETED WITH RESULTS:")
+    diff = str(int(100 - ((pv.initial_investment / final_investment) * 100)))
+    if int(diff) > 0:
+        diff = f"+{diff}"
+    log_msg(f" {pv.strategy}: {final_investment} {diff}%")
+    for f in glob.glob("tmp/*"):
+        os.remove(f)
+    log_msg("PROVE-BACKTESTING: FINISHED")
