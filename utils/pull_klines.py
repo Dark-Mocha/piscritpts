@@ -224,3 +224,25 @@ if __name__ == "__main__":
             for line in sorted(log):
                 parts = line.split(" ")
                 symbol = parts[2]
+                # price_date = " ".join(parts[0:1])
+                price = parts[3]
+
+                if symbol not in coin:
+                    coin[symbol] = price
+                    oldcoin[symbol] = 0
+
+                if price != oldcoin[symbol]:
+                    f.write(line)
+                    oldcoin[symbol] = price
+
+        # and finally we compression our price.log for this day and discard
+        # and temporary work files.
+        with gzip.open(f"log/{day}.log.gz", "wt") as z:
+            with open(f"log/{day}.log", encoding="utf-8") as f:
+                z.write(f.read())
+        if os.path.exists(f"log/{day}.log"):
+            os.remove(f"log/{day}.log")
+
+    # and generate and index.json for all the dates and which coin files
+    # are available for those dates
+    generate_index("log")
