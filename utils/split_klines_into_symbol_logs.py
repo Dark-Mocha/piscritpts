@@ -36,4 +36,10 @@ for line in lines:
         coins[symbol]["oldprice"] = 0
 
     coins[symbol]["lines"].append(line)
- 
+    coins[symbol]["price"] = price
+
+    if not os.path.exists(f"log/{symbol}"):
+        os.mkdir(f"log/{symbol}")
+        # create empty file
+        with open(coin_filename, "w", encoding="utf-8") as c:
+            p
