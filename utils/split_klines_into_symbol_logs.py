@@ -27,4 +27,13 @@ for line in lines:
 
     # if we already have a gzipped file for this coin, it means we've already
     # processed it, so skip it
-    if os
+    if os.path.exists(f"{coin_filename}.gz"):
+        continue
+
+    if symbol not in coins:
+        coins[symbol] = {}
+        coins[symbol]["lines"] = []
+        coins[symbol]["oldprice"] = 0
+
+    coins[symbol]["lines"].append(line)
+ 
