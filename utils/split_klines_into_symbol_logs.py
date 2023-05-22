@@ -42,4 +42,11 @@ for line in lines:
         os.mkdir(f"log/{symbol}")
         # create empty file
         with open(coin_filename, "w", encoding="utf-8") as c:
-            p
+            pass
+
+    if coins[symbol]["oldprice"] != coins[symbol]["price"]:
+        coin_filenames.add(coin_filename)
+        with open(coin_filename, "a", encoding="utf-8") as c:
+            c.write(line)
+
+for coin_filename in coin_filen
