@@ -49,4 +49,9 @@ for line in lines:
         with open(coin_filename, "a", encoding="utf-8") as c:
             c.write(line)
 
-for coin_filename in coin_filen
+for coin_filename in coin_filenames:
+    with gzip.open(f"{coin_filename}.gz", "wt") as z:
+        with open(coin_filename, encoding="utf-8") as f:
+            z.write(f.read())
+    if os.path.exists(coin_filename):
+        os.remove(coin_filename)
